@@ -1,0 +1,12 @@
+{
+  "name": "Ninact",
+  "displayName": "Ninact",
+  "expo": {
+    "name": "Ninact",
+    "slug": "Ninact",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
