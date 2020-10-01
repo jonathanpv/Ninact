@@ -10,7 +10,7 @@ const HomeScreen = ({ navigation }) => {
                 style={{ width: 200, height: 200}}>
                 <TouchableOpacity
                     style={styles.friendListButtonStyle}
-                    // onPress={onPress}
+                    onPress={() => navigation.navigate('FriendList')}
                 >
                     <Text style={{color: "black"}}>Go</Text>
                 </TouchableOpacity>
@@ -22,7 +22,7 @@ const HomeScreen = ({ navigation }) => {
                 style={{ width: 200, height: 200 }}>
                 <TouchableOpacity
                     style={styles.leaderboardButtonStyle}
-                    // onPress={onPress}
+                    onPress={() => navigation.navigate('LeaderBoard')}
                 >
                     <Text style={{color: "white"}}>Go</Text>
                 </TouchableOpacity>
@@ -49,7 +49,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: "white",
     marginTop: 170,
-    marginLeft: 130
+    marginLeft: 130,
+    justifyContent: "center"
   },
   leaderboardButtonStyle: {
     position: "absolute",
@@ -61,7 +62,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: "black",
     marginTop: 170,
-    marginLeft: 130
+    marginLeft: 130,
+    justifyContent: "center"
   }
   
 });

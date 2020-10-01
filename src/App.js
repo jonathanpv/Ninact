@@ -3,11 +3,15 @@ import React from 'react';
 import { StyleSheet, Text, View, Button, Alert } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
+import FriendList from './scenes/FriendList';
 import HomeScreen from './scenes/HomeScreen';
+import LeaderBoard from './scenes/LeaderBoard';
 
 const navigator = createStackNavigator(
   {
-    Home: HomeScreen
+    Home: HomeScreen,
+    FriendList: FriendList,
+    LeaderBoard: LeaderBoard
   },
   {
     initialRouteName: "Home",
