@@ -20,9 +20,7 @@ const navigator = createStackNavigator(
     }
   }
 );
-
-export default createAppContainer(navigator);
-// export default function App() {
+// function App() {
 //   return (
 //     <View style={styles.container}>
 //       <Text>Open up App.js to start working on your app!</Text>
@@ -46,3 +44,5 @@ export default createAppContainer(navigator);
 //     justifyContent: 'center',
 //   },
 // });
+
+export default createAppContainer(navigator);
