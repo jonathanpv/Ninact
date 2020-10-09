@@ -6,15 +6,12 @@ import {
     SafeAreaView,
     Button,
     TextInput,
-    Alert,
     Image,
     TouchableOpacity,
 } from "react-native";
 import fire from "../firebase";
-import { createStackNavigator } from '@react-navigation/stack';
 
 export default class signup extends Component {
-
 
     state = {
         email: "",
@@ -29,8 +26,8 @@ export default class signup extends Component {
             .auth()
             .createUserWithEmailAndPassword(this.state.email, this.state.password)
             .then((u) => {
-                this.setState({ message: " Email sucesfully Registered please login" })
-
+                this.setState({ message: " Email sucessfully Registered please login" })
+                this.props.navigation.navigate('loginScreen')
             })
             .catch((err) => {
                 console.log(err)
@@ -41,7 +38,7 @@ export default class signup extends Component {
 
     btnpress = () => {
         console.log("got to btnpress")
-        console.log(this.state.email)
+        console.log("here" + this.state.message)
         if (this.state.email == "" || this.state.password == "" || this.state.password2 == "") 
             return this.setState({ message: "Some Fields are Empty" });
        else  if (this.state.email.search("@") == -1)
@@ -49,7 +46,7 @@ export default class signup extends Component {
                 this.setState({ message: "Inavlid Email" })
             );
         else if (this.state.password != this.state.password2) {
-            this.setState({ message: "Password Doesnot Match" })
+            this.setState({ message: "Password Does not Match" })
         }
 
         else {
@@ -73,7 +70,7 @@ export default class signup extends Component {
                         }}
                         style={{ width: 150, height: 150 }}
                     />
-                    <Text style={{ fontWeight: "bold", fontSize: 25 }}>React Native</Text>
+                    <Text style={{ fontWeight: "bold", fontSize: 25 }}>Sign Up</Text>
 
                     <TextInput
                         type="email"
@@ -107,9 +104,23 @@ export default class signup extends Component {
                         }}
                     >
                         <Button
-                            title="Signup"
+                            title="Sign Up"
                             onPress={() => this.btnpress()}
-                            color="black"
+                            color="#8E97FD"
+                        />
+                    </View>
+                    <View
+                        style={{
+                            backgroundColor: "#5897ee",
+                            borderRadius: 5,
+                            width: 150,
+                            marginVertical: 5,
+                        }}
+                    >
+                        <Button
+                            title="Sign In"
+                            onPress={() => this.props.navigation.navigate('loginScreen')}
+                            color="#8E97FD"
                         />
                     </View>
 

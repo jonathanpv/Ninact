@@ -17,53 +17,15 @@ import Meditate from './scenes/Meditate';
 import Profile from './scenes/Profile';
 import SettingsScreen from './scenes/SettingsScreen';
 
-// const navigator = createStackNavigatimport {
-//   {
-//     Home: HomeScreen,
-//     FriendList: FriendList,
-//     LeaderBoard: LeaderBoard
-//   },
-//   {
-//     initialRouteName: "Home",
-//     defaultNavigationOptions: {
-//       title: "Ninact Home Page"
-//     }
-//   }
-// );
-// function App() {
-//   return (
-//     <View style={styles.container}>
-//       <Text>Open up App.js to start working on your app!</Text>
-//       <Text> omegalul but lets see if we can do something</Text>
-//       <StatusBar style="auto" />
-//       <Button
-//         onPress = {() => Alert.alert(":O YOU PUSHED ME!?!?!")}
-//         title="Press me!!"
-//         color="#0f0f0f"
-//         accessibilityLable=""
-//       />
-//     </View>
-//   );
-// }
-
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-// });
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 function MyTabs() {
   return (
-    <Stack.Navigator initialRouteName="signup">
-      <Stack.Screen name="signup" component={signup}/>
+    <Stack.Navigator initialRouteName="Sign Up">
+      <Stack.Screen name="HomeScreen" component={HomeScreen} />
+      <Stack.Screen name="Sign Up" component={signup}/>
       <Stack.Screen name="loginScreen" component={loginScreen} />
-      <Stack.Screen name="Ninact Home Page" component={HomeScreen} />
       <Stack.Screen name="FriendList" component={FriendList} />
       <Stack.Screen name="LeaderBoard" component={LeaderBoard} />
     </Stack.Navigator>
@@ -76,9 +38,11 @@ export default function App() {
       <Tab.Navigator
         tabBarOptions={{
           style: { height: 70 },
-        }}>
+        }}
+        initialRouteName="HomeScreen"
+      >
         <Tab.Screen
-          name="Home"
+          name="HomeScreen"
           component={MyTabs}
           options={{
             title: '',

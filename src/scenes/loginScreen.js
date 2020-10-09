@@ -26,8 +26,8 @@ export default class loginScreen extends Component {
         console.log("got here")
         fire.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then((u) => {
             console.log(u)
-            console.log("sucess!")
-            navigation.navigate('HomeScreen')
+            console.log("success!")
+            this.props.navigation.navigate('HomeScreen')
         }).catch((err) => {
             console.log(err)
         })
@@ -63,7 +63,7 @@ render() {
                     }}
                     style={{ width: 150, height: 150 }}
                 />
-                <Text style={{ fontWeight: "bold", fontSize: 25 }}>React Native</Text>
+                <Text style={{ fontWeight: "bold", fontSize: 25 }}>Login</Text>
 
                 <TextInput
                     type="email"
@@ -91,10 +91,10 @@ render() {
                     <Button
                         title="Sign in"
                         onPress={() => this.btnpress()}
-                        color="black"
+                        color="#8E97FD"
                     />
                 </View>
-                <Text
+                {/* <Text
                     style={{
                         margin: 15,
                         fontSize: 16,
@@ -104,7 +104,7 @@ render() {
                     onPress={() => navigation.push('HomeScreen')}
                 >
                     Forgot your Password?
-          </Text>
+          </Text> */}
             </View>
             <View style={{ justifyContent: "space-between" }}>
                 <View
@@ -127,7 +127,7 @@ render() {
                             fontSize: 16,
                         }}
                     >
-                        Sign In with
+                        {/* Sign In with */}
             </Text>
                     <View
                         style={{
