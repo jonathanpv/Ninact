@@ -60,7 +60,7 @@ const Stack = createStackNavigator();
 
 function MyTabs() {
   return (
-    <Stack.Navigator initialRouteName="signup">
+    <Stack.Navigator initialRouteName="loginScreen">
       <Stack.Screen name="signup" component={signup}/>
       <Stack.Screen name="loginScreen" component={loginScreen} />
       <Stack.Screen name="Ninact Home Page" component={HomeScreen} />

@@ -21,19 +21,29 @@ export default class signup extends Component {
         password: "",
         password2: "",
         message: "",
+        x:"",
     };
 
     login = () => {
 
-        fire
+        fire        //THIS IS THE FIREBASE config code. The caps are to get your attention. This fire function is imported from firebase.js where the config from our
+                    //firebase acount . the . auth function and createUserWithEmailAndPassword are library functions of firebase .
             .auth()
             .createUserWithEmailAndPassword(this.state.email, this.state.password)
             .then((u) => {
-                this.setState({ message: " Email sucesfully Registered please login" })
+                console.log(u.message);
+                
+                this.setState({ message: u.message})
+                this.props.navigator.navigate({HomeScreen})
 
             })
-            .catch((err) => {
+            .catch((err) => {           
                 console.log(err)
+                this.setState({message:err.message})
+
+                //this.setState({ message: "Something's Not Right"})
+
+             
             })
 
 
@@ -42,6 +52,9 @@ export default class signup extends Component {
     btnpress = () => {
         console.log("got to btnpress")
         console.log(this.state.email)
+        console.log(this.state.password)
+        console.log(this.state.password2)
+       
         if (this.state.email == "" || this.state.password == "" || this.state.password2 == "") 
             return this.setState({ message: "Some Fields are Empty" });
        else  if (this.state.email.search("@") == -1)

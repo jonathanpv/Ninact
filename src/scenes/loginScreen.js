@@ -10,6 +10,7 @@ import {
     Image,
     TouchableOpacity,
 } from "react-native";
+import {useNavigation} from '@react-navigation/native';
 import fire from "../firebase";
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -19,6 +20,7 @@ export default class loginScreen extends Component {
     state = {
         email: "",
         password: "",
+        message:"",
     };
 
     login = () => {
@@ -27,7 +29,7 @@ export default class loginScreen extends Component {
         fire.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then((u) => {
             console.log(u)
             console.log("sucess!")
-            navigation.navigate('HomeScreen')
+           navigation.navigate('HomeScreen')
         }).catch((err) => {
             console.log(err)
         })
@@ -49,6 +51,7 @@ btnpress = () => {
 
 render() {
     const { navigation } = this.props;
+    
     return (
         <SafeAreaView style={styles.container}>
             <View
@@ -127,7 +130,7 @@ render() {
                             fontSize: 16,
                         }}
                     >
-                        Sign In with
+                       {this.state.message}
             </Text>
                     <View
                         style={{
