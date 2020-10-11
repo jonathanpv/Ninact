@@ -13,7 +13,6 @@ import FriendList from './scenes/FriendList';
 import HomeScreen from './scenes/HomeScreen';
 import LeaderBoard from './scenes/LeaderBoard';
 import PlayRounds from './scenes/Play';
-import Meditate from './scenes/Meditate';
 import Profile from './scenes/Profile';
 import SettingsScreen from './scenes/SettingsScreen';
 
@@ -55,19 +54,6 @@ export default function App() {
             },
           }}
         />
-        <Tab.Screen
-          name="Meditate"
-          component={Meditate}
-          options={{
-            title: '',
-            tabBarIcon: ({ }) => {
-              return (
-                <Image
-                  style={{ width: 60, height: 54 }}
-                  source={require('./assets/navbar/Meditate.png')} />
-              );
-            },
-          }} />
         <Tab.Screen
           name="PlayRounds"
           component={PlayRounds}
