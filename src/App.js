@@ -12,7 +12,7 @@ import loginScreen from './scenes/loginScreen';
 import FriendList from './scenes/FriendList';
 import HomeScreen from './scenes/HomeScreen';
 import LeaderBoard from './scenes/LeaderBoard';
-import Play from './scenes/Play';
+import PlayRounds from './scenes/Play';
 import Meditate from './scenes/Meditate';
 import Profile from './scenes/Profile';
 import SettingsScreen from './scenes/SettingsScreen';
@@ -69,8 +69,8 @@ export default function App() {
             },
           }} />
         <Tab.Screen
-          name="Play"
-          component={Play}
+          name="PlayRounds"
+          component={PlayRounds}
           options={{
             title: '',
             tabBarIcon: ({ }) => {
