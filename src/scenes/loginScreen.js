@@ -33,8 +33,17 @@ export default class loginScreen extends Component {
         }).catch((err) => {
             console.log(err)
         })
+    
 
     };
+    forgorPassword=() => {
+        fire.auth().sendPasswordResetEmail(this.state.email)
+          .then((user)=> {
+            this.setState({message:user.message})
+          }).catch( (e)=> {
+            this.setState({message: e.message})
+          })
+      }
 
 btnpress = () => {
     console.log("got to btnpress")
@@ -67,7 +76,7 @@ render() {
                     style={{ width: 150, height: 150 }}
                 />
                 <Text style={{ fontWeight: "bold", fontSize: 25 }}>React Native</Text>
-
+            
                 <TextInput
                     type="email"
                     placeholder="Enter your email"
@@ -104,7 +113,7 @@ render() {
                         textDecorationLine: "underline",
                         color: "skyblue",
                     }}
-                    onPress={() => navigation.push('HomeScreen')}
+                    onPress={this.forgorPassword}
                 >
                     Forgot your Password?
           </Text>
