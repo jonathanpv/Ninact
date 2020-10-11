@@ -72,6 +72,11 @@ class PlayRounds extends Component {
         <Text style={styles.text}>Steal or Collaborate</Text>
         <Text style={styles.text}>Your Score is {this.state.player_score}</Text>
         <Text style={styles.text}>Stranger Score is {this.state.enemy_score}</Text>
+        <Button
+          onPress={() => this.setState({turn : 0, rounds : 10}) }
+          title="Next"
+          color="#841584"
+          />
       </View>
     );
   }
