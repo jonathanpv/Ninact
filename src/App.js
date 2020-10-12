@@ -7,59 +7,24 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Image } from 'react-native';
 
+import signup from './scenes/signup';
+import loginScreen from './scenes/loginScreen';
 import FriendList from './scenes/FriendList';
 import HomeScreen from './scenes/HomeScreen';
 import LeaderBoard from './scenes/LeaderBoard';
-import Play from './scenes/Play';
-import Meditate from './scenes/Meditate';
+import PlayRounds from './scenes/Play';
 import Profile from './scenes/Profile';
 import SettingsScreen from './scenes/SettingsScreen';
 
-// const navigator = createStackNavigator(
-//   {
-//     Home: HomeScreen,
-//     FriendList: FriendList,
-//     LeaderBoard: LeaderBoard
-//   },
-//   {
-//     initialRouteName: "Home",
-//     defaultNavigationOptions: {
-//       title: "Ninact Home Page"
-//     }
-//   }
-// );
-// function App() {
-//   return (
-//     <View style={styles.container}>
-//       <Text>Open up App.js to start working on your app!</Text>
-//       <Text> omegalul but lets see if we can do something</Text>
-//       <StatusBar style="auto" />
-//       <Button
-//         onPress = {() => Alert.alert(":O YOU PUSHED ME!?!?!")}
-//         title="Press me!!"
-//         color="#0f0f0f"
-//         accessibilityLable=""
-//       />
-//     </View>
-//   );
-// }
-
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-// });
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 function MyTabs() {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="Ninact Home Page" component={HomeScreen} />
+    <Stack.Navigator initialRouteName="Sign Up">
+      <Stack.Screen name="HomeScreen" component={HomeScreen} />
+      <Stack.Screen name="Sign Up" component={signup}/>
+      <Stack.Screen name="loginScreen" component={loginScreen} />
       <Stack.Screen name="FriendList" component={FriendList} />
       <Stack.Screen name="LeaderBoard" component={LeaderBoard} />
     </Stack.Navigator>
@@ -70,12 +35,14 @@ export default function App() {
   return (
     <NavigationContainer>
       <Tab.Navigator
-        tabBarOptions = {{
+        tabBarOptions={{
           style: { height: 70 },
-      }}>
-        <Tab.Screen 
-          name="Home" 
-          component={MyTabs} 
+        }}
+        initialRouteName="HomeScreen"
+      >
+        <Tab.Screen
+          name="HomeScreen"
+          component={MyTabs}
           options={{
             title: '',
             tabBarIcon: ({ }) => {
@@ -87,22 +54,9 @@ export default function App() {
             },
           }}
         />
-        <Tab.Screen 
-          name="Meditate" 
-          component={Meditate}
-          options={{
-            title: '',
-            tabBarIcon: ({ }) => {
-              return (
-                <Image
-                  style={{ width: 60, height: 54 }}
-                  source={require('./assets/navbar/Meditate.png')} />
-              );
-            },
-          }}/>
-        <Tab.Screen 
-          name="Play" 
-          component={Play}
+        <Tab.Screen
+          name="PlayRounds"
+          component={PlayRounds}
           options={{
             title: '',
             tabBarIcon: ({ }) => {
@@ -112,8 +66,8 @@ export default function App() {
                   source={require('./assets/navbar/Play.png')} />
               );
             },
-          }}/>
-        <Tab.Screen name="Profile" 
+          }} />
+        <Tab.Screen name="Profile"
           component={Profile}
           options={{
             title: '',
@@ -124,9 +78,9 @@ export default function App() {
                   source={require('./assets/navbar/Profile.png')} />
               );
             },
-          }}/>
-        <Tab.Screen name="Settings" 
-          component={SettingsScreen} 
+          }} />
+        <Tab.Screen name="Settings"
+          component={SettingsScreen}
           name="Settings"
           options={{
             title: '',
@@ -137,7 +91,7 @@ export default function App() {
                   source={require('./assets/navbar/settings.png')} />
               );
             },
-          }}/>
+          }} />
       </Tab.Navigator>
     </NavigationContainer>
   );
