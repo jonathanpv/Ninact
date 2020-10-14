@@ -1,6 +1,6 @@
 
 
-//@flow
+
 import React, { Component } from "react";
 import {
     Text,
@@ -13,7 +13,7 @@ import {
     Image,
     TouchableOpacity,
 } from "react-native";
-import fire from "../firebase";
+
 import { createStackNavigator } from '@react-navigation/stack';
 
 export default class loginScreen extends Component {
@@ -22,6 +22,7 @@ export default class loginScreen extends Component {
     state = {
         email: "",
         password: "",
+        message:"Forgot Password",
     };
 
     login = () => {
@@ -38,6 +39,11 @@ export default class loginScreen extends Component {
     };
 
 btnpress = () => {
+    fire.auth().onAuthStateChanged((user) => {
+        if (user) {
+          console.log('user logged')
+        }
+     });
     console.log("got to btnpress")
     console.log(this.state.email)
     if (this.state.email == "" || this.state.password == "") return console.log("Both Null");
@@ -97,17 +103,7 @@ render() {
                         color="#8E97FD"
                     />
                 </View>
-                {/* <Text
-                    style={{
-                        margin: 15,
-                        fontSize: 16,
-                        textDecorationLine: "underline",
-                        color: "skyblue",
-                    }}
-                    onPress={() => navigation.push('HomeScreen')}
-                >
-                    Forgot your Password?
-          </Text> */}
+              
             </View>
             <View style={{ justifyContent: "space-between" }}>
                 <View
@@ -128,9 +124,10 @@ render() {
                         style={{
                             margin: 15,
                             fontSize: 16,
-                        }}
+                        }} onPress={()=>navigation.navigate('forgotPassword')}
                     >
-                        {/* Sign In with */}
+                        {this.state.message}
+                        
             </Text>
                     <View
                         style={{

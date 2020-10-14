@@ -17,12 +17,15 @@ import Profile from './scenes/Profile';
 import SettingsScreen from './scenes/SettingsScreen';
 import forgotPassword from './scenes/forgotPassword';
 
+
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
+
 function MyTabs() {
   return (
-    <Stack.Navigator initialRouteName="forgotPassword">
+    
+    <Stack.Navigator initialRouteName="loginScreen">
       <Stack.Screen name="forgotPassword" component={forgotPassword}/>
       <Stack.Screen name="HomeScreen" component={HomeScreen} />
       <Stack.Screen name="Sign Up" component={signup}/>
