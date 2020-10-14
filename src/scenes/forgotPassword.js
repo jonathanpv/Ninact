@@ -1,6 +1,6 @@
 
 
-//@flow
+
 import React, { Component } from "react";
 import {
     Text,
@@ -16,37 +16,36 @@ import {
 import fire from "../firebase";
 import { createStackNavigator } from '@react-navigation/stack';
 
-export default class loginScreen extends Component {
+export default class forgotPassword extends Component {
     
 
     state = {
         email: "",
         password: "",
+        message:"",
     };
-
-    login = () => {
-
-        console.log("got here")
-        fire.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then((u) => {
-            console.log(u)
-            console.log("success!")
-            this.props.navigation.navigate('HomeScreen')
+    forgot=()=>{ //This past of the code is the whole function of this page. The fire.auth function sends firebase the email for password reset 
+        fire.auth().sendPasswordResetEmail(this.state.email)//in this line the email is sent to firebase using this.state.email as a parameter 
+        .then((u) => {
+         
+           this.props.navigation.navigate('loginScreen')
+     
         }).catch((err) => {
             console.log(err)
         })
-
+        
     };
 
 btnpress = () => {
     console.log("got to btnpress")
     console.log(this.state.email)
-    if (this.state.email == "" || this.state.password == "") return console.log("Both Null");
+    if (this.state.email == "" ) return this.setState({message:"Please enter an email"});
     if (this.state.email.search("@") == -1)
     return (
-        this.createThreeButtonAlert()
+        this.setState({message:"Invalid Email"})
         );
     else {
-        { this.login() }
+        { this.forgot() }
     }
 };
 
@@ -75,14 +74,7 @@ render() {
                     onChangeText={(val) => this.setState({ email: val })}
                     keyboardType="email-address"
                 />
-                <TextInput
-                    type="password"
-                    placeholder="Enter your password"
-                    style={styles.txtInput}
-                    onChangeText={(val) => this.setState({ password: val })}
-                    secureTextEntry={true}
-                    
-                />
+        
                 <View
                     style={{
                         backgroundColor: "#5897ee",
@@ -92,22 +84,12 @@ render() {
                     }}
                 >
                     <Button
-                        title="Sign in"
+                        title="Reset Password"
                         onPress={() => this.btnpress()}
                         color="#8E97FD"
                     />
                 </View>
-                {/* <Text
-                    style={{
-                        margin: 15,
-                        fontSize: 16,
-                        textDecorationLine: "underline",
-                        color: "skyblue",
-                    }}
-                    onPress={() => navigation.push('HomeScreen')}
-                >
-                    Forgot your Password?
-          </Text> */}
+            
             </View>
             <View style={{ justifyContent: "space-between" }}>
                 <View
@@ -130,7 +112,7 @@ render() {
                             fontSize: 16,
                         }}
                     >
-                        {/* Sign In with */}
+                        {this.state.message}
             </Text>
                     <View
                         style={{
@@ -151,12 +133,12 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "white",
+        backgroundColor: "#a1bbfd",
         flex: 1,
     },
     txtInput: {
         borderWidth: 2,
-        backgroundColor: "#F6FCFB",
+        backgroundColor: "#a1bbfd",
         height: 45,
         width: 290,
         marginVertical: 10,
