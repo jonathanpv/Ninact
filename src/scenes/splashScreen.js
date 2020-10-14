@@ -1,5 +1,5 @@
 
- 
+
 import React, {useRef, useState, useEffect} from 'react';
 import { Text, View, StyleSheet, Animated } from 'react-native';
 import Constants from 'expo-constants';
@@ -30,8 +30,8 @@ const splashScreen = ({navigation}) => {
     else
     {   /*
         This past of the code is the main reason why this page exists
-        here the fire function from firebase  uses . auth to see if the 
-        authstate has changed. In simple words it is just checking 
+        here the fire function from firebase  uses . auth to see if the
+        authstate has changed. In simple words it is just checking
         if there is someone signed in/ */
         fire.auth().onAuthStateChanged((user) => {
             if (user) {
@@ -44,7 +44,7 @@ const splashScreen = ({navigation}) => {
          });
 
     }
-  
+
   },30);
 
   useEffect(() => {
@@ -81,7 +81,7 @@ export default splashScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'Column',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     paddingTop: Constants.statusBarHeight,
@@ -98,4 +98,3 @@ const styles = StyleSheet.create({
     borderRadius: 5
   }
 });
-
