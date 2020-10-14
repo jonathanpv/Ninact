@@ -16,6 +16,7 @@ import PlayRounds from './scenes/Play';
 import Profile from './scenes/Profile';
 import SettingsScreen from './scenes/SettingsScreen';
 import forgotPassword from './scenes/forgotPassword';
+import splashScreen from './scenes/splashScreen'
 
 
 const Tab = createBottomTabNavigator();
@@ -25,7 +26,8 @@ const Stack = createStackNavigator();
 function MyTabs() {
   return (
     
-    <Stack.Navigator initialRouteName="loginScreen">
+    <Stack.Navigator initialRouteName="splashScreen">
+      <Stack.Screen name="splashScreen" component={splashScreen}/>
       <Stack.Screen name="forgotPassword" component={forgotPassword}/>
       <Stack.Screen name="HomeScreen" component={HomeScreen} />
       <Stack.Screen name="Sign Up" component={signup}/>
