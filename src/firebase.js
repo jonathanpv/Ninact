@@ -1,7 +1,7 @@
 import firebase from 'firebase';
 
 var firebaseConfig = {
-    piKey: "AIzaSyBqDMT9T26hJ9BuTY1pEZpu4xQxzyDYQLw",
+    apiKey: "AIzaSyBqDMT9T26hJ9BuTY1pEZpu4xQxzyDYQLw",
     authDomain: "ninac-47063.firebaseapp.com",
     databaseURL: "https://ninac-47063.firebaseio.com",
     projectId: "ninac-47063",
