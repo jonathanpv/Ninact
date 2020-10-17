@@ -1,19 +1,23 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, Button } from 'react-native';
 
 
 const SettingsScreen = ({ navigation} ) => {
     return (
-        <View style={styles.container}>
+        <View>
             <View>
                 <Text style={styles.text}>Settings Page text</Text>
                 <Text>Not implemented</Text>
             </View>
-            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('HomeScreen')} >
-             <Image source={require('../assets/backbtn.png')} style={{ width: 90, height: 40.95 }} />
-            </TouchableOpacity>
+            <View>
+                <Button
+                    title="Return to Home"
+                    onPress={() => navigation.navigate('HomeScreen')}
+                    color="#8E97FD"
+                />
+            </View>
         </View>
     );
 };
