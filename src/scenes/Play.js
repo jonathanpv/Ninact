@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, Button } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 class PlayRounds extends Component {
   constructor() {
@@ -47,6 +48,7 @@ class PlayRounds extends Component {
                     <Image source={require('../assets/collabbtn.png')} style={{ width: 300, height: 63 }} />
                 </TouchableOpacity>
             </View>
+            <Text>Exit Button Needed</Text>
         </View>
       );
   }

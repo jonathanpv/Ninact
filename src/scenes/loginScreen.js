@@ -1,6 +1,3 @@
-
-
-
 import React, { Component } from "react";
 import {
     Text,
@@ -13,8 +10,7 @@ import {
     Image,
     TouchableOpacity,
 } from "react-native";
-
-import { createStackNavigator } from '@react-navigation/stack';
+import fire from "../firebase";
 
 export default class loginScreen extends Component {
     
@@ -39,11 +35,11 @@ export default class loginScreen extends Component {
     };
 
 btnpress = () => {
-    fire.auth().onAuthStateChanged((user) => {
-        if (user) {
-          console.log('user logged')
-        }
-     });
+    // fire.auth().onAuthStateChanged((user) => {
+    //     if (user) {
+    //       console.log('user logged')
+    //     }
+    //  });
     console.log("got to btnpress")
     console.log(this.state.email)
     if (this.state.email == "" || this.state.password == "") return console.log("Both Null");
@@ -103,7 +99,20 @@ render() {
                         color="#8E97FD"
                     />
                 </View>
-              
+                <View
+                        style={{
+                            backgroundColor: "#5897ee",
+                            borderRadius: 5,
+                            width: 150,
+                            marginVertical: 5,
+                        }}
+                    >
+                        <Button
+                            title="Sign Up"
+                            onPress={() => this.props.navigation.navigate('Sign Up')}
+                            color="#8E97FD"
+                        />
+                </View> 
             </View>
             <View style={{ justifyContent: "space-between" }}>
                 <View
@@ -124,7 +133,7 @@ render() {
                         style={{
                             margin: 15,
                             fontSize: 16,
-                        }} onPress={()=>navigation.navigate('forgotPassword')}
+                        }} onPress={()=>navigation.push('forgotPassword')}
                     >
                         {this.state.message}
                         

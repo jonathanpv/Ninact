@@ -1,5 +1,3 @@
-
-
 import React, {useRef, useState, useEffect} from 'react';
 import { Text, View, StyleSheet, Animated } from 'react-native';
 import Constants from 'expo-constants';
@@ -35,11 +33,11 @@ const splashScreen = ({navigation}) => {
         if there is someone signed in/ */
         fire.auth().onAuthStateChanged((user) => {
             if (user) {
-           navigation.navigate('HomeScreen')
+              navigation.navigate('HomeScreen')
             }
             else
             {
-                navigation.navigate('loginScreen')
+              navigation.navigate('loginScreen')
             }
          });
 
