@@ -122,6 +122,13 @@ render() {
                         }}
                     />
                 </View>
+                <View style={{ alignItems: 'center', justifyContent: 'center', borderRadius: 30}}>
+                        <Button
+                            title="Back"
+                            onPress={() => navigation.navigate('loginScreen')}
+                            color="#8E97FD"
+                        />
+                </View>
             </View>
         </SafeAreaView>
     );
