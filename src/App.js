@@ -40,10 +40,10 @@ function getTabBarVisibility(route) {
 
 function loginStack() {
   return (
-    <Stack.Navigator initialRouteName="loginScreen">
-      <Stack.Screen name="loginScreen" component={loginScreen} options = {{ headerTitle: "Login Page"}}/>
-      <Stack.Screen name="Sign Up" component={signup} options = {{ headerTitle: "" }}/>
-      <Stack.Screen name="forgotPassword" component={forgotPassword} options = {{ headerTitle: "" }}/>
+    <Stack.Navigator initialRouteName="loginScreen" options={{headerShown:false}}>
+      <Stack.Screen name="loginScreen" component={loginScreen} options={{headerShown:false}}/>
+      <Stack.Screen name="Sign Up" component={signup} options={{headerShown:false}}/>
+      <Stack.Screen name="forgotPassword" component={forgotPassword}options={{headerShown:false}}/>
     </Stack.Navigator>
   );
 }
@@ -51,7 +51,7 @@ function loginStack() {
 function homeStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="HomeScreen" component={HomeScreen} options = {{ headerTitle: "Home Page"}}/>
+      <Stack.Screen name="HomeScreen" component={HomeScreen} options={{headerShown:false}}/>
     </Stack.Navigator>
   );
 }
@@ -59,9 +59,9 @@ function homeStack() {
 function MyTabs() {
   return (
 
-    <Stack.Navigator initialRouteName = "loginScreen">
+    <Stack.Navigator initialRouteName = "loginScreen" options={{headerShown:false}}>
       {/* <Stack.Screen name="splashScreen" component={splashScreen}/> */}
-      <Stack.Screen name="loginScreen" component={loginStack} options = {{ headerTitle: "Login Page"}}/>
+      <Stack.Screen name="loginScreen" component={loginStack}/>
       <Stack.Screen name="HomeScreen" component={homeStack} options = {{ headerTitle: "HomePage", headerLeft: null }}/>
       <Stack.Screen name="FriendList" component={FriendList} options = {{ headerTitle: "FriendList" }}/>
       <Stack.Screen name="LeaderBoard" component={LeaderBoard} options = {{ headerTitle: "LeaderBoard" }}/>
