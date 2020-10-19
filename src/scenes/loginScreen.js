@@ -11,6 +11,7 @@ import {
     TouchableOpacity,
 } from "react-native";
 import fire from "../firebase";
+//import firestore from '@react-native-firebase/firestore';
 
 export default class loginScreen extends Component {
     
@@ -18,7 +19,7 @@ export default class loginScreen extends Component {
     state = {
         email: "",
         password: "",
-        message:"Forgot Password",
+        message:"",
     };
 
     login = () => {
@@ -27,6 +28,7 @@ export default class loginScreen extends Component {
         fire.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then((u) => {
             console.log(u)
             console.log("success!")
+         
             this.props.navigation.navigate('HomeScreen')
         }).catch((err) => {
             console.log(err)
@@ -42,10 +44,10 @@ btnpress = () => {
     //  });
     console.log("got to btnpress")
     console.log(this.state.email)
-    if (this.state.email == "" || this.state.password == "") return console.log("Both Null");
+    if (this.state.email == "" || this.state.password == "") return this.setState({message:"Some fields are empty"});
     if (this.state.email.search("@") == -1)
     return (
-        this.createThreeButtonAlert()
+        this.setState({message:"Invalid email"})
         );
     else {
         { this.login() }
@@ -133,11 +135,11 @@ render() {
                         style={{
                             margin: 15,
                             fontSize: 16,
+                            color:"blue",
+                            alignContent:"center",
                         }} onPress={()=>navigation.push('forgotPassword')}
-                    >
-                        {this.state.message}
-                        
-            </Text>
+                    >Forgot Password</Text>
+           
                     <View
                         style={{
                             width: 100,
@@ -146,7 +148,31 @@ render() {
                         }}
                     />
                 </View>
+                
+                
+            </View><View style={{ justifyContent: "space-between" }}>
+                <View
+                    style={{
+                        flexDirection: "row",
+                        justifyContent: "center",
+                        alignItems: "center",
+                    }}
+                >
+                 <Text
+                        style={{
+                            margin: 15,
+                            fontSize: 16,
+                            color:"red",
+                            alignContent:"center",
+                        }}
+                    >{this.state.message}</Text>
+           
+                    
+                </View>
+                
+                
             </View>
+            
         </SafeAreaView>
     );
 }
@@ -157,12 +183,13 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "white",
+        backgroundColor: "#0BB2EB",
         flex: 1,
     },
     txtInput: {
-        borderWidth: 2,
-        backgroundColor: "#F6FCFB",
+        borderWidth: 1,
+        borderColor:"gold",
+        backgroundColor: "#FFE4E1",
         height: 45,
         width: 290,
         marginVertical: 10,
