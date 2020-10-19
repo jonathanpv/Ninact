@@ -8,10 +8,13 @@ import {
     TextInput,
     Alert,
     Image,
+    Icon,
     TouchableOpacity,
+    _Image,
+    ImageBackground,
 } from "react-native";
 import fire from "../firebase";
-//import firestore from '@react-native-firebase/firestore';
+import"firebase/firestore"; //importing firestor
 
 export default class loginScreen extends Component {
     
@@ -20,6 +23,7 @@ export default class loginScreen extends Component {
         email: "",
         password: "",
         message:"",
+        visibile:true,
     };
 
     login = () => {
@@ -28,8 +32,12 @@ export default class loginScreen extends Component {
         fire.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then((u) => {
             console.log(u)
             console.log("success!")
+           
+           
+
          
             this.props.navigation.navigate('HomeScreen')
+            console.log(u.user.uid)
         }).catch((err) => {
             console.log(err)
         })
@@ -72,21 +80,47 @@ render() {
                 />
                 <Text style={{ fontWeight: "bold", fontSize: 25 }}>Login</Text>
 
+    
                 <TextInput
                     type="email"
                     placeholder="Enter your email"
+                    
                     style={styles.txtInput}
                     onChangeText={(val) => this.setState({ email: val })}
                     keyboardType="email-address"
                 />
+                <View style ={{flexDirection:'row',alignItems:"center",  height: 45,
+        width: 290,}}>
                 <TextInput
                     type="password"
                     placeholder="Enter your password"
                     style={styles.txtInput}
+                   
                     onChangeText={(val) => this.setState({ password: val })}
-                    secureTextEntry={true}
+                    secureTextEntry={this.state.visibile}
                     
                 />
+                <TouchableOpacity
+                
+                   
+                    onPress={()=>{
+                        if(!this.state.visibile)
+                        {
+                            return this.setState({visibile:true})
+                        }
+                        else
+                        {
+                            return this.setState({visibile:false})
+                        }
+                    }}
+                
+                >
+                    <Image source={require('../assets/visibility.png' )}
+                    style={styles.iconstyle}/>
+
+                </TouchableOpacity>
+             
+                </View>
                 <View
                     style={{
                         backgroundColor: "#5897ee",
@@ -194,5 +228,15 @@ const styles = StyleSheet.create({
         width: 290,
         marginVertical: 10,
         borderRadius: 3,
+        
     },
+   
+    iconstyle:{
+        width: 45,
+        height: 45,
+        justifyContent:"center",
+        borderWidth: 1,
+        borderColor:"white",
+        backgroundColor: "#FFE4E1",
+    }
 });

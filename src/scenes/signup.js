@@ -11,6 +11,7 @@ import {
     TouchableOpacity,
 } from "react-native";
 import fire from "../firebase";
+import "firebase/firestore"; //importing firebase components
 
 export default class signup extends Component {
 
@@ -19,6 +20,7 @@ export default class signup extends Component {
         password: "",
         password2: "",
         message: "",
+        visibile:true,
     };
 
     login = () => {
@@ -28,6 +30,11 @@ export default class signup extends Component {
             .createUserWithEmailAndPassword(this.state.email, this.state.password)
             .then((u) => {
                 this.setState({ message: " Email sucessfully Registered please login" })
+                fire.firestore() //using fire.firestore fucntion to get acess to database
+                    // .collection ("user") is like specifying  table in the database you wanna acess
+                    .collection("user").doc(fire.auth().currentUser.uid.toString())
+                    .set({ email: this.state.email }) //.set sets he fields that you wanna write to the database.
+
                 this.props.navigation.navigate('loginScreen')
             })
             .catch((err) => {
@@ -40,9 +47,9 @@ export default class signup extends Component {
     btnpress = () => {
         console.log("got to btnpress")
         console.log("here" + this.state.message)
-        if (this.state.email == "" || this.state.password == "" || this.state.password2 == "") 
+        if (this.state.email == "" || this.state.password == "" || this.state.password2 == "")
             return this.setState({ message: "Some Fields are Empty" });
-       else  if (this.state.email.search("@") == -1)
+        else if (this.state.email.search("@") == -1)
             return (
                 this.setState({ message: "Inavlid Email" })
             );
@@ -79,23 +86,76 @@ export default class signup extends Component {
                         style={styles.txtInput}
                         onChangeText={(val) => this.setState({ email: val })}
                         keyboardType="email-address"
-                    />
-                    <TextInput
-                        type="password"
-                        placeholder="Enter your password"
-                        style={styles.txtInput}
-                        onChangeText={(val) => this.setState({ password: val })}
-                        secureTextEntry={true}
+                    /> 
+                  
+                    <View style={{
+                        flexDirection: 'row', alignItems: "center", height: 45,
+                        width: 290,marginBottom:10
+                    }}>
+                        <TextInput
+                            type="password"
+                            placeholder="Enter your password"
+                            style={styles.txtInput}
+                            onChangeText={(val) => this.setState({ password: val })}
+                            secureTextEntry={this.state.visibile}
 
-                    />
-                    <TextInput
-                        type="password"
-                        placeholder="Confirm your password"
-                        style={styles.txtInput}
-                        onChangeText={(val) => this.setState({ password2: val })}
-                        secureTextEntry={true}
+                        />
+                         <TouchableOpacity
+                
+                   
+                onPress={()=>{
+                    if(!this.state.visibile)
+                    {
+                        return this.setState({visibile:true})
+                    }
+                    else
+                    {
+                        return this.setState({visibile:false})
+                    }
+                }}
+            
+            >
+                <Image source={require('../assets/visibility.png' )}
+                style={styles.iconstyle}/>
 
-                    />
+            </TouchableOpacity>
+         
+                    </View>
+               
+                    <View style={{
+                        flexDirection: 'row', alignItems: "center", height: 45,
+                        width: 290,
+                    }}>
+                        <TextInput
+                            type="password"
+                            placeholder="Confirm your password"
+                            style={styles.txtInput}
+                            onChangeText={(val) => this.setState({ password2: val })}
+                            secureTextEntry={this.state.visibile}
+
+                        />
+                         <TouchableOpacity
+                
+                   
+                onPress={()=>{
+                    if(!this.state.visibile)
+                    {
+                        return this.setState({visibile:true})
+                    }
+                    else
+                    {
+                        return this.setState({visibile:false})
+                    }
+                }}
+            
+            >
+                <Image source={require('../assets/visibility.png' )}
+                style={styles.iconstyle}/>
+
+            </TouchableOpacity>
+         
+                    /</View>
+               
                     <View
                         style={{
                             backgroundColor: "#5897ee",
@@ -173,11 +233,24 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     txtInput: {
-        borderWidth: 2,
+        borderWidth: 1,
+        borderColor:"gold",
         backgroundColor: "#FFE4E1",
         height: 45,
         width: 290,
         marginVertical: 10,
         borderRadius: 3,
     },
+    iconstyle: {
+        width: 45,
+        height: 45,
+        justifyContent: "center",
+        borderWidth: 1,
+        borderColor: "white",
+        backgroundColor: "#FFE4E1",
+    },
+    spaceview:{
+        width:10,
+
+    }
 });
