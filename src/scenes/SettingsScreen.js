@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
-import firebase from "../firebase";
+import firebase from '../firebase';
 
 const SettingsScreen = ({ navigation} ) => {
     return (
@@ -22,6 +22,14 @@ const SettingsScreen = ({ navigation} ) => {
                 <View>
                     <Button
                         title="Sign Out"
+                        onPress={() =>  {
+                            signOutUser();
+                            navigation.reset({
+                                index: 0,
+                                routes: [{name: 'loginScreen'}]
+                            })
+                            // navigation.navigate('loginScreen')
+                        }}
                         color="#8E97FD"
                     />
                 </View>
@@ -29,6 +37,14 @@ const SettingsScreen = ({ navigation} ) => {
         </View>
     );
 };
+
+const signOutUser = async() => {
+    try {
+        await firebase.auth().signOut().then(() => console.log('User signed out!'));
+    } catch(e) {
+        console.log(e);
+    }
+}
 
 const styles = StyleSheet.create({
     text: {

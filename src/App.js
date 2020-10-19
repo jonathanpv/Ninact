@@ -50,7 +50,7 @@ function loginStack() {
 
 function homeStack() {
   return (
-    <Stack.Navigator initialRouteName = "HomeScreen">
+    <Stack.Navigator>
       <Stack.Screen name="HomeScreen" component={HomeScreen} options = {{ headerTitle: "Home Page"}}/>
     </Stack.Navigator>
   );
