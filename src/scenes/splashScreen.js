@@ -24,13 +24,15 @@ const splashScreen = ({navigation}) => {
   useInterval(() => {
     if(progress < 100) {
       setProgress(progress + 1);
+      
     }
-    else
+     
+     else
     {   /*
         This past of the code is the main reason why this page exists
         here the fire function from firebase  uses . auth to see if the
         authstate has changed. In simple words it is just checking
-        if there is someone signed in/ */
+        if there is someone signed in */
         fire.auth().onAuthStateChanged((user) => {
             if (user) {
               navigation.navigate('HomeScreen')
@@ -42,6 +44,7 @@ const splashScreen = ({navigation}) => {
          });
 
     }
+    
 
   },30);
 
@@ -60,6 +63,7 @@ const splashScreen = ({navigation}) => {
 
   return (
     <View style={styles.container}>
+        
       <Text>
         Loading…..
       </Text>
