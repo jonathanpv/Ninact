@@ -21,6 +21,8 @@ export default class signup extends Component {
         password2: "",
         message: "",
         visibile:true,
+        firstName:"",
+        lastName:""
     };
 
     login = () => {
@@ -33,7 +35,9 @@ export default class signup extends Component {
                 fire.firestore() //using fire.firestore fucntion to get acess to database
                     // .collection ("user") is like specifying  table in the database you wanna acess
                     .collection("user").doc(fire.auth().currentUser.uid.toString())
-                    .set({ email: this.state.email }) //.set sets he fields that you wanna write to the database.
+                    .set({ email: this.state.email ,
+                    firstName:this.state.firstName,
+                lastName:this.state.lastName}) //.set sets he fields that you wanna write to the database.
 
                 this.props.navigation.navigate('loginScreen')
             })
@@ -47,7 +51,7 @@ export default class signup extends Component {
     btnpress = () => {
         console.log("got to btnpress")
         console.log("here" + this.state.message)
-        if (this.state.email == "" || this.state.password == "" || this.state.password2 == "")
+        if (this.state.email == "" || this.state.password == "" || this.state.password2 == "" || this.state.firstName=="" || this.state.lastName=="")
             return this.setState({ message: "Some Fields are Empty" });
         else if (this.state.email.search("@") == -1)
             return (
@@ -72,19 +76,39 @@ export default class signup extends Component {
                         justifyContent: "space-between",
                     }}
                 >
-                    <Image
-                        source={require('../assets/logo.png' )}
-                        style={{ width: 150, height: 150, marginBottom: 20 }}
-                    />
+                   <Image
+                    source={require('../assets/applogo.png' )}
+                    style={{ width: 250, height: 250 }}
+                />
+               
                     <Text style={{ fontWeight: "bold", fontSize: 25 }}>Sign Up</Text>
 
+                
                     <TextInput
+                       
+                        placeholder="First Name*"
+                        style={styles.txtInput}
+                        onChangeText={(val) => this.setState({ lastName: val })}
+                        placeholderTextColor="#9134C3"
+                       
+                    /> 
+                     <TextInput
+                       
+                       placeholder="Last Name*"
+                       placeholderTextColor="#9134C3"
+                       style={styles.txtInput}
+                       onChangeText={(val) => this.setState({ firstName: val })}
+                      
+                   /> 
+                        <TextInput
                         type="email"
-                        placeholder="Enter your email"
+                        placeholderTextColor="#9134C3"
+                        placeholder="Enter your email*"
                         style={styles.txtInput}
                         onChangeText={(val) => this.setState({ email: val })}
                         keyboardType="email-address"
                     /> 
+                    
                   
                     <View style={{
                         flexDirection: 'row', alignItems: "center", height: 45,
@@ -92,7 +116,8 @@ export default class signup extends Component {
                     }}>
                         <TextInput
                             type="password"
-                            placeholder="Enter your password"
+                            placeholderTextColor="#9134C3"
+                            placeholder="Enter your password*"
                             style={styles.txtInput}
                             onChangeText={(val) => this.setState({ password: val })}
                             secureTextEntry={this.state.visibile}
@@ -126,7 +151,9 @@ export default class signup extends Component {
                     }}>
                         <TextInput
                             type="password"
-                            placeholder="Confirm your password"
+                       
+                            placeholder="Confirm your password*"
+                            placeholderTextColor="#9134C3"
                             style={styles.txtInput}
                             onChangeText={(val) => this.setState({ password2: val })}
                             secureTextEntry={this.state.visibile}
@@ -165,7 +192,7 @@ export default class signup extends Component {
                         <Button
                             title="Sign Up"
                             onPress={() => this.btnpress()}
-                            color="#8E97FD"
+                            color="#9134C3"
                         />
                     </View>
                     <View
@@ -179,7 +206,7 @@ export default class signup extends Component {
                         <Button
                             title="Sign In"
                             onPress={() => this.props.navigation.navigate('loginScreen')}
-                            color="#8E97FD"
+                            color="#9134C3"
                         />
                     </View>
 
@@ -221,34 +248,32 @@ export default class signup extends Component {
         );
     }
 }
-
 const styles = StyleSheet.create({
     container: {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "#0BB2EB",
+        backgroundColor: "#B4B2DF",
         flex: 1,
     },
     txtInput: {
         borderWidth: 1,
         borderColor:"gold",
-        backgroundColor: "#FFE4E1",
+        backgroundColor: "#B4B2DF",
         height: 45,
         width: 290,
-        marginVertical: 10,
-        borderRadius: 3,
+        marginVertical: 15,
+        borderRadius: 15,
+        
     },
-    iconstyle: {
+   
+    iconstyle:{
         width: 45,
         height: 45,
-        justifyContent: "center",
+        justifyContent:"center",
         borderWidth: 1,
-        borderColor: "white",
-        backgroundColor: "#FFE4E1",
-    },
-    spaceview:{
-        width:10,
-
+        borderColor:"#B4B2DF",
+        backgroundColor: "#B4B2DF",
+        borderRadius:15,
     }
 });

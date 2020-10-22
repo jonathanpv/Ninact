@@ -37,6 +37,7 @@ export default class loginScreen extends Component {
             navigation.navigate('HomeScreen')
             console.log(u.user.uid)
         }).catch((err) => {
+            this.setState({message:"Invalid Login Credentials"})
             console.log(err)
         })
 
@@ -71,25 +72,27 @@ render() {
                 }}
             >
                 <Image
-                    source={require('../assets/logo.png' )}
-                    style={{ width: 150, height: 150, marginBottom: 20 }}
-                />
-                <Text style={{ fontWeight: "bold", fontSize: 25 }}>Login</Text>
+
+                    source={require('../assets/applogo.png' )}
+                    style={{ width: 250, height: 250 }}
+/>
+               
 
     
                 <TextInput
                     type="email"
                     placeholder="Enter your email"
-                    
+                    placeholderTextColor="#9134C3"
                     style={styles.txtInput}
                     onChangeText={(val) => this.setState({ email: val })}
                     keyboardType="email-address"
                 />
                 <View style ={{flexDirection:'row',alignItems:"center",  height: 45,
-        width: 290,}}>
+        width: 290,marginBottom:"10"}}>
                 <TextInput
                     type="password"
                     placeholder="Enter your password"
+                    placeholderTextColor="#9134C3"
                     style={styles.txtInput}
                    
                     onChangeText={(val) => this.setState({ password: val })}
@@ -117,50 +120,29 @@ render() {
                 </TouchableOpacity>
              
                 </View>
-                <View
-                    style={{
-                        backgroundColor: "#5897ee",
-                        borderRadius: 5,
-                        width: 150,
-                        marginVertical: 5,
-                    }}
-                >
-                    <Button
+                <Button
                         title="Sign in"
                         onPress={() => this.btnpress()}
-                        color="#8E97FD"
+                        color="#9134C3"
+                      
                     />
-                </View>
-                <View
-                        style={{
-                            backgroundColor: "#5897ee",
-                            borderRadius: 5,
-                            width: 150,
-                            marginVertical: 5,
-                        }}
-                    >
-                        <Button
-                            title="Sign Up"
-                            onPress={() => this.props.navigation.navigate('signUp')}
-                            color="#8E97FD"
-                        />
-                </View> 
+                    
+                       
+              
             </View>
-            <View style={{ justifyContent: "space-between" }}>
+            <View style={{ justifyContent: "space-between" ,flexDirection:"column",marginTop:"10"}}>
                 <View
                     style={{
-                        flexDirection: "row",
-                        justifyContent: "center",
+                        flexDirection: "column",
+                        justifyContent: "",
                         alignItems: "center",
                     }}
                 >
-                    <View
-                        style={{
-                            width: 100,
-                            height: 1,
-                            backgroundColor: "lightgrey",
-                        }}
-                    />
+                   
+      
+              
+
+                
                     <Text
                         style={{
                             margin: 15,
@@ -168,26 +150,21 @@ render() {
                             color:"blue",
                             alignContent:"center",
                         }} onPress={()=>navigation.push('forgotPassword')}
-                    >Forgot Password</Text>
+                    >Forgot Password? </Text>
            
-                    <View
-                        style={{
-                            width: 100,
-                            height: 1,
-                            backgroundColor: "lightgrey",
-                        }}
-                    />
+                 
                 </View>
                 
                 
             </View><View style={{ justifyContent: "space-between" }}>
                 <View
                     style={{
-                        flexDirection: "row",
+                        flexDirection: "column",
                         justifyContent: "center",
                         alignItems: "center",
                     }}
                 >
+                    
                  <Text
                         style={{
                             margin: 15,
@@ -199,7 +176,11 @@ render() {
            
                     
                 </View>
-                
+                <Button
+                            title="Sign Up"
+                            onPress={() => this.props.navigation.navigate('signUp')}
+                            color="#9134C3"
+                        />
                 
             </View>
             
@@ -213,17 +194,17 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "#0BB2EB",
+        backgroundColor: "#B4B2DF",
         flex: 1,
     },
     txtInput: {
         borderWidth: 1,
         borderColor:"gold",
-        backgroundColor: "#FFE4E1",
+        backgroundColor: "#B4B2DF",
         height: 45,
         width: 290,
-        marginVertical: 10,
-        borderRadius: 3,
+        marginVertical: 15,
+        borderRadius: 15,
         
     },
    
@@ -232,7 +213,8 @@ const styles = StyleSheet.create({
         height: 45,
         justifyContent:"center",
         borderWidth: 1,
-        borderColor:"white",
-        backgroundColor: "#FFE4E1",
+        borderColor:"#B4B2DF",
+        backgroundColor: "#B4B2DF",
+        borderRadius:15,
     }
 });

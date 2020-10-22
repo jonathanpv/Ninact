@@ -59,15 +59,16 @@ render() {
                     justifyContent: "space-between",
                 }}
             >
-                <Image
-                    source={require('../assets/logo.png' )}
-                    style={{ width: 150, height: 150, marginBottom: 20 }}
+                 <Image
+                    source={require('../assets/applogo.png' )}
+                    style={{ width: 250, height: 250 }}
                 />
-                <Text style={{ fontWeight: "bold", fontSize: 25 }}>Login</Text>
+                
 
                 <TextInput
                     type="email"
-                    placeholder="Enter your email"
+                    placeholder="Enter your email*"
+                    placeholderTextColor="#9134C3"
                     style={styles.txtInput}
                     onChangeText={(val) => this.setState({ email: val })}
                     keyboardType="email-address"
@@ -84,7 +85,7 @@ render() {
                     <Button
                         title="Reset Password"
                         onPress={() => this.btnpress()}
-                        color="#8E97FD"
+                        color="#9134C3"
                     />
                 </View>
             
@@ -124,7 +125,7 @@ render() {
                         <Button
                             title="Back"
                             onPress={() => navigation.navigate('loginScreen')}
-                            color="#8E97FD"
+                            color="#9134C3"
                         />
                 </View>
             </View>
@@ -138,15 +139,17 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "#a1bbfd",
+        backgroundColor: "#B4B2DF",
         flex: 1,
     },
     txtInput: {
-        borderWidth: 2,
-        backgroundColor: "#a1bbfd",
+        borderWidth: 1,
+        borderColor:"gold",
+        backgroundColor: "#B4B2DF",
         height: 45,
         width: 290,
-        marginVertical: 10,
-        borderRadius: 3,
+        marginVertical: 15,
+        borderRadius: 15,
+        
     },
 });
