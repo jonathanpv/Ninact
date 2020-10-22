@@ -2,7 +2,7 @@ import React from 'react';
 
 import { createStackNavigator } from '@react-navigation/stack';
 
-import SplashScreen from './SplashScreen';
+//import SplashScreen from './SplashScreen';
 import loginScreen from './loginScreen';
 import signup from './signup';
 import forgotPassword from './forgotPassword';
