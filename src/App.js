@@ -22,7 +22,7 @@ export default function App() {
       ):
       <Stack.Navigator initialRouteName="start">
         <Stack.Screen name="start" component={RootStackScreen} options={{ headerTitle: "", headerShown: false }}/>
-        <Stack.Screen name="HomeScreen" component={MainTabScreen} options = {{ headerLeft: null }}/>
+        <Stack.Screen name="HomeScreen" component={MainTabScreen} options = {{headerTitle: "", headerLeft: null }}/>
       </Stack.Navigator>
     }
     </NavigationContainer>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, Button } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, Button, Alert } from 'react-native';
 
 class PlayRounds extends Component {
   constructor() {
@@ -35,6 +35,17 @@ class PlayRounds extends Component {
     if (this.state.enemy_choice == 0) { alert('Um. . . something went horribly wrong') }
   }
 
+  button() {
+    Alert.alert(
+      'Alert Title',
+      'Alert message here...',
+      [
+        {text: 'NO', onPress: () => console.warn('NO Pressed'), style: 'cancel'},
+        {text: 'YES', onPress: () => console.warn('YES Pressed')},
+      ]
+    );
+  }
+
   DisplayUser() {
       return (
         <View style={styles.container}>
@@ -46,6 +57,13 @@ class PlayRounds extends Component {
                 <TouchableOpacity style={styles.button} onPress={()=>{this.state.player_choice = 1; this.setState({ turn: 1})} }>
                     <Image source={require('../assets/collabbtn.png')} style={{ width: 300, height: 63 }} />
                 </TouchableOpacity>
+                <View style={{ paddingBottom: 50, width: 100, marginTop: 250 }}>
+                    <Button
+                        title="Exit"
+                        onPress={() => this.props.navigation.goBack() }
+                        color="#8E97FD"
+                    />
+                </View>
             </View>
         </View>
       );

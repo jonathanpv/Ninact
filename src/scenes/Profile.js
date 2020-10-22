@@ -1,14 +1,19 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, Button } from 'react-native';
 
 const Profile = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <Text style={styles.text}>Profile Page</Text>
             <Text>Not implemented</Text>
-            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('HomeScreen')} >
-                <Image source={require('../assets/backbtn.png')} style={{ width: 90, height: 40.95 }} />
-            </TouchableOpacity>
+            <View style={{ paddingBottom: 50, width: 100}}>
+                    <Button
+                        title="Back"
+                        onPress={() => navigation.navigate('HomeScreen')}
+                        color="#8E97FD"
+                    />
+            </View>
         </View>
     );
 };
