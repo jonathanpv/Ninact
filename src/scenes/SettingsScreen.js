@@ -24,11 +24,7 @@ const SettingsScreen = ({ navigation} ) => {
                         title="Sign Out"
                         onPress={() =>  {
                             signOutUser();
-                            navigation.reset({
-                                index: 0,
-                                routes: [{name: 'loginScreen'}]
-                            })
-                            // navigation.navigate('loginScreen')
+                            navigation.navigate('loginScreen')
                         }}
                         color="#8E97FD"
                     />

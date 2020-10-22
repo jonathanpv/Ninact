@@ -15,6 +15,7 @@ import {
 } from "react-native";
 import fire from "../firebase";
 import"firebase/firestore"; //importing firestor
+import HomeScreen from "./HomeScreen";
 
 export default class loginScreen extends Component {
     
@@ -27,16 +28,13 @@ export default class loginScreen extends Component {
     };
 
     login = () => {
-
+        const { navigation } = this.props;
         console.log("got here")
         fire.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then((u) => {
             console.log(u)
             console.log("success!")
-           
-           
 
-         
-            this.props.navigation.navigate('HomeScreen')
+            navigation.navigate('HomeScreen')
             console.log(u.user.uid)
         }).catch((err) => {
             console.log(err)
@@ -145,7 +143,7 @@ render() {
                     >
                         <Button
                             title="Sign Up"
-                            onPress={() => this.props.navigation.navigate('Sign Up')}
+                            onPress={() => this.props.navigation.navigate('signUp')}
                             color="#8E97FD"
                         />
                 </View> 

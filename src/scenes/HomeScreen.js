@@ -10,7 +10,7 @@ const HomeScreen = ({ navigation }) => {
                 style={{ width: 200, height: 200}}>
                 <TouchableOpacity
                     style={styles.friendListButtonStyle}
-                    onPress={() => navigation.navigate('FriendList')}
+                    onPress={() => navigation.push('FriendList')}
                 >
                     <Text style={{color: "black"}}>Go</Text>
                 </TouchableOpacity>
@@ -22,7 +22,7 @@ const HomeScreen = ({ navigation }) => {
                 style={{ width: 200, height: 200 }}>
                 <TouchableOpacity
                     style={styles.leaderboardButtonStyle}
-                    onPress={() => navigation.navigate('LeaderBoard')}
+                    onPress={() => navigation.push('LeaderBoard')}
                 >
                     <Text style={{color: "white"}}>Go</Text>
                 </TouchableOpacity>
