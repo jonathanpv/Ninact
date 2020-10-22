@@ -154,7 +154,7 @@ export default class signup extends Component {
 
             </TouchableOpacity>
          
-                    /</View>
+                    </View>
                
                     <View
                         style={{
