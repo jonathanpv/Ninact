@@ -32,6 +32,7 @@ const splashScreen = ({navigation}) => {
         authstate has changed. In simple words it is just checking
         if there is someone signed in/ */
         fire.auth().onAuthStateChanged((user) => {
+          console.log("USER: " + user);
             if (user) {
               navigation.navigate('HomeScreen')
             }
@@ -40,7 +41,6 @@ const splashScreen = ({navigation}) => {
               navigation.navigate('loginScreen')
             }
          });
-
     }
 
   },30);
