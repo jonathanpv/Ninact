@@ -71,10 +71,8 @@ render() {
                 }}
             >
                 <Image
-                    source={{
-                        uri: "https://img.icons8.com/plasticine/100/000000/react.png",
-                    }}
-                    style={{ width: 150, height: 150 }}
+                    source={require('../assets/logo.png' )}
+                    style={{ width: 150, height: 150, marginBottom: 20 }}
                 />
                 <Text style={{ fontWeight: "bold", fontSize: 25 }}>Login</Text>
 

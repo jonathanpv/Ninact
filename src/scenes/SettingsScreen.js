@@ -8,14 +8,14 @@ const SettingsScreen = ({ navigation} ) => {
     return (
         <View>
             <View>
-                <Text>Username: put user.name</Text>
-                <Text>Password: put user.password</Text>
+                {/* <Text>Username: {user}</Text> */}
             </View>
             <View style={styles.button}>
                 <View style={{ paddingBottom: 50, width: 200}}>
                     <Button
                         title="Return to Home"
-                        onPress={() => navigation.navigate('HomeScreen')}
+                        onPress={() => {navigation.navigate('HomeScreen');
+                    }}
                         color="#8E97FD"
                     />
                 </View>
