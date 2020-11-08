@@ -72,7 +72,7 @@ ProgressBar.defaultProps = {
  backgroundColor: "#B4B2DF",
   barColor: "#dddfb2",
   fillColor: "#B4B2DF",
-  duration: 100
+  duration: 30
 }
 
 export default class splashScreen extends Component {
@@ -109,11 +109,14 @@ render() {
   {this.check()}
     return (
       <View style={styles.container}>
-          <Image
+     
+        <Image
 
 source={require('../assets/applogo.png' )}
 style={styles.iconstyle}
 />
+      
+          
         <View style={styles.progressContainer}>
       
          
@@ -132,9 +135,17 @@ style={styles.iconstyle}
 const styles = StyleSheet.create({
   container: {
   
-    flexDirection: "column",
+  
     justifyContent: "center",
     alignItems: "center",
+    paddingTop: 250,
+    width:"100%",
+    height:"100%",
+    backgroundColor:"#B4B2DF"
+
+  },
+imagestyle: {
+    justifyContent: "center",
     paddingTop: 250,
     width:"100%",
     height:"100%",
@@ -149,8 +160,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#B4B2DF",
   },
   iconstyle:{
-    width: "50%",
-    height: "50%",
+    width: 200,
+    height: 200,
     justifyContent:"center",
     borderWidth: 1,
     borderColor:"#B4B2DF",

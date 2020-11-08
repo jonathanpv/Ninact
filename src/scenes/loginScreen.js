@@ -1,220 +1,200 @@
 import React, { Component } from "react";
 import {
-    Text,
-    View,
-    StyleSheet,
-    SafeAreaView,
-    Button,
-    TextInput,
-    Alert,
-    Image,
-    Icon,
-    TouchableOpacity,
-    _Image,
-    ImageBackground,
+  Text,
+  View,
+  StyleSheet,
+  SafeAreaView,
+  TextInput,
+  Alert,
+  Image,
+  TouchableOpacity,
+  _Image,
+  ImageBackground,
 } from "react-native";
+
+import Icon from "react-native-vector-icons/FontAwesome";
+import { Input, Button } from "react-native-elements";
 import fire from "../firebase";
-import"firebase/firestore"; //importing firestor
+import "firebase/firestore"; //importing firestor
 import HomeScreen from "./HomeScreen";
 
 export default class loginScreen extends Component {
-    
+  state = {
+    email: "",
+    password: "",
+    message: "",
+    visibile: true,
+  };
 
-    state = {
-        email: "",
-        password: "",
-        message:"",
-        visibile:true,
-    };
+  login = () => {
+    const { navigation } = this.props;
+    console.log("got here");
+    fire
+      .auth()
+      .signInWithEmailAndPassword(this.state.email, this.state.password)
+      .then((u) => {
+        console.log(u);
+        console.log("success!");
 
-    login = () => {
-        const { navigation } = this.props;
-        console.log("got here")
-        fire.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then((u) => {
-            console.log(u)
-            console.log("success!")
+        navigation.navigate("HomeScreen");
+        console.log(u.user.uid);
+      })
+      .catch((err) => {
+        this.setState({ message: "Invalid Login Credentials" });
+        console.log(err);
+      });
+  };
 
-            navigation.navigate('HomeScreen')
-            console.log(u.user.uid)
-        }).catch((err) => {
-            this.setState({message:"Invalid Login Credentials"})
-            console.log(err)
-        })
-
-    };
-
-btnpress = () => {
+  btnpress = () => {
     // fire.auth().onAuthStateChanged((user) => {
     //     if (user) {
     //       console.log('user logged')
     //     }
     //  });
-    console.log("got to btnpress")
-    console.log(this.state.email)
-    if (this.state.email == "" || this.state.password == "") return this.setState({message:"Some fields are empty"});
+    // console.log("got to btnpress");
+    //console.log(this.state.email);
+    if (this.state.email == "" || this.state.password == "")
+      return this.setState({ message: "Some fields are empty" });
     if (this.state.email.search("@") == -1)
-    return (
-        this.setState({message:"Invalid email"})
-        );
+      return this.setState({ message: "Invalid email" });
     else {
-        { this.login() }
+      {
+        this.login();
+      }
     }
-};
+  };
+  onFocus() {
+    this.setState({
+      borderColor: "#B4B2DF",
+    });
+  }
+  onBlur() {
+    this.setState({
+      borderColor: "#B4B2DF",
+    });
+  }
 
-render() {
+  render() {
     const { navigation } = this.props;
     return (
-        <SafeAreaView style={styles.container}>
-            <View
-                style={{
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                }}
-            >
-                <Image
+      <SafeAreaView style={styles.container}>
+        <View
+          style={{
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <Image
+            source={require("../assets/applogo.png")}
+            style={{ width: 250, height: 250 }}
+          />
 
-                    source={require('../assets/applogo.png' )}
-                    style={{ width: 250, height: 250 }}
-/>
-               
-
-    
-                <TextInput
-                    type="email"
-                    placeholder="Enter your email"
-                    placeholderTextColor="#9134C3"
-                    style={styles.txtInput}
-                    onChangeText={(val) => this.setState({ email: val })}
-                    keyboardType="email-address"
-                />
-                <View style ={{flexDirection:'row',alignItems:"center",  height: 45,
-        width: 290,marginBottom:"10"}}>
-                <TextInput
-                    type="password"
-                    placeholder="Enter your password"
-                    placeholderTextColor="#9134C3"
-                    style={styles.txtInput}
-                   
-                    onChangeText={(val) => this.setState({ password: val })}
-                    secureTextEntry={this.state.visibile}
-                    
-                />
-                <TouchableOpacity
-                
-                   
-                    onPress={()=>{
-                        if(!this.state.visibile)
-                        {
-                            return this.setState({visibile:true})
-                        }
-                        else
-                        {
-                            return this.setState({visibile:false})
-                        }
-                    }}
-                
-                >
-                    <Image source={require('../assets/visibility.png' )}
-                    style={styles.iconstyle}/>
-
-                </TouchableOpacity>
-             
-                </View>
-                <Button
-                        title="Sign in"
-                        onPress={() => this.btnpress()}
-                        color="#9134C3"
-                      
-                    />
-                    
-                       
-              
-            </View>
-            <View style={{ justifyContent: "space-between" ,flexDirection:"column",marginTop:"10"}}>
-                <View
-                    style={{
-                        flexDirection: "column",
-                        justifyContent: "",
-                        alignItems: "center",
-                    }}
-                >
-                   
+          <Input
+            type="email"
+            placeholder="Enter your email"
+            placeholderTextColor="#9134C3"
+            style={styles.txtInput}
+            onChangeText={(val) => this.setState({ email: val })}
+            keyboardType="email-address"
+            leftIcon={<Icon name="user" size={24} color="white" />}
+          />
       
-              
-
-                
-                    <Text
-                        style={{
-                            margin: 15,
-                            fontSize: 16,
-                            color:"blue",
-                            alignContent:"center",
-                        }} onPress={()=>navigation.push('forgotPassword')}
-                    >Forgot Password? </Text>
-           
-                 
-                </View>
-                
-                
-            </View><View style={{ justifyContent: "space-between" }}>
-                <View
-                    style={{
-                        flexDirection: "column",
-                        justifyContent: "center",
-                        alignItems: "center",
-                    }}
-                >
-                    
-                 <Text
-                        style={{
-                            margin: 15,
-                            fontSize: 16,
-                            color:"red",
-                            alignContent:"center",
-                        }}
-                    >{this.state.message}</Text>
-           
-                    
-                </View>
-                <Button
-                            title="Sign Up"
-                            onPress={() => this.props.navigation.navigate('signUp')}
-                            color="#9134C3"
-                        />
-                
-            </View>
+            <Input
+              type="password"
+              onFocus={() => this.onFocus()}
+              onBlur={() => this.onBlur()}
+              placeholder="Enter your password"
+              placeholderTextColor="#9134C3"
+              style={styles.txtInput}
+              onChangeText={(val) => this.setState({ password: val })}
+              secureTextEntry={this.state.visibile}
+              leftIcon={<Icon name="lock" size={24} color="white" />}
+              rightIcon ={<Icon name ="eye" size={24} color="white"onPress={() => {
+                if (!this.state.visibile) {
+                  return this.setState({ visibile: true });
+                } else {
+                  return this.setState({ visibile: false });
+                }
+              }}/>}
+            />
             
-        </SafeAreaView>
+        
+          <Button
+            title="Sign in"
+            onPress={() => this.btnpress()}
+            color="red"
+            type="raised"
+           
+          />
+        </View>
+            <Text
+              style={{
+                margin: 15,
+                fontSize: 16,
+                color: "blue",
+                alignContent: "center",
+              }}
+              onPress={() => navigation.push("forgotPassword")}
+            >
+              Forgot Password?{" "}
+            </Text>
+      
+        <View style={{ justifyContent: "space-between" }}>
+          <View
+            style={{
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Text
+              style={{
+                margin: 15,
+                fontSize: 16,
+                color: "maroon",
+                alignContent: "center",
+              }}
+            >
+              {this.state.message}
+            </Text>
+          </View>
+          <Button
+            title="Sign Up"
+            onPress={() => this.props.navigation.navigate("signUp")}
+            color="#9134C3"
+            type="raised"
+          />
+        </View>
+      </SafeAreaView>
     );
-}
+  }
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: "#B4B2DF",
-        flex: 1,
-    },
-    txtInput: {
-        borderWidth: 1,
-        borderColor:"gold",
-        backgroundColor: "#B4B2DF",
-        height: 45,
-        width: 290,
-        marginVertical: 15,
-        borderRadius: 15,
-        
-    },
-   
-    iconstyle:{
-        width: 45,
-        height: 45,
-        justifyContent:"center",
-        borderWidth: 1,
-        borderColor:"#B4B2DF",
-        backgroundColor: "#B4B2DF",
-        borderRadius:15,
-    }
+  container: {
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#B4B2DF",
+    flex: 1,
+  },
+  txtInput: {
+    borderWidth: 0,
+    borderColor: "gold",
+    backgroundColor: "#B4B2DF",
+    height: 45,
+    width: 290,
+    marginVertical: 15,
+    borderRadius: 15,
+  },
+
+  iconstyle: {
+    width: 45,
+    height: 45,
+    justifyContent: "center",
+    borderWidth: 1,
+    borderColor: "#B4B2DF",
+    backgroundColor: "#B4B2DF",
+    borderRadius: 15,
+  },
 });

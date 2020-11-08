@@ -1,20 +1,58 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
+//import CardView from 'react-native-cardview';
+import { Card,Button } from 'react-native-elements';
 
-import { View, Text, StyleSheet, Button } from 'react-native';
+
+import { FlatList, ScrollView } from 'react-native-gesture-handler';
+
+import { View, Text, StyleSheet,} from 'react-native';
+const DATA = [
+    {
+        
+        username: 'Khate',
+        title:"Personal Information"
+      
+   
+        
+    },
+    {  title:"Game Stats",
+        username:"Chor"
+
+    },
+    ]
+
 
 const Profile = ({ navigation }) => {
+    const renderItem = ({ item }) => (
+   <View style={styles.container} >
+    
+                <Card title= {item.title} style={styles.cardstyle}> 
+                
+                <Text>Name: {item.username} <br/></Text> 
+                </Card>
+               
+                
+   </View>
+    );
+
     return (
+        
         <View style={styles.container}>
             <Text style={styles.text}>Profile Page</Text>
-           <View>
+            <ScrollView style={styles.scroll}>
+           <FlatList
+                data={DATA}
+                renderItem={renderItem}
+            />
 
-           </View>
+           </ScrollView>
             <View style={{ paddingBottom: 50, width: 100}}>
                     <Button
                         title="Back"
                         onPress={() => navigation.navigate('HomeScreen')}
                         color="#8E97FD"
+                        type="raised"
                     />
             </View>
         </View>
@@ -28,6 +66,18 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         backgroundColor: "#B4B2DF",
         flex: 1,
+        height:"100%",
+        width :"100%"
+    },
+    scroll :{
+        backgroundColor: "#B4B2DF",
+
+    },
+    cardstyle:{
+        backgroundColor:"#B4B2DF",
+        height:"100%",
+        width:"100%"
+
     },
     text: {
         fontSize: 50
