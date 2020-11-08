@@ -1,5 +1,5 @@
 import React, {useRef, useState, useEffect} from 'react';
-import { Text, View, StyleSheet, Animated } from 'react-native';
+import { Text, Image,View, StyleSheet, Animated } from 'react-native';
 import Constants from 'expo-constants';
 import fire from "../firebase";
 import { Component } from 'react';
@@ -64,12 +64,14 @@ class ProgressBar extends Component {
 }
 
 ProgressBar.defaultProps = {
-  height: 10,
-  borderColor: "#000",
-  borderWidth: 2,
-  borderRadius: 4,
-  barColor: "green",
-  fillColor: "rgba(0, 0, 0, 1)",
+  height: 20,
+
+  borderWidth: 1,
+ borderRadius: 15,
+ borderColor:"#B4B2DF",
+ backgroundColor: "#B4B2DF",
+  barColor: "#dddfb2",
+  fillColor: "#B4B2DF",
   duration: 100
 }
 
@@ -107,8 +109,14 @@ render() {
   {this.check()}
     return (
       <View style={styles.container}>
+          <Image
+
+source={require('../assets/applogo.png' )}
+style={styles.iconstyle}
+/>
         <View style={styles.progressContainer}>
-          <Text>Loading... </Text>
+      
+         
           <ProgressBar
             row
             progress={this.state.progress}
@@ -123,12 +131,31 @@ render() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+  
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
     paddingTop: 250,
+    width:"100%",
+    height:"100%",
+    backgroundColor:"#B4B2DF"
+
   },
   progressContainer: {
     alignItems: "center",
-    flexDirection: "row"
-  }
+    flexDirection: "row",
+    width:"50%",
+    height:"50%",
+    backgroundColor: "#B4B2DF",
+  },
+  iconstyle:{
+    width: "50%",
+    height: "50%",
+    justifyContent:"center",
+    borderWidth: 1,
+    borderColor:"#B4B2DF",
+    backgroundColor: "#B4B2DF",
+    borderRadius:15,
+}
 });
 
