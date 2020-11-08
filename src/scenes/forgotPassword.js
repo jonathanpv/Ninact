@@ -7,14 +7,14 @@ import {
     View,
     StyleSheet,
     SafeAreaView,
-    Button,
     TextInput,
     Alert,
     Image,
     TouchableOpacity,
 } from "react-native";
 import fire from "../firebase";
-import Button_new from "../assets/components/button.js";
+import { Input, Button } from "react-native-elements";
+import Icon from "react-native-vector-icons/Fontisto";
 import { createStackNavigator } from '@react-navigation/stack';
 
 export default class forgotPassword extends Component {
@@ -66,18 +66,20 @@ render() {
                 />
                 
 
-                <TextInput
+                <Input
                     type="email"
                     placeholder="Enter your email*"
                     placeholderTextColor="#9134C3"
                     style={styles.txtInput}
                     onChangeText={(val) => this.setState({ email: val })}
                     keyboardType="email-address"
+                    leftIcon={<Icon name="email" size={24} color="white" />}
                 />
         <Button
                         title="Reset Password"
                         onPress={() => this.btnpress()}
                         color="#9134C3"
+                        type="clear"
                     />
                     
                
@@ -117,6 +119,7 @@ render() {
                             title="Back"
                             onPress={() => navigation.navigate('loginScreen')}
                             color="#9134C3"
+                            type="clear"
                         />
                 </View>
             </View>
@@ -134,8 +137,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     txtInput: {
-        borderWidth: 1,
-        borderColor:"gold",
+   
         backgroundColor: "#B4B2DF",
         height: 45,
         width: 290,

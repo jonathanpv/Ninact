@@ -10,14 +10,14 @@ import { View, Text, StyleSheet,} from 'react-native';
 const DATA = [
     {
         
-        username: 'Khate',
+        username: 'Anubhav',
         title:"Personal Information"
       
    
         
     },
     {  title:"Game Stats",
-        username:"Chor"
+        username:"Hours Logged"
 
     },
     ]
@@ -61,11 +61,10 @@ const Profile = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
+       
+       
         backgroundColor: "#B4B2DF",
-        flex: 1,
+  
         height:"100%",
         width :"100%"
     },

@@ -122,7 +122,7 @@ export default class loginScreen extends Component {
           <Button
             title="Sign in"
             onPress={() => this.btnpress()}
-            color="red"
+        
             type="raised"
            
           />
@@ -151,7 +151,7 @@ export default class loginScreen extends Component {
               style={{
                 margin: 15,
                 fontSize: 16,
-                color: "maroon",
+                color: "#9134C3",
                 alignContent: "center",
               }}
             >
