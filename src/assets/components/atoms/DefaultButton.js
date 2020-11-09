@@ -48,6 +48,7 @@ const styles= StyleSheet.create({
     fontSize: 20,
     position: 'absolute',
     top: 14,
+    left: 4,
     fontWeight: 'bold',
     alignSelf: 'center',
     justifyContent: 'center',

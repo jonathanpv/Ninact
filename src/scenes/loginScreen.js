@@ -17,6 +17,7 @@ import { Input, Button } from "react-native-elements";
 import fire from "../firebase";
 import "firebase/firestore"; //importing firestor
 import HomeScreen from "./HomeScreen";
+import DefaultBackground from '../assets/components/atoms/DefaultBackground.js';
 
 export default class loginScreen extends Component {
   state = {
@@ -77,7 +78,8 @@ export default class loginScreen extends Component {
   render() {
     const { navigation } = this.props;
     return (
-      <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
+        <DefaultBackground />
         <View
           style={{
             alignItems: "center",
@@ -98,7 +100,7 @@ export default class loginScreen extends Component {
             keyboardType="email-address"
             leftIcon={<Icon name="user" size={24} color="white" />}
           />
-      
+
             <Input
               type="password"
               onFocus={() => this.onFocus()}
@@ -117,14 +119,14 @@ export default class loginScreen extends Component {
                 }
               }}/>}
             />
-            
-        
+
+
           <Button
             title="Sign in"
             onPress={() => this.btnpress()}
-        
+
             type="raised"
-           
+
           />
         </View>
             <Text
@@ -138,7 +140,7 @@ export default class loginScreen extends Component {
             >
               Forgot Password?{" "}
             </Text>
-      
+
         <View style={{ justifyContent: "space-between" }}>
           <View
             style={{
@@ -165,7 +167,7 @@ export default class loginScreen extends Component {
             type="raised"
           />
         </View>
-      </SafeAreaView>
+      </View>
     );
   }
 }
@@ -175,7 +177,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#B4B2DF",
+    backgroundColor: "transparent",
     flex: 1,
   },
   txtInput: {

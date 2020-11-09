@@ -20,7 +20,7 @@ export default function App() {
       { user != null ? (
         <MainTabScreen />
       ):
-      <Stack.Navigator initialRouteName="start">
+      <Stack.Navigator initialRouteName="start" screenOptions={{headerShown: false}} >
         <Stack.Screen name="start" component={RootStackScreen} options={{ headerTitle: ""}}/>
         <Stack.Screen name="HomeScreen" component={MainTabScreen} options = {{headerTitle: "", headerLeft: null}}/>
       </Stack.Navigator>
