@@ -7,9 +7,6 @@ import {
   TextInput,
   Alert,
   Image,
-  TouchableOpacity,
-  _Image,
-  ImageBackground,
 } from "react-native";
 
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -18,6 +15,7 @@ import fire from "../firebase";
 import "firebase/firestore"; //importing firestor
 import HomeScreen from "./HomeScreen";
 import DefaultBackground from '../assets/components/atoms/DefaultBackground.js';
+import DefaultButton from '../assets/components/atoms/DefaultButton.js'
 
 export default class loginScreen extends Component {
   state = {
@@ -80,92 +78,54 @@ export default class loginScreen extends Component {
     return (
       <View style={styles.container}>
         <DefaultBackground />
-        <View
-          style={{
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <Image
-            source={require("../assets/applogo.png")}
-            style={{ width: 250, height: 250 }}
-          />
-
-          <Input
-            type="email"
+        <View styles={{flex:1}}>
+          <TextInput
             placeholder="Enter your email"
-            placeholderTextColor="#9134C3"
+            placeholderTextColor="#fff"
             style={styles.txtInput}
             onChangeText={(val) => this.setState({ email: val })}
-            keyboardType="email-address"
-            leftIcon={<Icon name="user" size={24} color="white" />}
+            //leftIcon={<Icon name="user" size={24} color="white" />}
           />
-
-            <Input
-              type="password"
-              onFocus={() => this.onFocus()}
-              onBlur={() => this.onBlur()}
-              placeholder="Enter your password"
-              placeholderTextColor="#9134C3"
-              style={styles.txtInput}
-              onChangeText={(val) => this.setState({ password: val })}
-              secureTextEntry={this.state.visibile}
-              leftIcon={<Icon name="lock" size={24} color="white" />}
-              rightIcon ={<Icon name ="eye" size={24} color="white"onPress={() => {
-                if (!this.state.visibile) {
-                  return this.setState({ visibile: true });
-                } else {
-                  return this.setState({ visibile: false });
-                }
-              }}/>}
+          <TextInput
+            type="password"
+            onFocus={() => this.onFocus()}
+            onBlur={() => this.onBlur()}
+            placeholder="Enter your password"
+            placeholderTextColor="#fff"
+            style={styles.txtInput}
+            onChangeText={(val) => this.setState({ password: val })}
+            secureTextEntry={this.state.visibile}
+            //leftIcon={<Icon name="lock" size={24} color="white" />}
+            //rightIcon ={<Icon name ="eye" size={24} color="white"onPress={() => {
+            //  if (!this.state.visibile) {
+            //    return this.setState({ visibile: true });
+            //  } else {
+            //    return this.setState({ visibile: false });
+            //  }}}/>}
+          />
+          <View styles={{ flexDirection: 'row'}}>
+            <DefaultButton
+              text="Sign In"
+              onPress={() => this.btnpress()}
             />
+            <DefaultButton
+              text="Sign Up"
+              onPress={() => this.props.navigation.navigate("signUp")}
+            />
+          </View>
 
-
-          <Button
-            title="Sign in"
-            onPress={() => this.btnpress()}
-
-            type="raised"
-
+          <DefaultButton
+            text='Forgot Password'
+            onPress={() => navigation.push("forgotPassword")}
           />
-        </View>
-            <Text
-              style={{
-                margin: 15,
-                fontSize: 16,
-                color: "blue",
-                alignContent: "center",
-              }}
-              onPress={() => navigation.push("forgotPassword")}
-            >
-              Forgot Password?{" "}
-            </Text>
-
-        <View style={{ justifyContent: "space-between" }}>
-          <View
-            style={{
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
+          <Text style={{
+            fontSize: 18,
+            color: "#9134C3",
+            alignContent: "center"
             }}
           >
-            <Text
-              style={{
-                margin: 15,
-                fontSize: 16,
-                color: "#9134C3",
-                alignContent: "center",
-              }}
-            >
-              {this.state.message}
-            </Text>
-          </View>
-          <Button
-            title="Sign Up"
-            onPress={() => this.props.navigation.navigate("signUp")}
-            color="#9134C3"
-            type="raised"
-          />
+          {this.state.message}
+          </Text>
         </View>
       </View>
     );
@@ -174,29 +134,17 @@ export default class loginScreen extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
+    justifyContent: 'center',
+    alignContent: 'center',
+    alignItems: 'center',
     backgroundColor: "transparent",
-    flex: 1,
+    flex: 1
   },
   txtInput: {
-    borderWidth: 0,
-    borderColor: "gold",
-    backgroundColor: "#B4B2DF",
-    height: 45,
+    margin: 15,
+    backgroundColor: "#ffff",
+    height: 40,
     width: 290,
-    marginVertical: 15,
-    borderRadius: 15,
-  },
-
-  iconstyle: {
-    width: 45,
-    height: 45,
-    justifyContent: "center",
-    borderWidth: 1,
-    borderColor: "#B4B2DF",
-    backgroundColor: "#B4B2DF",
-    borderRadius: 15,
-  },
+    borderRadius: 5
+  }
 });

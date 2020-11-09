@@ -14,8 +14,8 @@ export default class DefaultButton extends React.Component
   {
     return (
       <TouchableOpacity style={styles.touchable} onPress={this.props.onPress}>
-        <View style={styles.view}>
-          <Image source={require("../../art/navigation/Default_Button.png")} style={styles.img}/>
+        <View>
+          <Image source={require("../../art/navigation/Default_Button.png")} style={{width: 144, height: 60}}/>
           <Text style={styles.text}>{this.props.text} </Text>
         </View>
       </TouchableOpacity>
@@ -24,34 +24,18 @@ export default class DefaultButton extends React.Component
 }
 
 const styles= StyleSheet.create({
-  view:
+  touchable:
   {
-    position: 'absolute',
-    backgroundColor: 'transparent',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'transparent'
-  },
-  img:
-  {
+    margin: 8,
     width: 144,
     height: 60
   },
-  touchable:
-  {
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
   text:
   {
-    flex: 1,
-    fontSize: 20,
+    fontSize: 16,
     position: 'absolute',
     top: 14,
-    left: 4,
     fontWeight: 'bold',
-    alignSelf: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'transparent'
+    alignSelf: 'center'
   }
 })

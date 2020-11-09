@@ -69,14 +69,10 @@ class ProgressBar extends Component {
 }
 
 ProgressBar.defaultProps = {
-  height: 20,
-
-  borderWidth: 1,
-  borderRadius: 15,
-  borderColor:"#B4B2DF",
-  backgroundColor: "#B4B2DF",
-  barColor: "#dddfb2",
-  fillColor: "#B4B2DF",
+  height: 30,
+  backgroundColor: "#ffff",
+  barColor: "#80ecd8",
+  fillColor: "#ffff",
   duration: 30
 }
 
@@ -96,23 +92,6 @@ export default class splashScreen extends Component {
     }, 30);
   }
 
-  check() {
-    if(this.state.progress >= 100)
-    {
-      return
-        <DefaultButton text='Touch to Start' onPress={this.start()} />
-    }
-    else
-    {
-      return
-      <ProgressBar
-        row
-        progress={this.state.progress}
-        duration={100}
-      />
-    }
-  }
-
   start() {
     fire.auth().onAuthStateChanged((user) => {
 
@@ -128,13 +107,16 @@ export default class splashScreen extends Component {
 
   render() {
     let temp;
+    let set;
     if (this.state.progress >= 100)
     {
       temp = <DefaultButton text='Touch to Start' onPress={()=>this.start()} />;
+      set = StyleSheet.create({default: {alignItems: 'center', width: '75%', height: 75}})
     }
     else
     {
       temp = <ProgressBar progress={this.state.progress} duration={100}/>;
+      set = StyleSheet.create({default: {width: '75%', height: 75}})
     }
     return (
       <View style={styles.container}>
@@ -143,7 +125,7 @@ export default class splashScreen extends Component {
           source={require('../assets/applogo.png' )}
           style={{width: 350, height: 350}}
         />
-        <View style={{width: '75%', height: 75}}>
+        <View style={set.default}>
           {temp}
         </View>
       </View>
