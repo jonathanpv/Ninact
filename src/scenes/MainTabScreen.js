@@ -18,11 +18,11 @@ function getTabBarVisibility(route) {
     const routeName = route.state
       ? route.state.routes[route.state.index].name
       : '';
-  
+
     if (routeName === 'loginScreen' || routeName === 'PlayRounds') {
       return false;
     }
-  
+
     return true;
 }
 
@@ -51,7 +51,7 @@ const MainTabScreen = () => (
         <Tab.Screen
           name="PlayRounds"
           component={PlayRounds}
-          options={{ 
+          options={{
             tabBarVisible: false,
             title: '',
             tabBarIcon: ({ }) => {
@@ -74,7 +74,7 @@ const MainTabScreen = () => (
               );
             },
           }} />
-        <Tab.Screen 
+        <Tab.Screen
             name="Settings"
             component={SettingsScreen}
              options={{

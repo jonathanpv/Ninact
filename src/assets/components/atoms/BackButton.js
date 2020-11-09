@@ -15,7 +15,7 @@ export default class BackButton extends React.Component
     return (
       <View style={styles.view} >
         <TouchableOpacity style={styles.touchable} onPress={() => this.props.navigation.goBack()}>
-          <Image source={require("../src/assets/art/navigation/Back_Button.png")} style={styles.img}/>
+          <Image source={require("../../art/navigation/Back_Button.png")} style={styles.img}/>
         </TouchableOpacity>
       </View>
     )

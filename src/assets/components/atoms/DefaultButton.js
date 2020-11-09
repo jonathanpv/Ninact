@@ -15,7 +15,7 @@ export default class DefaultButton extends React.Component
     return (
       <TouchableOpacity style={styles.touchable} onPress={this.props.onPress}>
         <View style={styles.view}>
-          <Image source={require("../src/assets/art/navigation/Default_Button.png")} style={styles.img}/>
+          <Image source={require("../../art/navigation/Default_Button.png")} style={styles.img}/>
           <Text style={styles.text}>{this.props.text} </Text>
         </View>
       </TouchableOpacity>

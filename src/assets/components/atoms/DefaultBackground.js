@@ -14,7 +14,7 @@ export default class DefaultBackground extends React.Component
   {
     return (
       <Image
-        source={require('../src/assets/art/Default_Background.png')}
+        source={require('../../art/Default_Background.png')}
         style={{
           width: '100%',
           height: '100%',

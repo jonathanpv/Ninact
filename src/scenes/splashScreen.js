@@ -4,6 +4,8 @@ import Constants from 'expo-constants';
 import fire from "../firebase";
 import { Component } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import DefaultBackground from '../assets/components/atoms/DefaultBackground.js';
+import DefaultButton from '../assets/components/atoms/DefaultButton.js'
 
 class ProgressBar extends Component {
 
@@ -40,24 +42,27 @@ class ProgressBar extends Component {
     })
 
     return (
-      <View style={[{flexDirection: "row", height },
-      row ? {flex: 1} : undefined ]}>
-        <View style={{ flex: 1, borderColor, borderWidth, borderRadius}}>
-          <View
-            style={[StyleSheet.absoluteFill, {
+      <View>
+        <View style={[{flexDirection: "row", height },
+        row ? {flex: 1} : undefined ]}>
+          <View style={{ flex: 1, borderColor, borderWidth, borderRadius}}>
+            <View
+              style={[StyleSheet.absoluteFill, {
               backgroundColor: fillColor }]}
-          />
-          <Animated.View
-            style={{
-              position: "absolute",
-              left: 0,
-              top: 0,
-              bottom: 0,
-              width: widthInterpolated,
-              backgroundColor: barColor
-            }}
-          />
+            />
+            <Animated.View
+              style={{
+                position: "absolute",
+                left: 0,
+                top: 0,
+                bottom: 0,
+                width: widthInterpolated,
+                backgroundColor: barColor
+              }}
+            />
+          </View>
         </View>
+      <Text>{`${this.props.progress}%`}</Text>
       </View>
     )
   }
@@ -67,9 +72,9 @@ ProgressBar.defaultProps = {
   height: 20,
 
   borderWidth: 1,
- borderRadius: 15,
- borderColor:"#B4B2DF",
- backgroundColor: "#B4B2DF",
+  borderRadius: 15,
+  borderColor:"#B4B2DF",
+  backgroundColor: "#B4B2DF",
   barColor: "#dddfb2",
   fillColor: "#B4B2DF",
   duration: 30
@@ -92,40 +97,54 @@ export default class splashScreen extends Component {
   }
 
   check() {
-    if(this.state.progress >= 100) {
-      fire.auth().onAuthStateChanged((user) => {
-        if (user) {
-          this.props.navigation.navigate('HomeScreen')
-        }
-        else
-        {
-          this.props.navigation.navigate('loginScreen')
-        }
-      });
+    if(this.state.progress >= 100)
+    {
+      return
+        <DefaultButton text='Touch to Start' onPress={this.start()} />
     }
-}
+    else
+    {
+      return
+      <ProgressBar
+        row
+        progress={this.state.progress}
+        duration={100}
+      />
+    }
+  }
 
-render() {
-  {this.check()}
+  start() {
+    fire.auth().onAuthStateChanged((user) => {
+
+      if (user) {
+        this.props.navigation.navigate('HomeScreen')
+      }
+      else
+      {
+        this.props.navigation.navigate('loginScreen')
+      }
+    });
+  }
+
+  render() {
+    let temp;
+    if (this.state.progress >= 100)
+    {
+      temp = <DefaultButton text='Touch to Start' onPress={()=>this.start()} />;
+    }
+    else
+    {
+      temp = <ProgressBar progress={this.state.progress} duration={100}/>;
+    }
     return (
       <View style={styles.container}>
-     
+        <DefaultBackground />
         <Image
-
-source={require('../assets/applogo.png' )}
-style={styles.iconstyle}
-/>
-      
-          
-        <View style={styles.progressContainer}>
-      
-         
-          <ProgressBar
-            row
-            progress={this.state.progress}
-            duration={100}
-          />
-          <Text>{`${this.state.progress}%`}</Text>
+          source={require('../assets/applogo.png' )}
+          style={{width: 350, height: 350}}
+        />
+        <View style={{width: '75%', height: 75}}>
+          {temp}
         </View>
       </View>
     );
@@ -133,40 +152,11 @@ style={styles.iconstyle}
 }
 
 const styles = StyleSheet.create({
-  container: {
-  
-  
-    justifyContent: "center",
+  container:
+  {
+    flex: 1,
+    justifyContent: "space-around",
     alignItems: "center",
-    paddingTop: 250,
-    width:"100%",
-    height:"100%",
-    backgroundColor:"#B4B2DF"
-
-  },
-imagestyle: {
-    justifyContent: "center",
-    paddingTop: 250,
-    width:"100%",
-    height:"100%",
-    backgroundColor:"#B4B2DF"
-
-  },
-  progressContainer: {
-    alignItems: "center",
-    flexDirection: "row",
-    width:"50%",
-    height:"50%",
-    backgroundColor: "#B4B2DF",
-  },
-  iconstyle:{
-    width: 200,
-    height: 200,
-    justifyContent:"center",
-    borderWidth: 1,
-    borderColor:"#B4B2DF",
-    backgroundColor: "#B4B2DF",
-    borderRadius:15,
-}
-});
-
+    backgroundColor:"transparent"
+  }
+})
