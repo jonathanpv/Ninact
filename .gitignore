@@ -64,3 +64,4 @@ web-build/
 
 # EsLint
 .eslintrc.js
+debug.log
