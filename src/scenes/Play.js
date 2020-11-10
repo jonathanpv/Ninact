@@ -22,6 +22,7 @@ class PlayRounds extends Component {
     this.state.enemy_score = this.state.enemy_score + enemy;
   }
 
+  //Determines value gained/lost between player choices
   CalculateScore() {
       if (this.state.player_choice == 1 && this.state.enemy_choice == 1) { this.IncScores(1, 1) }
       if (this.state.player_choice == 1 && this.state.enemy_choice == 2) { this.IncScores(-1, 2) }
@@ -31,11 +32,12 @@ class PlayRounds extends Component {
       this.state.rounds = this.state.rounds - 1;
       }
 
+  //Enemy AI for single player
   PlayEnemy() {
     this.state.enemy_choice = Math.floor(Math.random() * 2) + 1;
-    if (this.state.enemy_choice == 2) { alert('Stranger Chose To STEAL!') }
-    if (this.state.enemy_choice == 1) { alert('Stranger says "Yay sharing is caring!"') }
-    if (this.state.enemy_choice == 0) { alert('Um. . . something went horribly wrong') }
+    if (this.state.enemy_choice == 2) { alert('Bobby left you hanging') }
+    if (this.state.enemy_choice == 1) { alert('Bobby worked together with you') }
+    if (this.state.enemy_choice == 0) { alert('Bobby broke down') }
   }
 
   Leave() {
@@ -43,6 +45,7 @@ class PlayRounds extends Component {
     this.props.navigation.navigate('HomeScreen');
   }
 
+  //User turn Screen
   DisplayUser() {
       return (
         <View style={styles.container}>
@@ -62,6 +65,7 @@ class PlayRounds extends Component {
       );
   }
 
+  //Enemy turn Screen
   DisplayEnemy() {
     this.PlayEnemy();
     this.CalculateScore();
@@ -82,6 +86,7 @@ class PlayRounds extends Component {
     );
   }
 
+  //User results Screen
   DisplayResults() {
     let text;
     if (this.state.player_score > 0 ) {
@@ -93,6 +98,7 @@ class PlayRounds extends Component {
     else {
       text = <Text style={styles.text}>You are Uneffected</Text>
     }
+    
     return (
       <View style={styles.container}>
         <DefaultBackground/>
@@ -114,7 +120,6 @@ class PlayRounds extends Component {
   render() {
     var screen;
     this.state.rounds <= 0 ? screen = this.DisplayResults() : this.state.turn == 0 ? screen = this.DisplayUser() : screen = this.DisplayEnemy()
-
     return (screen);
   }
 }
