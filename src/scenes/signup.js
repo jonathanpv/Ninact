@@ -15,6 +15,9 @@ import Icon2 from "react-native-vector-icons/AntDesign";
 
 import fire from "../firebase";
 import "firebase/firestore"; //importing firebase components
+import DefaultBackground from '../assets/components/atoms/DefaultBackground.js';
+import DefaultButton from '../assets/components/atoms/DefaultButton.js'
+import BackButton from '../assets/components/atoms/BackButton.js'
 
 export default class signup extends Component {
   state = {
@@ -78,36 +81,31 @@ export default class signup extends Component {
   render() {
     return (
       <SafeAreaView style={styles.container}>
+        <DefaultBackground />
+        <BackButton onPress = {() => this.props.navigation.navigate('loginScreen')}/>
         <View
           style={{
             alignItems: "center",
             justifyContent: "space-between",
           }}
         >
-          <Image
-            source={require("../assets/applogo.png")}
-            style={{ width: 250, height: 250 }}
-          />
-
-          <Text style={{ fontWeight: "bold", fontSize: 25 }}>Sign Up</Text>
-
           <Input
             placeholder="First Name*"
             style={styles.txtInput}
             onChangeText={(val) => this.setState({ lastName: val })}
-            placeholderTextColor="#9134C3"
+            placeholderTextColor="#808080"
             leftIcon={<Icon2 name="user" size={24} color="white" />}
           />
           <Input
             placeholder="Last Name*"
-            placeholderTextColor="#9134C3"
+            placeholderTextColor="#808080"
             style={styles.txtInput}
             onChangeText={(val) => this.setState({ firstName: val })}
             leftIcon={<Icon2 name="user" size={24} color="white" />}
           />
           <Input
             type="email"
-            placeholderTextColor="#9134C3"
+            placeholderTextColor="#808080"
             placeholder="Enter your email*"
             style={styles.txtInput}
             onChangeText={(val) => this.setState({ email: val })}
@@ -117,7 +115,7 @@ export default class signup extends Component {
 
           <Input
             type="password"
-            placeholderTextColor="#9134C3"
+            placeholderTextColor="#808080"
             placeholder="Enter your password*"
             style={styles.txtInput}
             onChangeText={(val) => this.setState({ password: val })}
@@ -142,7 +140,7 @@ export default class signup extends Component {
           <Input
             type="password"
             placeholder="Confirm your password*"
-            placeholderTextColor="#9134C3"
+            placeholderTextColor="#808080"
             style={styles.txtInput}
             onChangeText={(val) => this.setState({ password2: val })}
             secureTextEntry={this.state.visibile}
@@ -163,10 +161,9 @@ export default class signup extends Component {
             }
           />
 
-          <Button
-            title="Sign Up"
+          <DefaultButton
+            text="Sign Up"
             onPress={() => this.btnpress()}
-            type="clear"
           />
           <Text
             style={{
@@ -178,12 +175,6 @@ export default class signup extends Component {
           >
             {this.state.message}
           </Text>
-          <Button
-            title="Sign In"
-            titleStyle={styles.txtInput}
-            onPress={() => this.props.navigation.navigate("loginScreen")}
-            type="clear"
-          />
         </View>
       </SafeAreaView>
     );
@@ -198,7 +189,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   txtInput: {
-    backgroundColor: "#B4B2DF",
+    backgroundColor: "#fff",
     height: 45,
     width: 290,
     marginVertical: 15,

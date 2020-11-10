@@ -89,7 +89,7 @@ export default class loginScreen extends Component {
             <TextInput
               //type="email"
               placeholder="Enter your email"
-              placeholderTextColor="#fff"
+              placeholderTextColor="#808080"
               style={styles.txtInput}
               onChangeText={(val) => this.setState({ email: val })}
               keyboardType="email-address"
@@ -100,7 +100,7 @@ export default class loginScreen extends Component {
               onFocus={() => this.onFocus()}
               onBlur={() => this.onBlur()}
               placeholder="Enter your password"
-              placeholderTextColor="#fff"
+              placeholderTextColor="#808080"
               style={styles.txtInput}
               onChangeText={(val) => this.setState({ password: val })}
               secureTextEntry={this.state.visibile}
