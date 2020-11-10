@@ -7,8 +7,10 @@ import loginScreen from './loginScreen';
 import signup from './signup';
 import forgotPassword from './forgotPassword';
 
+// Create a stack navigator
 const RootStack = createStackNavigator();
 
+// First navigates to splashscreen
 const RootStackScreen = () => (
     <RootStack.Navigator headerMode='none'>
         <RootStack.Screen name="SplashScreen" component={splashScreen}/>

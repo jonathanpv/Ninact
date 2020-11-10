@@ -1,19 +1,20 @@
-import React, {useRef, useState, useEffect} from 'react';
+// Imports
+import React from 'react';
 import { Text, Image,View, StyleSheet, Animated } from 'react-native';
-import Constants from 'expo-constants';
 import fire from "../firebase";
 import { Component } from 'react';
-import { useNavigation } from '@react-navigation/native';
 import DefaultBackground from '../assets/components/atoms/DefaultBackground.js';
 import DefaultButton from '../assets/components/atoms/DefaultButton.js'
 
 class ProgressBar extends Component {
 
-  componentWillMount() {
+  // Method to check useState progress will mount
+  UNSAFE_componentWillMount() {
     this.animation = new Animated.Value
     (this.props.progress)
   }
 
+  // Method to check useState progress did mount
   componentDidUpdate(prevProps, prevState) {
     if(prevProps.progress != this.props.progress) {
       Animated.timing(this.animation, {
@@ -82,6 +83,7 @@ export default class splashScreen extends Component {
     progress: 0,
   };
 
+  // Increase progress state variable here to avoid memory leak
   componentDidMount() {
     setInterval(() => {
       if(this.state.progress < 100) {

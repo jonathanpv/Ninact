@@ -1,7 +1,9 @@
+// Imports
 import React from "react";
 import { Text, StyleSheet,  View, TouchableOpacity, ImageBackground} from "react-native";
 import DefaultBackground from '../assets/components/atoms/DefaultBackground.js';
 
+// Homescreen component creation
 const HomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
@@ -30,12 +32,11 @@ const HomeScreen = ({ navigation }) => {
                 </TouchableOpacity>
             </ImageBackground>
         </View>
-
     </View>
   );
 };
 
-
+// HomeScreen Component StyleSheet
 const styles = StyleSheet.create({
   container: {
     flex: 1,

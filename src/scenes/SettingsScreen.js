@@ -1,13 +1,12 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
+// Imports
+import React from 'react';
+import { View, StyleSheet } from 'react-native';
 import firebase from '../firebase';
 import DefaultBackground from '../assets/components/atoms/DefaultBackground.js';
 import DefaultButton from '../assets/components/atoms/DefaultButton.js'
 import BackButton from '../assets/components/atoms/BackButton.js'
 
+// SettingsScreen component creation
 const SettingsScreen = ({ navigation} ) => {
   return(
     <View style={{width: '100%', height: '100%'}}>
@@ -22,12 +21,12 @@ const SettingsScreen = ({ navigation} ) => {
           navigation.navigate('loginScreen')
         }}
       />
-
       </View>
     </View>
   );
 };
 
+// Get the current user and sign out the user
 const signOutUser = async() => {
     try {
         await firebase.auth().signOut().then(() => console.log('User signed out!'));
@@ -36,6 +35,7 @@ const signOutUser = async() => {
     }
 };
 
+// Stylesheet for Settings screen
 const styles = StyleSheet.create({
     text: {
         fontSize: 50

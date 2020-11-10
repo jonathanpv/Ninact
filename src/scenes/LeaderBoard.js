@@ -1,7 +1,7 @@
+// Imports
 import React from 'react';
 import { View, Text, StyleSheet,  StatusBar, Image } from 'react-native';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 // DATA = Sample User data.. 
@@ -41,6 +41,7 @@ const DATA = [
 // Comparator to sort the DATA array of list based on the score. (Higher to Lower)
 DATA.sort((a, b) => { return b.score - a.score; })
 
+// Leaderboard component creation
 const LeaderBoard = () => {
     const renderItem = ({ item }) => (
         <View style={styles.container2}>
@@ -70,6 +71,7 @@ const LeaderBoard = () => {
     );
 };
 
+// Stylesheet needed for Leaderboard design
 const styles = StyleSheet.create({
     container: {
       flex: 1,

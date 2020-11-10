@@ -1,5 +1,4 @@
-/* eslint-disable no-undef */
-/* eslint-disable react/display-name */
+// Imports
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -12,9 +11,10 @@ import PlayRounds from './Play';
 import Profile from './Profile';
 import SettingsScreen from './SettingsScreen';
 
-
+// Create main tab navigator
 const Tab = createBottomTabNavigator();
 
+// Do not show the bottom tab bar on routes 'loginScreen' and 'PlayRounds'
 function getTabBarVisibility(route) {
     const routeName = route.state
       ? route.state.routes[route.state.index].name
@@ -27,11 +27,12 @@ function getTabBarVisibility(route) {
     return true;
 }
 
+// Bottom Tab navigation component and styles
 const MainTabScreen = () => (
     <Tab.Navigator
         initialRouteName = "HomeScreen"
         tabBarOptions={{
-          style: { height: 70 }
+          style: { height: 70, backgroundColor: '#fff' }
         }}
       >
         <Tab.Screen
@@ -93,6 +94,8 @@ const MainTabScreen = () => (
 
 export default MainTabScreen;
 
+
+// Navigation Stack for inner homestack components
 const HomeStack = createStackNavigator();
 const HomeStackScreen = () => (
       <HomeStack.Navigator screenOptions={{

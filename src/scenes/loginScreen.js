@@ -3,18 +3,12 @@ import {
   Text,
   View,
   StyleSheet,
-  SafeAreaView,
   TextInput,
-  Alert,
-  Image,
-
 } from "react-native";
 
 import Icon from "react-native-vector-icons/FontAwesome";
-import { Input, Button } from "react-native-elements";
 import fire from "../firebase";
-import "firebase/firestore"; //importing firestor
-import HomeScreen from "./HomeScreen";
+import "firebase/firestore"; // importing firestore
 import DefaultBackground from '../assets/components/atoms/DefaultBackground.js';
 import DefaultButton from '../assets/components/atoms/DefaultButton.js'
 
