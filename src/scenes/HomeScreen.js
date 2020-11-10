@@ -1,11 +1,13 @@
 import React from "react";
 import { Text, StyleSheet,  View, TouchableOpacity, ImageBackground} from "react-native";
+import DefaultBackground from '../assets/components/atoms/DefaultBackground.js';
 
 const HomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
+      <DefaultBackground/>
         <View>
-            <ImageBackground 
+            <ImageBackground
                 source={require('../assets/friendlisticon.png' )}
                 style={{ width: 200, height: 200}}>
                 <TouchableOpacity
@@ -17,7 +19,7 @@ const HomeScreen = ({ navigation }) => {
             </ImageBackground>
         </View>
         <View>
-            <ImageBackground 
+            <ImageBackground
                 source={require('../assets/leaderboardicon.png' )}
                 style={{ width: 200, height: 200 }}>
                 <TouchableOpacity
@@ -37,8 +39,8 @@ const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    display: "flex", 
-    flexDirection: "row" 
+    display: "flex",
+    flexDirection: "row"
   },
   friendListButtonStyle: {
     position: "absolute",
@@ -66,8 +68,7 @@ const styles = StyleSheet.create({
     marginLeft: 130,
     justifyContent: "center"
   }
-  
+
 });
 
 export default HomeScreen;
-

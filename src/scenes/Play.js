@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, Button, Alert } from 'react-native';
+import DefaultBackground from '../assets/components/atoms/DefaultBackground.js';
+import DefaultButton from '../assets/components/atoms/DefaultButton.js'
+import BackButton from '../assets/components/atoms/BackButton.js'
 
 class PlayRounds extends Component {
   constructor() {
@@ -35,34 +38,24 @@ class PlayRounds extends Component {
     if (this.state.enemy_choice == 0) { alert('Um. . . something went horribly wrong') }
   }
 
-  button() {
-    Alert.alert(
-      'Alert Title',
-      'Alert message here...',
-      [
-        {text: 'NO', onPress: () => console.warn('NO Pressed'), style: 'cancel'},
-        {text: 'YES', onPress: () => console.warn('YES Pressed')},
-      ]
-    );
+  Leave() {
+    this.setState({turn: 0, rounds: 10});
+    this.props.navigation.navigate('HomeScreen');
   }
 
   DisplayUser() {
       return (
         <View style={styles.container}>
-            <Text style={styles.text}>Steal or Collaborate</Text>
+            <DefaultBackground/>
+            <BackButton onPress={() => this.Leave()}/>
+
             <View style={styles.container}>
-                <TouchableOpacity style={styles.button} onPress={()=>{this.state.player_choice = 2; this.setState({ turn: 1})} }>
-                    <Image source={require('../assets/stealbtn.png')} style={{ width: 300, height: 63 }} />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.button} onPress={()=>{this.state.player_choice = 1; this.setState({ turn: 1})} }>
-                    <Image source={require('../assets/collabbtn.png')} style={{ width: 300, height: 63 }} />
-                </TouchableOpacity>
-                <View style={{ paddingBottom: 50, width: 100, marginTop: 250 }}>
-                    <Button
-                        title="Exit"
-                        onPress={() => this.props.navigation.goBack() }
-                        color="#8E97FD"
-                    />
+                <View style={{flex: 4}}>
+
+                </View>
+                <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-evenly'}}>
+                <DefaultButton text='Cheat' onPress={()=>{this.state.player_choice = 2; this.setState({ turn: 1})} }/>
+                <DefaultButton text='Collaborate' onPress={()=>{this.state.player_choice = 1; this.setState({ turn: 1})} }/>
                 </View>
             </View>
         </View>
@@ -74,32 +67,46 @@ class PlayRounds extends Component {
     this.CalculateScore();
     return (
       <View style={styles.container}>
-        <Text style={styles.text}>Steal or Collaborate</Text>
-        <Button
-          onPress={() => this.setState({turn : 0}) }
-          title="Next"
-          color="#841584"
-          />
+          <DefaultBackground/>
+          <BackButton onPress={() => this.Leave()}/>
+
+          <View style={styles.container}>
+              <View style={{flex: 4}}>
+
+              </View>
+              <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-evenly'}}>
+              <DefaultButton onPress={() => this.setState({turn : 0}) } text="Next"/>
+              </View>
+          </View>
       </View>
     );
   }
 
-  Reset() {
-    this.setState({turn: 0, rounds: 10});
-    this.props.navigation.goBack();
-  }
-
   DisplayResults() {
+    let text;
+    if (this.state.player_score > 0 ) {
+      text = <Text style={styles.text}>You Earned {this.state.player_score} Coin</Text>
+    }
+    else if (this.state.player_score < 0 ) {
+      text = <Text style={styles.text}>You Lost {this.state.player_score * -1} Coin</Text>
+    }
+    else {
+      text = <Text style={styles.text}>You are Uneffected</Text>
+    }
     return (
       <View style={styles.container}>
-        <Text style={styles.text}>Steal or Collaborate</Text>
-        <Text style={styles.text}>Your Score is {this.state.player_score}</Text>
-        <Text style={styles.text}>Stranger Score is {this.state.enemy_score}</Text>
-        <Button
-          onPress={ () => this.Reset() }
-          title="Next"
-          color="#841584"
-          />
+        <DefaultBackground/>
+        <BackButton onPress={() => this.Leave()}/>
+
+        <View style={styles.container}>
+            <View style={{flex: 4, backgroundColor: '#fff', margin: 30}}>
+                {text}
+
+            </View>
+            <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-evenly'}}>
+            <DefaultButton onPress={() => this.Leave() } text="Next"/>
+            </View>
+        </View>
       </View>
     );
   }
@@ -116,9 +123,6 @@ class PlayRounds extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
     },
     text: {
         fontSize: 40

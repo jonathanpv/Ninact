@@ -12,6 +12,7 @@ import PlayRounds from './Play';
 import Profile from './Profile';
 import SettingsScreen from './SettingsScreen';
 
+
 const Tab = createBottomTabNavigator();
 
 function getTabBarVisibility(route) {
@@ -86,7 +87,6 @@ const MainTabScreen = () => (
                     source={require('../assets/navbar/settings.png')} />
                 );
                 },
-                tabBarVisible : false,
             }} />
     </Tab.Navigator>
 );
@@ -97,8 +97,9 @@ const HomeStack = createStackNavigator();
 const HomeStackScreen = () => (
       <HomeStack.Navigator screenOptions={{
         headerStyle: {
-            backgroundColor: '#1f65ff',
+            backgroundColor: 'transparent'
         },
+        headerShown: false,
         headerTintColor: '#fff',
         headerTitleStyle: {
             fontWeight: 'bold'

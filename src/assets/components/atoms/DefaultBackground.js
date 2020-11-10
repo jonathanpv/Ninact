@@ -18,8 +18,9 @@ export default class DefaultBackground extends React.Component
         style={{
           width: '100%',
           height: '100%',
-          backgroundColor: '#000',
+          backgroundColor: 'transparent',
           position: 'absolute',
+          top: 0
         }}
 
         imageStyle={{

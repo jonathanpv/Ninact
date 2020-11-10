@@ -53,8 +53,9 @@ export default class forgotPassword extends Component {
     return (
       <SafeAreaView style={styles.container}>
         <DefaultBackground/>
-        <BackButton onPress = {() => navigation.navigate('loginScreen')}/>
+        <BackButton onPress = {() => {navigation.navigate('loginScreen')}}/>
         <View style={{
+                flex: 1,
                 alignItems: "center",
                 justifyContent: "space-between",
               }}
@@ -84,13 +85,7 @@ export default class forgotPassword extends Component {
                   alignItems: "center",
                 }}
           >
-            <View style={{
-                    width: 100,
-                    height: 1,
-                    backgroundColor: "lightgrey",
-                  }}
-            />
-              <Text style={styles.txtst}>
+              <Text style={{color: '#808080', fontSize: 16}}>
                 {this.state.message}
               </Text>
               <View style={{
@@ -99,20 +94,20 @@ export default class forgotPassword extends Component {
                       backgroundColor: "lightgrey",
                     }}
               />
-              </View>
             </View>
-        </SafeAreaView>
+          </View>
+      </SafeAreaView>
     );
 }
 }
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "#B4B2DF",
-        flex: 1,
+        backgroundColor: "transparent"
     },
     txtInput: {
 
@@ -124,7 +119,7 @@ const styles = StyleSheet.create({
 
     },
     txtst:{
-        color: "#9134C3",
+        color: "#808080",
         margin: 15,
         fontSize: 16,
 

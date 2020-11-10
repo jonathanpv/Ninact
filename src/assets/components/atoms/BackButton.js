@@ -25,37 +25,19 @@ export default class BackButton extends React.Component
 const styles= StyleSheet.create({
   view:
   {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: 100,
-    height: 100,
-    backgroundColor: 'transparent',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'transparent'
+    margin: 20,
+    width: '100%',
+    height: 60,
   },
   img:
   {
     width: 60,
     height: 60,
-    resizeMode: 'contain',
+    resizeMode: 'cover',
   },
   touchable:
   {
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  text:
-  {
-    flex: 1,
-    fontSize: 20,
     position: 'absolute',
-    top: 16,
-    fontWeight: 'bold',
-    fontFamily: 'Cochin Bold',
-    alignSelf: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'transparent'
+    left: 0
   }
 })

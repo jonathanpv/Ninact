@@ -120,7 +120,7 @@ export default class loginScreen extends Component {
               />
             <DefaultButton
               text='Forgot Password'
-              onPress={() => navigation.push("forgotPassword")}
+              onPress={() => {navigation.push("forgotPassword")}}
               />
             <DefaultButton
               text="Sign Up"
@@ -128,7 +128,7 @@ export default class loginScreen extends Component {
             />
             <Text style={{
               fontSize: 18,
-              color: "#9134C3",
+              color: "#808080",
               alignContent: "center"
               }}
             >
