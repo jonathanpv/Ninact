@@ -13,7 +13,7 @@ class PlayRounds extends Component {
       enemy_score: 0,
       player_choice: 0,
       enemy_choice: 0,
-      turn: 0
+      screen: 0
     };
   }
 
@@ -24,9 +24,9 @@ class PlayRounds extends Component {
 
   //Determines value gained/lost between player choices
   CalculateScore() {
-      if (this.state.player_choice == 1 && this.state.enemy_choice == 1) { this.IncScores(1, 1) }
-      if (this.state.player_choice == 1 && this.state.enemy_choice == 2) { this.IncScores(-1, 2) }
-      if (this.state.player_choice == 2 && this.state.enemy_choice == 1) { this.IncScores(2, -1) }
+      if (this.state.player_choice == 1 && this.state.enemy_choice == 1) { this.IncScores(2, 2) }
+      if (this.state.player_choice == 1 && this.state.enemy_choice == 2) { this.IncScores(0, 3) }
+      if (this.state.player_choice == 2 && this.state.enemy_choice == 1) { this.IncScores(3, 0) }
       this.player_choice == 0;
       this.enemy_choice == 0;
       this.state.rounds = this.state.rounds - 1;
@@ -35,31 +35,97 @@ class PlayRounds extends Component {
   //Enemy AI for single player
   PlayEnemy() {
     this.state.enemy_choice = Math.floor(Math.random() * 2) + 1;
-    if (this.state.enemy_choice == 2) { alert('Bobby left you hanging') }
-    if (this.state.enemy_choice == 1) { alert('Bobby worked together with you') }
-    if (this.state.enemy_choice == 0) { alert('Bobby broke down') }
+    if (this.state.enemy_choice == 2) {
+      alert('Bobby left you hanging');
+    } else if (this.state.enemy_choice == 1) {
+      alert('Bobby worked together with you');
+      this.state.enemy_score = this.state.enemy_score - 1;
+    } else if (this.state.enemy_choice == 0) {
+      alert('Bobby broke down');
+    }
   }
 
   Leave() {
-    this.setState({turn: 0, rounds: 10});
+    this.setState({turn: 0, rounds: 10, player_choice: 0, enemy_choice: 0, player_score: 0, enemy_score: 0});
     this.props.navigation.navigate('HomeScreen');
   }
 
   //User turn Screen
   DisplayUser() {
+    let emoji;
+    let button;
+    if (this.state.player_choice == 2 ) {
+      emoji = <Image
+        source={cheatEmoji[Math.floor(Math.random() * 8)]}
+        style={{
+          width: 128,
+          height: 128,
+          backgroundColor: 'transparent'
+        }}
+        imageStyle={{
+          resizeMode: 'cover'
+        }}
+      />
+      button = <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-evenly'}}>
+          <DefaultButton text='Next' onPress={()=>{this.setState({ screen: 1 })} }/>
+      </View>
+    }
+    else if (this.state.player_choice == 1 ) {
+      emoji = <Image
+        source={collabEmoji[Math.floor(Math.random() * 8)]}
+        style={{
+          width: 128,
+          height: 128,
+          backgroundColor: 'transparent'
+        }}
+        imageStyle={{
+          resizeMode: 'cover'
+        }}
+      />
+      button = <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-evenly'}}>
+          <DefaultButton text='Next' onPress={()=>{this.setState({screen: 1})} }/>
+      </View>
+    }
+    else {
+      let new_score = this.state.player_score - 1;
+      button = <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-evenly'}}>
+          <DefaultButton text='Cheat' onPress={()=>{this.setState({player_choice: 2})}}/>
+          <DefaultButton text='Collaborate' onPress={()=>{this.setState({player_choice: 1, player_score: new_score})}}/>
+      </View>
+    }
       return (
         <View style={styles.container}>
             <DefaultBackground/>
             <BackButton onPress={() => this.Leave()}/>
 
             <View style={styles.container}>
-                <View style={{flex: 4}}>
 
+                <View style={{flex: 4, flexDirection: 'row', alignContent: 'center'}}>
+                    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+                        <Image
+                            source={require('../assets/art/character/Base_1024.png')}
+                            style={{
+                              width: 256,
+                              height: 256,
+                              backgroundColor: 'transparent'
+                            }}
+                            imageStyle={{
+                              resizeMode: 'cover'
+                            }}
+                        />
+                    </View>
+
+                    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+                        <View style={{flex: 1, alignItems: 'center', justifyContent: 'flex-end', margin: 10}}>
+                          {emoji}
+                        </View>
+                        <View style={{flex: 1, alignItems: 'center', justifyContent: 'flex-start', margin: 10}}>
+                          {<Text style={styles.text}> {this.state.player_score} </Text>}
+                        </View>
+                    </View>
                 </View>
-                <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-evenly'}}>
-                <DefaultButton text='Cheat' onPress={()=>{this.state.player_choice = 2; this.setState({ turn: 1})} }/>
-                <DefaultButton text='Collaborate' onPress={()=>{this.state.player_choice = 1; this.setState({ turn: 1})} }/>
-                </View>
+
+                {button}
             </View>
         </View>
       );
@@ -68,18 +134,67 @@ class PlayRounds extends Component {
   //Enemy turn Screen
   DisplayEnemy() {
     this.PlayEnemy();
-    this.CalculateScore();
+    let emoji;
+    if (this.state.enemy_choice == 2 ) {
+        emoji = <Image
+          source={cheatEmoji[Math.floor(Math.random() * 8)]}
+          style={{
+            width: 128,
+            height: 128,
+            backgroundColor: 'transparent'
+          }}
+          imageStyle={{
+            resizeMode: 'cover'
+          }}
+        />
+    }
+    else if (this.state.enemy_choice == 1) {
+        emoji = <Image
+          source={collabEmoji[Math.floor(Math.random() * 8)]}
+          style={{
+            width: 128,
+            height: 128,
+            backgroundColor: 'transparent'
+          }}
+          imageStyle={{
+            resizeMode: 'cover'
+          }}
+        />
+    }
     return (
       <View style={styles.container}>
           <DefaultBackground/>
           <BackButton onPress={() => this.Leave()}/>
 
           <View style={styles.container}>
-              <View style={{flex: 4}}>
+
+              <View style={{flex: 4, flexDirection: 'row'}}>
+                  <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+                      <View style={{flex: 1, alignItems: 'center', justifyContent: 'flex-end', margin: 10}}>
+                        {emoji}
+                      </View>
+                      <View style={{flex: 1, alignItems: 'center', justifyContent: 'flex-start', margin: 10}}>
+                        {<Text style={styles.text}> {this.state.enemy_score} </Text>}
+                      </View>
+                  </View>
+                  <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+                      <Image
+                          source={require('../assets/art/character/Base_1024.png')}
+                          style={{
+                            width: 256,
+                            height: 256,
+                            backgroundColor: 'transparent'
+                          }}
+                          imageStyle={{
+                            resizeMode: 'cover'
+                          }}
+                      />
+                  </View>
 
               </View>
+
               <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-evenly'}}>
-              <DefaultButton onPress={() => this.setState({turn : 0}) } text="Next"/>
+                  <DefaultButton onPress={() => this.setState({screen : 2}) } text="Next"/>
               </View>
           </View>
       </View>
@@ -88,30 +203,135 @@ class PlayRounds extends Component {
 
   //User results Screen
   DisplayResults() {
-    let text;
-    if (this.state.player_score > 0 ) {
-      text = <Text style={styles.text}>You Earned {this.state.player_score} Coin</Text>
+    this.CalculateScore();
+    let player;
+    let enemy;
+
+    if (this.state.player_choice == 1 && this.state.enemy_choice == 1) {
+      player = 2;
+      enemy = 2;
+    } else if (this.state.player_choice == 1 && this.state.enemy_choice == 2) {
+      player = 0;
+      enemy = 3;
+    } else if (this.state.player_choice == 2 && this.state.enemy_choice == 1) {
+      player = 3;
+      enemy = 0;
+    } else {
+      player = 0;
+      enemy = 0;
     }
-    else if (this.state.player_score < 0 ) {
-      text = <Text style={styles.text}>You Lost {this.state.player_score * -1} Coin</Text>
+
+    let button;
+    if (this.state.rounds < 0) {
+      button = <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-evenly'}}>
+            <DefaultButton onPress={() => this.setState({screen: 3}) } text='Next'/>
+        </View>
+    } else {
+      button = <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-evenly'}}>
+            <DefaultButton onPress={() => this.setState( {player_choice: 0, enemy_choice: 0, screen: 0} )} text='Next'/>
+        </View>
     }
-    else {
-      text = <Text style={styles.text}>You are Uneffected</Text>
-    }
-    
+
     return (
       <View style={styles.container}>
         <DefaultBackground/>
         <BackButton onPress={() => this.Leave()}/>
 
         <View style={styles.container}>
-            <View style={{flex: 4, backgroundColor: '#fff', margin: 30}}>
-                {text}
+            <View style={{flex: 4, flexDirection: 'row'}}>
+                <View style={{flex: 1}}>
+                    <View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
+                      <Text style={styles.text}> +{player} </Text>
+                    </View>
+                    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+                        <Image
+                            source={require('../assets/art/character/Base_1024.png')}
+                            style={{
+                              width: 256,
+                              height: 256,
+                              backgroundColor: 'transparent'
+                            }}
+                            imageStyle={{
+                              resizeMode: 'cover'
+                            }}
+                        />
+                    </View>
+                </View>
+                <View style={{flex: 1}}>
+                    <View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
+                      <Text style={styles.text}> +{enemy} </Text>
+                    </View>
+                    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+                        <Image
+                            source={require('../assets/art/character/Base_1024.png')}
+                            style={{
+                              width: 256,
+                              height: 256,
+                              backgroundColor: 'transparent'
+                            }}
+                            imageStyle={{
+                              resizeMode: 'cover'
+                            }}
+                        />
+                    </View>
+                </View>
+
+            </View>
+            {button}
+        </View>
+      </View>
+    );
+  }
+
+  DisplayFinal() {
+    return (
+      <View style={styles.container}>
+        <DefaultBackground/>
+        <BackButton onPress={() => this.Leave()}/>
+
+        <View style={styles.container}>
+            <View style={{flex: 4, flexDirection: 'row'}}>
+                <View style={{flex: 1}}>
+                    <View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
+                      <Text style={styles.text}> {this.state.player_score} </Text>
+                    </View>
+                    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+                        <Image
+                            source={require('../assets/art/character/Base_1024.png')}
+                            style={{
+                              width: 256,
+                              height: 256,
+                              backgroundColor: 'transparent'
+                            }}
+                            imageStyle={{
+                              resizeMode: 'cover'
+                            }}
+                        />
+                    </View>
+                </View>
+                <View style={{flex: 1}}>
+                    <View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
+                      <Text style={styles.text}> {this.state.enemy_score} </Text>
+                    </View>
+                    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+                        <Image
+                            source={require('../assets/art/character/Base_1024.png')}
+                            style={{
+                              width: 256,
+                              height: 256,
+                              backgroundColor: 'transparent'
+                            }}
+                            imageStyle={{
+                              resizeMode: 'cover'
+                            }}
+                        />
+                    </View>
+                </View>
 
             </View>
             <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-evenly'}}>
-            <DefaultButton onPress={() => this.Leave() } text="Next"/>
-            </View>
+                  <DefaultButton onPress={() => this.Leave() } text='Finish'/>
+              </View>
         </View>
       </View>
     );
@@ -119,7 +339,14 @@ class PlayRounds extends Component {
 
   render() {
     var screen;
-    this.state.rounds <= 0 ? screen = this.DisplayResults() : this.state.turn == 0 ? screen = this.DisplayUser() : screen = this.DisplayEnemy()
+    if (this.state.screen == 0)
+      screen = this.DisplayUser();
+    else if (this.state.screen == 1)
+      screen = this.DisplayEnemy();
+    else if (this.state.screen == 2)
+      screen = this.DisplayResults();
+    else if (this.state.screen == 3)
+      screen = this.DisplayFinal();
     return (screen);
   }
 }
@@ -131,18 +358,29 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: 40
-    },
-    button: {
-        backgroundColor: '#8E97FD',
-        borderRadius: 20,
-        padding: 10,
-        marginBottom: 20,
-        marginTop: 20,
-        shadowColor: '#8E97FD',
-        shadowOffset: { width: 0, height: 5 },
-        shadowRadius: 10,
-        shadowOpacity: 0.35,
-      }
+    }
 });
+
+const collabEmoji = [
+  require('../assets/art/emoji/Amazed.png'),
+  require('../assets/art/emoji/Baby.png'),
+  require('../assets/art/emoji/Begging.png'),
+  require('../assets/art/emoji/Cool.png'),
+  require('../assets/art/emoji/Excited.png'),
+  require('../assets/art/emoji/Expecting.png'),
+  require('../assets/art/emoji/Satisfied.png'),
+  require('../assets/art/emoji/Silly.png')
+]
+
+const cheatEmoji = [
+  require('../assets/art/emoji/Baby.png'),
+  require('../assets/art/emoji/Bored.png'),
+  require('../assets/art/emoji/Cool.png'),
+  require('../assets/art/emoji/Disinterested.png'),
+  require('../assets/art/emoji/Satisfied.png'),
+  require('../assets/art/emoji/Silly.png'),
+  require('../assets/art/emoji/Sleepy.png'),
+  require('../assets/art/emoji/Tired.png')
+]
 
 export default PlayRounds;

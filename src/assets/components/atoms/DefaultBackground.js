@@ -14,7 +14,9 @@ export default class DefaultBackground extends React.Component
     super();
     this.state = {
       circles: [],
-      numCircles: 5
+      numCircles: 3,
+      triangles: [],
+      numTriangles: 3
     }
   }
 
@@ -29,8 +31,25 @@ export default class DefaultBackground extends React.Component
     }
   }
 
+  CreateTriangles() {
+    for ( let i = 0; i < this.state.numTriangles; i++)
+    {
+      this.state.triangles.push(
+        <View key = {i}>
+          <Triangle/>
+        </View>
+      )
+    }
+  }
+
   RenderCircles() {
     return this.state.circles.map((data) => {
+      return (data.render())
+    })
+  }
+
+  RenderTriangles(){
+    return this.state.triangles.map((data) => {
       return (data.render())
     })
   }
@@ -39,6 +58,9 @@ export default class DefaultBackground extends React.Component
   {
     if (this.state.circles.length == 0)
       this.CreateCircles();
+
+    if (this.state.triangles.length == 0)
+      this.CreateTriangles();
 
     return (
       <ImageBackground
@@ -58,6 +80,7 @@ export default class DefaultBackground extends React.Component
         }}
       >
         {this.state.circles}
+        {this.state.triangles}
       </ImageBackground>
     );
   }
@@ -79,9 +102,13 @@ class Circle extends React.Component
   InitiateVal()
   {
     this.state.size = Math.floor(Math.random() * 400) + 150;
-    this.state.x = Math.floor(Math.random() * Dimensions.get('window').width) - 100;
-    this.state.y = Math.floor(Math.random() * Dimensions.get('window').height) - 100;
-    this.state.opacity = (Math.random() * 0.3) + 0.1;
+    Math.random();
+    this.state.x = Math.floor(Math.random() * Dimensions.get('window').width);
+    Math.random();
+    this.state.y = Math.floor(Math.random() * Dimensions.get('window').height);
+    Math.random();
+    this.state.opacity = (Math.random() * 0.25) + 0.05;
+    Math.random();
     this.state.color = colors[Math.floor(Math.random() * 3)];
   }
 
@@ -110,18 +137,65 @@ class Circle extends React.Component
   }
 }
 
+class Triangle extends React.Component
+{
+  constructor() {
+    super();
+    this.state = {
+      size: 0,
+      color: '#000',
+      opacity: 0,
+      x: 0,
+      y: 0
+    }
+  }
+
+  InitiateVal()
+  {
+    Math.random();
+    this.state.size = Math.floor(Math.random() * 300) + 180;
+    Math.random();
+    this.state.x = Math.floor(Math.random() * Dimensions.get('window').width);
+    Math.random();
+    this.state.y = Math.floor(Math.random() * Dimensions.get('window').height);
+    Math.random();
+    this.state.opacity = (Math.random() * 0.25) + 0.05;
+    Math.random();
+    this.state.color = colors[Math.floor(Math.random() * 3)];
+  }
+
+  DisplayTriangle() {
+    if ( this.state.size == 0 )
+    {
+      this.InitiateVal();
+    }
+    return(
+    <View style={{
+      width: 0,
+      height: 0,
+      position: 'absolute',
+      top: this.state.y,
+      left: this.state.x,
+      borderStyle: 'solid',
+      borderLeftWidth: this.state.size/2,
+      borderRightWidth: this.state.size/2,
+      borderBottomWidth: this.state.size,
+      backgroundColor: 'transparent',
+      borderLeftColor: 'transparent',
+      borderRightColor: 'transparent',
+      borderBottomColor: this.state.color,
+      opacity: this.state.opacity
+    }}>
+    </View>
+    );
+  }
+
+  render() {
+    return (this.DisplayTriangle());
+  }
+}
 const colors=[
   '#80ecd8',
   '#8fcfe3',
-  '#ffffff',
+  '#e0e0e0'
 ]
-
-//Wanted random shapes to appear but oh well
-const styles= StyleSheet.create({
-  circle: {
-      width: 100,
-      height: 100,
-      borderRadius: 100/2,
-      backgroundColor: '#8fcfe3'
-  }
-})
