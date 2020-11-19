@@ -26,7 +26,7 @@ const styles= StyleSheet.create({
   view:
   {
     margin: 20,
-    width: '100%',
+    width: '30%',
     height: 60,
   },
   img:
