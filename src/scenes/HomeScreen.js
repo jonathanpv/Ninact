@@ -1,37 +1,56 @@
 // Imports
-import React from "react";
-import { Text, StyleSheet,  View, TouchableOpacity, ImageBackground} from "react-native";
-import DefaultBackground from '../assets/components/atoms/DefaultBackground.js';
-
+import React, { useEffect } from "react";
+import {
+  Text,
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  ImageBackground,
+} from "react-native";
+import DefaultBackground from "../assets/components/atoms/DefaultBackground.js";
+import fire from "../firebase";
 // Homescreen component creation
 const HomeScreen = ({ navigation }) => {
+  // useEffect(() => {
+  //   console.log("USEEFFECT");
+  //   fire
+  //     .firestore()
+  //     .collection("user")
+  //     .doc(fire.auth().currentUser.uid.toString())
+  //     .set({
+  //       try: "DO",
+  //     });
+  // }, []);
+
   return (
     <View style={styles.container}>
-      <DefaultBackground/>
-        <View>
-            <ImageBackground
-                source={require('../assets/friendlisticon.png' )}
-                style={{ width: 200, height: 200}}>
-                <TouchableOpacity
-                    style={styles.friendListButtonStyle}
-                    onPress={() => navigation.push('FriendList')}
-                >
-                    <Text style={{color: "black"}}>Go</Text>
-                </TouchableOpacity>
-            </ImageBackground>
-        </View>
-        <View>
-            <ImageBackground
-                source={require('../assets/leaderboardicon.png' )}
-                style={{ width: 200, height: 200 }}>
-                <TouchableOpacity
-                    style={styles.leaderboardButtonStyle}
-                    onPress={() => navigation.push('LeaderBoard')}
-                >
-                    <Text style={{color: "white"}}>Go</Text>
-                </TouchableOpacity>
-            </ImageBackground>
-        </View>
+      <DefaultBackground />
+      <View>
+        <ImageBackground
+          source={require("../assets/friendlisticon.png")}
+          style={{ width: 200, height: 200 }}
+        >
+          <TouchableOpacity
+            style={styles.friendListButtonStyle}
+            onPress={() => navigation.push("FriendList")}
+          >
+            <Text style={{ color: "black" }}>Go</Text>
+          </TouchableOpacity>
+        </ImageBackground>
+      </View>
+      <View>
+        <ImageBackground
+          source={require("../assets/leaderboardicon.png")}
+          style={{ width: 200, height: 200 }}
+        >
+          <TouchableOpacity
+            style={styles.leaderboardButtonStyle}
+            onPress={() => navigation.push("LeaderBoard")}
+          >
+            <Text style={{ color: "white" }}>Go</Text>
+          </TouchableOpacity>
+        </ImageBackground>
+      </View>
     </View>
   );
 };
@@ -41,7 +60,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     display: "flex",
-    flexDirection: "row"
+    flexDirection: "row",
   },
   friendListButtonStyle: {
     position: "absolute",
@@ -54,7 +73,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     marginTop: 170,
     marginLeft: 130,
-    justifyContent: "center"
+    justifyContent: "center",
   },
   leaderboardButtonStyle: {
     position: "absolute",
@@ -67,9 +86,8 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
     marginTop: 170,
     marginLeft: 130,
-    justifyContent: "center"
-  }
-
+    justifyContent: "center",
+  },
 });
 
 export default HomeScreen;

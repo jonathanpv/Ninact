@@ -4,6 +4,8 @@ import {
   View,
   StyleSheet,
   TextInput,
+  SafeAreaView,
+  ScrollView,
 } from "react-native";
 
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -11,6 +13,7 @@ import fire from "../firebase";
 import "firebase/firestore"; // importing firestore
 import DefaultBackground from '../assets/components/atoms/DefaultBackground.js';
 import DefaultButton from '../assets/components/atoms/DefaultButton.js'
+
 
 export default class loginScreen extends Component {
   state = {
@@ -71,66 +74,75 @@ export default class loginScreen extends Component {
   render() {
     const { navigation } = this.props;
     return (
-      <View style={styles.container}>
-        <DefaultBackground />
-        <View style={{
-            alignItems: "center",
-            justifyContent: "center",
-            flex: 1
-          }}
-        >
-          <View style={{alignItems: 'center', justifyContent: 'flex-end', flex: 1}}>
-            <TextInput
-              //type="email"
-              placeholder="Enter your email"
-              placeholderTextColor="#808080"
-              style={styles.txtInput}
-              onChangeText={(val) => this.setState({ email: val })}
-              keyboardType="email-address"
-              leftIcon={<Icon name="user" size={24} color="white" />}
-              />
-            <TextInput
-              //type="password"
-              onFocus={() => this.onFocus()}
-              onBlur={() => this.onBlur()}
-              placeholder="Enter your password"
-              placeholderTextColor="#808080"
-              style={styles.txtInput}
-              onChangeText={(val) => this.setState({ password: val })}
-              secureTextEntry={this.state.visibile}
-              //leftIcon={<Icon name="lock" size={24} color="white" />}
-              //rightIcon ={<Icon name ="eye" size={24} color="white"onPress={() => {
-              //  if (!this.state.visibile) {
-              //    return this.setState({ visibile: true });
-              //  } else {
-              //    return this.setState({ visibile: false });
-              //  }}}/>}
-            />
-          </View>
-          <View style={{alignItems: 'center', justifyContent: 'flex-start', flex: 1}}>
-            <DefaultButton
-              text="Sign In"
-              onPress={() => this.btnpress()}
-              />
-            <DefaultButton
-              text='Forgot Password'
-              onPress={() => {navigation.push("forgotPassword")}}
-              />
-            <DefaultButton
-              text="Sign Up"
-              onPress={() => this.props.navigation.navigate("signUp")}
-            />
-            <Text style={{
-              fontSize: 18,
-              color: "#808080",
-              alignContent: "center"
-              }}
-            >
-          {this.state.message}
-            </Text>
-          </View>
-        </View>
-      </View>
+      <SafeAreaView style={{ flex: 1 }}>
+         <ScrollView contentContainerStyle={{ flexGrow: 1 ,backgroundColor:"red"}}>
+           <View style={{backgroundColor:"blue"}}>
+
+           </View>
+         </ScrollView>
+
+      </SafeAreaView>
+      
+      // <View style={styles.container}>
+      //   <DefaultBackground />
+      //   <View style={{
+      //       alignItems: "center",
+      //       justifyContent: "center",
+      //       flex: 1
+      //     }}
+      //   >
+      //     <View style={{alignItems: 'center', justifyContent: 'flex-end', flex: 1}}>
+      //       <TextInput
+      //         //type="email"
+      //         placeholder="Enter your email"
+      //         placeholderTextColor="#808080"
+      //         style={styles.txtInput}
+      //         onChangeText={(val) => this.setState({ email: val })}
+      //         keyboardType="email-address"
+      //         leftIcon={<Icon name="user" size={24} color="white" />}
+      //         />
+      //       <TextInput
+      //         //type="password"
+      //         onFocus={() => this.onFocus()}
+      //         onBlur={() => this.onBlur()}
+      //         placeholder="Enter your password"
+      //         placeholderTextColor="#808080"
+      //         style={styles.txtInput}
+      //         onChangeText={(val) => this.setState({ password: val })}
+      //         secureTextEntry={this.state.visibile}
+      //         //leftIcon={<Icon name="lock" size={24} color="white" />}
+      //         //rightIcon ={<Icon name ="eye" size={24} color="white"onPress={() => {
+      //         //  if (!this.state.visibile) {
+      //         //    return this.setState({ visibile: true });
+      //         //  } else {
+      //         //    return this.setState({ visibile: false });
+      //         //  }}}/>}
+      //       />
+      //     </View>
+      //     <View style={{alignItems: 'center', justifyContent: 'flex-start', flex: 1}}>
+      //       <DefaultButton
+      //         text="Sign In"
+      //         onPress={() => this.btnpress()}
+      //         />
+      //       <DefaultButton
+      //         text='Forgot Password'
+      //         onPress={() => {navigation.push("forgotPassword")}}
+      //         />
+      //       <DefaultButton
+      //         text="Sign Up"
+      //         onPress={() => this.props.navigation.navigate("signUp")}
+      //       />
+      //       <Text style={{
+      //         fontSize: 18,
+      //         color: "#808080",
+      //         alignContent: "center"
+      //         }}
+      //       >
+      //     {this.state.message}
+      //       </Text>
+      //     </View>
+      //   </View>
+      // </View>
     );
   }
 }

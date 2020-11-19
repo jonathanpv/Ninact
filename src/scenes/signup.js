@@ -8,6 +8,7 @@ import {
   TextInput,
   Image,
   Alert,
+  TouchableOpacity,
 } from "react-native";
 import { Input, Button } from "react-native-elements";
 import Icon from "react-native-vector-icons/Fontisto";
@@ -19,7 +20,7 @@ import DefaultBackground from "../assets/components/atoms/DefaultBackground.js";
 import DefaultButton from "../assets/components/atoms/DefaultButton.js";
 import BackButton from "../assets/components/atoms/BackButton.js";
 import { ScrollView } from "react-native-gesture-handler";
-import { Thumbnail } from "native-base";
+//import { Thumbnail } from "native-base";
 
 export default class signup extends Component {
   state = {
@@ -37,26 +38,20 @@ export default class signup extends Component {
     fire
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .then((u) => {
-        this.setState({
-          message: " Email sucessfully Registered please login",
-        });
+      .then(() => {
         fire
-          .firestore() //using fire.firestore fucntion to get acess to database
-          // .collection ("user") is like specifying  table in the database you wanna acess
+          .firestore()
           .collection("user")
           .doc(fire.auth().currentUser.uid.toString())
           .set({
-            email: this.state.email,
             firstName: this.state.firstName,
             lastName: this.state.lastName,
             imageuri: this.state.imageuri,
-          }); //.set sets he fields that you wanna write to the database.
-
-        this.props.navigation.navigate("loginScreen");
+            email: this.state.email,
+          });
       })
-      .catch((err) => {
-        console.log(err);
+      .then(() => {
+        console.log("USER CREATED");
       });
   };
   profilepicture = async () => {
@@ -67,6 +62,9 @@ export default class signup extends Component {
         imageuri: result.uri,
       });
     }
+  };
+  sendBack = () => {
+    this.props.navigation.navigate("loginScreen");
   };
 
   btnpress = () => {
@@ -97,34 +95,31 @@ export default class signup extends Component {
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
           <DefaultBackground />
           <View style={{ height: 40 }}></View>
-          <View style={{ flex: 2, flexDirection: "row" }}>
-            <TouchableOpacity
-              style={styles.touchable}
-              onPress={this.props.navigation.navigate("loginScreen")}
-            >
-              <View>
+          <View style={{ flex: 2, flexDirection: "column" }}>
+            <View style={{ flex: 3 }}>
+              <TouchableOpacity
+                onPress={() => this.props.navigation.navigate("loginScreen")}
+              >
                 <Image
                   source={require("../assets/art/navigation/Back_Button.png")}
-                  style={{ width: 144, height: 60 }}
+                  style={styles.img}
                 />
-                <Text style={styles.text}>{this.props.text} </Text>
-              </View>
-            </TouchableOpacity>
+              </TouchableOpacity>
+            </View>
 
-            <View>
-              <Thumbnail
-                large
-                style={{ borderWidth: 1, borderColor: "black" }}
-                source={{
-                  uri: this.state.imageuri
-                    ? this.state.imageuri
-                    : "https://fpcnh.org/wp-content/uploads/2019/03/person-head-icon-10.png",
-                }}
-              ></Thumbnail>
-              <DefaultButton
-                text="Choose"
-                onPress={() => this.profilepicture()}
-              ></DefaultButton>
+            <View
+              style={{ flexDirection: "column", flex: 3, alignItems: "center" }}
+            >
+                 <Image style={styles.image}
+                   source={{
+            uri: this.state.imageuri
+              ? this.state.imageuri
+              : "https://fpcnh.org/wp-content/uploads/2019/03/person-head-icon-10.png",
+          }}
+        />
+              <Text style={{ color: "blue" }} onPress={this.profilepicture}>
+                Upload
+              </Text>
             </View>
           </View>
           <View style={styles.container}>
@@ -221,20 +216,27 @@ const styles = StyleSheet.create({
   container: {
     flex: 8,
     paddingHorizontal: "10%",
+    justifyContent:"center"
   },
   txtInput: {
     borderRadius: 15,
   },
-  touchable: {
-    margin: 8,
-    width: 144,
+  view: {
+    margin: 20,
+    width: "30%",
     height: 60,
   },
-  text: {
-    fontSize: 16,
-    position: "absolute",
-    top: 14,
-    fontWeight: "bold",
-    alignSelf: "center",
+  img: {
+    width: 60,
+    height: 60,
+    resizeMode: "cover",
   },
+  image: {
+    width: 150,
+    height: 150,
+    borderRadius: 150 / 2,
+    overflow: "hidden",
+    borderWidth: 3,
+
+  }
 });
