@@ -1,19 +1,19 @@
 import React, { Component } from "react";
 import {
   Text,
+  Image,
   View,
   StyleSheet,
   TextInput,
   SafeAreaView,
   ScrollView,
 } from "react-native";
-
+import {Input} from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
 import fire from "../firebase";
 import "firebase/firestore"; // importing firestore
-import DefaultBackground from '../assets/components/atoms/DefaultBackground.js';
-import DefaultButton from '../assets/components/atoms/DefaultButton.js'
-
+import DefaultBackground from "../assets/components/atoms/DefaultBackground.js";
+import DefaultButton from "../assets/components/atoms/DefaultButton.js";
 
 export default class loginScreen extends Component {
   state = {
@@ -75,14 +75,65 @@ export default class loginScreen extends Component {
     const { navigation } = this.props;
     return (
       <SafeAreaView style={{ flex: 1 }}>
-         <ScrollView contentContainerStyle={{ flexGrow: 1 ,backgroundColor:"red"}}>
-           <View style={{backgroundColor:"blue"}}>
-
-           </View>
-         </ScrollView>
-
+         <DefaultBackground />
+        <ScrollView contentContainerStyle={{ flex:1}}>
+          <View style={{flex:4, alignItems:"center",justifyContent:"flex-end"}}>
+            <Image
+              style={styles.image}
+              source={require("../assets/applogo.png")}
+            />
+          </View>
+          <View style={styles.container}>
+          <Input
+              //type="email"
+              placeholder="Enter your email"
+              placeholderTextColor="#808080"
+              style={styles.txtInput}
+              onChangeText={(val) => this.setState({ email: val })}
+              keyboardType="email-address"
+              leftIcon={<Icon name="user" size={24} color="white" />}
+              />
+            <Input
+              //type="password"
+              onFocus={() => this.onFocus()}
+              onBlur={() => this.onBlur()}
+              placeholder="Enter your password"
+              placeholderTextColor="#808080"
+              style={styles.txtInput}
+              onChangeText={(val) => this.setState({ password: val })}
+              secureTextEntry={this.state.visibile}
+              leftIcon={<Icon name="lock" size={24} color="white" />}
+              rightIcon ={<Icon name ="eye" size={24} color="white"onPress={() => {
+               if (!this.state.visibile) {
+                return this.setState({ visibile: true });
+               } else {
+                 return this.setState({ visibile: false });
+              }}}/>}
+            />
+             <DefaultButton
+              text="Sign In"
+              onPress={() => this.btnpress()}
+              />
+             <DefaultButton
+              text='Forgot Password'
+              onPress={() => {navigation.push("forgotPassword")}}
+              />
+            <DefaultButton
+              text="Sign Up"
+              onPress={() => this.props.navigation.navigate("signUp")}
+            />
+          <Text style={{
+             fontSize: 18,
+             color: "#808080",
+              alignContent: "center"
+              }}
+            >
+          {this.state.message}
+           </Text>
+          </View>
+        </ScrollView>
       </SafeAreaView>
-      
+
       // <View style={styles.container}>
       //   <DefaultBackground />
       //   <View style={{
@@ -149,19 +200,24 @@ export default class loginScreen extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "transparent",
-    flex: 1,
+    flex: 6,
+    paddingVertical:"5%",
+    paddingHorizontal: "10%",
+ alignItems:"center",
+  
   },
   txtInput: {
-    margin: 5,
-    backgroundColor: "#ffff",
-    height: 45,
-    width: 290,
+    
     borderRadius: 5,
-  }/*
+  },
+  image: {
+    width: 200,
+    height: 200,
+    borderRadius: 150 / 2,
+    overflow: "hidden",
+    borderWidth: 3,
+    borderColor:"transparent"
+  } /*
   iconstyle: {
     width: 45,
     height: 45,
@@ -170,5 +226,5 @@ const styles = StyleSheet.create({
     borderColor: "#B4B2DF",
     backgroundColor: "transparent",
     borderRadius: 15,
-  },*/
+  },*/,
 });

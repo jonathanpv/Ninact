@@ -51,12 +51,13 @@ export default class forgotPassword extends Component {
   render() {
     const { navigation } = this.props;
     return (
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={{flex:1}}>
         <DefaultBackground/>
         <BackButton onPress = {() => {navigation.navigate('loginScreen')}}/>
         <View style={{
                 flex: 1,
                 alignItems: "center",
+                paddingHorizontal: "10%",
                 justifyContent: "space-between",
               }}
         >
