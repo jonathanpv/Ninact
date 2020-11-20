@@ -13,7 +13,7 @@ const RootStack = createStackNavigator();
 // First navigates to splashscreen
 const RootStackScreen = () => (
     <RootStack.Navigator headerMode='none'>
-        <RootStack.Screen name="SplashScreen" component={splashScreen}/>
+        {/* <RootStack.Screen name="SplashScreen" component={splashScreen}/> */}
         <RootStack.Screen name="loginScreen" component={loginScreen}/>
         <RootStack.Screen name="signUp" component={signup}/>
         <RootStack.Screen name="forgotPassword" component={forgotPassword}/>

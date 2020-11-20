@@ -2,6 +2,7 @@
 import React from 'react';
 import { View, Text, StyleSheet,  StatusBar, Image } from 'react-native';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
+import DefaultBackground from '../assets/components/atoms/DefaultBackground';
 
 
 // DATA = Sample User data.. 
@@ -46,7 +47,7 @@ const LeaderBoard = () => {
     const renderItem = ({ item }) => (
         <View style={styles.container2}>
             <Text style={styles.title}>
-                <Image source={item.image} style={{width: 57, height: 57}} />
+                <Image source={item.image} style={{width: 30, height: 30}} />
                 <Text style={styles.nameStyle}>Name: {item.username} <br/></Text> 
                 <Text style={styles.scoreStyle}>Score: {item.score} </Text>
             </Text>
@@ -60,14 +61,14 @@ const LeaderBoard = () => {
     );
 
     return (
-        <ScrollView style={styles.container}>
+        <View style={styles.container} >
             <Text style={styles.heading}>LeaderBoard</Text>
             <Text style={styles.textBelowHeading}>Top 5 Players</Text>
             <FlatList
                 data={DATA}
                 renderItem={renderItem}
             />
-      </ScrollView>
+      </View>
     );
 };
 
@@ -83,7 +84,7 @@ const styles = StyleSheet.create({
     },
     item: {
       backgroundColor: '#f9c2ff',
-      padding: 20,
+      padding: 0,
       marginVertical: 8,
       marginHorizontal: 16,
     },
@@ -91,20 +92,20 @@ const styles = StyleSheet.create({
       fontSize: 20,
     },
     heading: {
-        fontSize: 50,
+        fontSize: 30,
         textAlign: "center",
-        justifyContent: "center"
+        justifyContent: "center",
     },
     textBelowHeading: {
         fontSize: 20,
         justifyContent: "center",
-        textAlign: "center"
+        textAlign: "center",
     },
     nameStyle: {
         //Insert name style here
     },
     scoreStyle: {
-        marginLeft: 58
+        marginLeft: 30
     }
 });
 

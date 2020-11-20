@@ -4,11 +4,16 @@ import {
   Text,
   StyleSheet,
   View,
-  TouchableOpacity,
-  ImageBackground,
+  StatusBar,
 } from "react-native";
 import DefaultBackground from "../assets/components/atoms/DefaultBackground.js";
+import DefaultButton from '../assets/components/atoms/DefaultButton.js'
+
+import LeaderBoard from './LeaderBoard';
+import FriendList from './FriendList';
 import fire from "../firebase";
+import { ScrollView } from "react-native-gesture-handler";
+import Constants from 'expo-constants';
 // Homescreen component creation
 const HomeScreen = ({ navigation }) => {
   // useEffect(() => {
@@ -23,35 +28,20 @@ const HomeScreen = ({ navigation }) => {
   // }, []);
 
   return (
-    <View style={styles.container}>
-      <DefaultBackground />
+    <ScrollView style={styles.container}>
       <View>
-        <ImageBackground
-          source={require("../assets/friendlisticon.png")}
-          style={{ width: 200, height: 200 }}
-        >
-          <TouchableOpacity
-            style={styles.friendListButtonStyle}
-            onPress={() => navigation.push("FriendList")}
-          >
-            <Text style={{ color: "black" }}>Go</Text>
-          </TouchableOpacity>
-        </ImageBackground>
+        <Text style={styles.heading}>Hi, Subodh. Welcome Back !</Text>
+          <View style={styles.buttonStyle}>
+            <DefaultButton
+              text='Friend List'
+              onPress={() =>  {
+                navigation.navigate('FriendList')
+              }}
+            />
+          </View>
+        <LeaderBoard />
       </View>
-      <View>
-        <ImageBackground
-          source={require("../assets/leaderboardicon.png")}
-          style={{ width: 200, height: 200 }}
-        >
-          <TouchableOpacity
-            style={styles.leaderboardButtonStyle}
-            onPress={() => navigation.push("LeaderBoard")}
-          >
-            <Text style={{ color: "white" }}>Go</Text>
-          </TouchableOpacity>
-        </ImageBackground>
-      </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -59,35 +49,16 @@ const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    display: "flex",
-    flexDirection: "row",
   },
-  friendListButtonStyle: {
-    position: "absolute",
-    flex: 1,
-    borderWidth: 1,
-    height: 30,
-    width: "30%",
-    alignItems: "center",
-    borderRadius: 10,
-    backgroundColor: "white",
-    marginTop: 170,
-    marginLeft: 130,
-    justifyContent: "center",
+  heading: {
+    fontSize: 25,
+    backgroundColor: '#acacac',
+    paddingTop: 10
   },
-  leaderboardButtonStyle: {
-    position: "absolute",
-    flex: 1,
-    borderWidth: 1,
-    height: 30,
-    width: "30%",
-    alignItems: "center",
-    borderRadius: 10,
-    backgroundColor: "black",
-    marginTop: 170,
-    marginLeft: 130,
-    justifyContent: "center",
-  },
+  buttonStyle: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end'
+  }
 });
 
 export default HomeScreen;
