@@ -1,46 +1,47 @@
 // Imports
-import React from 'react';
+import { firestore } from 'firebase';
+import React, {useEffect, useState} from 'react';
 import { View, Text, StyleSheet,  StatusBar, Image } from 'react-native';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import DefaultBackground from '../assets/components/atoms/DefaultBackground';
+import firebase from '../firebase';
 
 
-// DATA = Sample User data.. 
-const DATA = [
-    {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-        username: 'pele',
-        score: 21,
-        image: require('../assets/avatar.png')
-    },
-    {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-        username: 'messi',
-        score: 27,
-        image: require('../assets/avatar.png')
-    },
-    {
-        id: '58694a0f-3da1-471f-bd96-145571e29d72',
-        username: 'ronaldo',
-        score: 20,
-        image: require('../assets/avatar.png')
-    },
-    {
-        id: '58694k0f-3da1-471f-bd96-145571e29d72',
-        username: 'neymar',
-        score: 20,
-        image: require('../assets/avatar.png')
-    },
-    {
-        id: '58694b0f-3da1-471f-bd96-145571e29d72',
-        username: 'john cena',
-        score: 20,
-        image: require('../assets/avatar.png')
-    },
-  ]
+let DATA = [];
+firestore()
+  .collection('leaderboard')
+  .get()
+  .then(querySnapshot => {
+    console.log('Total users: ', querySnapshot.size);
+    querySnapshot.forEach(documentSnapshot => {
+        
+        console.log('User ID: ', documentSnapshot.id, documentSnapshot.data());
+    //   firebase.firestore()
+    //     .collection("user")
+    //     .doc(firebase.auth().currentUser.uid.toString())
+    //     .get()
+    //     .then(doc1 => {
+    //         console.log(doc1.data());
+    //         dbImage = doc1.data().imageuri;
+    //   });
+
+    // Pull the leaderboard info from DB and create/store into obj to push it into DATA array
+    // obj = {id: ..., username: ...., score: ....}
+    const obj = {id: documentSnapshot.id, username: documentSnapshot.data().name, score: documentSnapshot.data().score, image: require('../assets/avatar.png')};
+    console.log(obj);
+    // Push the object into the DATA array
+    DATA.push(obj);
+    // Sort the DATA array using a comparator
+    sortData();
+    // Sorted DATA array limited to only 5 records (slice)
+    DATA = DATA.slice(0, 5);
+    });
+});
 
 // Comparator to sort the DATA array of list based on the score. (Higher to Lower)
-DATA.sort((a, b) => { return b.score - a.score; })
+const sortData = () => {
+    DATA.sort((a, b) => { return b.score - a.score; })
+}
 
 // Leaderboard component creation
 const LeaderBoard = () => {

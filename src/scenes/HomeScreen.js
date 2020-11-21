@@ -30,7 +30,7 @@ const HomeScreen = ({ navigation }) => {
   return (
     <ScrollView style={styles.container}>
       <View>
-        <Text style={styles.heading}>Hi, Subodh. Welcome Back !</Text>
+        <Text style={styles.heading}>Hi, there. Welcome Back !</Text>
           <View style={styles.buttonStyle}>
             <DefaultButton
               text='Friend List'

@@ -65,7 +65,6 @@ const Profile = ({ navigation }) => {
     let result = await ImagePicker.launchImageLibraryAsync();
 
     if (!result.cancelled) {
-  
       uploadImage(result.uri);
     }
   };

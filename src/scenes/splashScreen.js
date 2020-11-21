@@ -97,7 +97,6 @@ export default class splashScreen extends Component {
 
   start() {
     fire.auth().onAuthStateChanged((user) => {
-
       if (user) {
         this.props.navigation.navigate('HomeScreen')
       }

@@ -30,7 +30,7 @@ export default class loginScreen extends Component {
       .auth()
       .signInWithEmailAndPassword(this.state.email, this.state.password)
       .then((u) => {
-        console.log(u);
+        console.log("User from loginScreen" + u);
         console.log("success!");
 
         navigation.navigate("HomeScreen");
