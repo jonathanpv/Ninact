@@ -34,7 +34,7 @@ firestore()
     // Sort the DATA array using a comparator
     sortData();
     // Sorted DATA array limited to only 5 records (slice)
-    // DATA = DATA.slice(0, 5);
+    DATA = DATA.slice(0, 5);
     });
 });
 
