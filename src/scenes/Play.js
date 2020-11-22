@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, TouchableOpacity, Image, Button, Alert } from '
 import DefaultBackground from '../assets/components/atoms/DefaultBackground.js';
 import DefaultButton from '../assets/components/atoms/DefaultButton.js'
 import BackButton from '../assets/components/atoms/BackButton.js'
+import firebase from '../firebase';
+import { firestore } from 'firebase';
 
 class PlayRounds extends Component {
   constructor() {
@@ -45,7 +47,61 @@ class PlayRounds extends Component {
     }
   }
 
+  // Get old score from DB using user uid
+  // Sometimes the user is null so the oScore variable becomes Nan/unidentified (see github issues)
+  getOldScorefromDB() {
+    firestore().collection('leaderboard').doc(firebase.auth().currentUser.uid)
+    .get()
+    .then(oldScore => {
+      let oScore = oldScore.data().score;
+      return oScore;
+    });
+  }
+
+  // Get username using the uid
+  // Sometimes the user is null so username becomes unidenfied (See github issues)
+  getUserName() {
+    firestore().collection('user').doc(firebase.auth().currentUser.uid)
+    .get()
+    .then(user => {
+    return user.data().firstName;
+    });
+  }
+
+  // Store the leaderboard scores to the Database
+  storeScoretoDB() {
+
+    // Get old score from DB using getOldScorefromDB() function
+    let oScore  = this.getOldScorefromDB()
+    console.log("oldscore: "  + oScore);
+    if(oScore === undefined || oScore === NaN) {
+      oScore = 0;
+    }
+
+    // Get username of the user using getUserName() function
+    let username = this.getUserName();
+    console.log("Username: " + username)
+    if(username === undefined) {
+      username = "tesssst";
+    }
+
+    // finalScore = old score stored in DB + current score user collected
+    let finalScore = this.state.player_score + oScore;
+    console.log("Current Score :" + this.state.player_score);
+    console.log("Added FinalScore: " + finalScore)
+    
+    // Now update the leaderboard collection DB with the new scores
+    firestore()
+    .collection('leaderboard')
+    .doc(firebase.auth().currentUser.uid.toString())
+    .set({
+      name: username,
+      score: finalScore
+    });
+  }
+
   Leave() {
+    this.storeScoretoDB();
     this.setState({turn: 0, rounds: 10, player_choice: 0, enemy_choice: 0, player_score: 0, enemy_score: 0});
     this.props.navigation.navigate('HomeScreen');
   }
@@ -287,7 +343,8 @@ class PlayRounds extends Component {
     return (
       <View style={styles.container}>
         <DefaultBackground/>
-        <BackButton onPress={() => this.Leave()}/>
+        <BackButton onPress={() => this.Leave() }
+        />
 
         <View style={styles.container}>
             <View style={{flex: 4, flexDirection: 'row'}}>
