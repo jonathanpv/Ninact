@@ -30,13 +30,14 @@ const DATA = [
   },
   {
     title: "Points",
-    username: "1000",
+    username: "N/A",
     id: "3",
   },
 ];
 
 const Profile = ({ navigation }) => {
   const [uri, setUri] = useState(null);
+  const [points, setPoints] = useState(0);
   const uploadImage = (x) => {
     console.log(uri);
     fire
@@ -61,6 +62,15 @@ const Profile = ({ navigation }) => {
         setUri(doc.data().imageuri);
       });
   };
+  const getPoints = () => {
+    fire
+      .database()
+      .ref(`/users/${fire.auth().currentUser.uid}/points`)
+      .once('value')
+      .then((snapshot) => {
+        setPoints(snapshot.val());
+      });
+  }
   const profilepicture = async () => {
     let result = await ImagePicker.launchImageLibraryAsync();
 
@@ -71,6 +81,8 @@ const Profile = ({ navigation }) => {
 
   useEffect(() => {
     getImage();
+    getPoints();
+    DATA[3] = {title: "Points", username: points, id: "3"};
   }, []);
 
   return (
@@ -86,6 +98,7 @@ const Profile = ({ navigation }) => {
         />
       </View>
       <Text onPress={profilepicture}>Upload </Text>
+      <Text> Points: {points} </Text>
       <FlatList
         data={DATA}
         renderItem={({ item }) => (
