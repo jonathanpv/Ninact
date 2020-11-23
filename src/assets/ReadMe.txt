@@ -1,1 +1,0 @@
-Assets will be contain project graphics, sounds, etc. 

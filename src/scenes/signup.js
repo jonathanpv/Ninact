@@ -31,10 +31,12 @@ export default class signup extends Component {
     visibile: true,
     firstName: "",
     lastName: "",
+    username: "",
     imageuri: null,
   };
 
   login = () => {
+    var uid;
     fire
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
@@ -49,10 +51,16 @@ export default class signup extends Component {
             imageuri: this.state.imageuri,
             email: this.state.email,
           });
+        uid = fire.auth().currentUser.uid;
       })
       .then(() => {
+        fire.database().ref(`/users/${uid}/`).set({
+            username: this.state.username,
+            points: 0
+          });
         console.log("USER CREATED");
       });
+
   };
   profilepicture = async () => {
     let result = await ImagePicker.launchImageLibraryAsync();
@@ -75,7 +83,8 @@ export default class signup extends Component {
       this.state.password == "" ||
       this.state.password2 == "" ||
       this.state.firstName == "" ||
-      this.state.lastName == ""
+      this.state.lastName == "" ||
+      this.state.username == ""
     )
       return this.setState({ message: "Some Fields are Empty" });
     else if (this.state.email.search("@") == -1)
@@ -135,6 +144,13 @@ export default class signup extends Component {
               placeholderTextColor="#808080"
               style={styles.txtInput}
               onChangeText={(val) => this.setState({ firstName: val })}
+              leftIcon={<Icon2 name="user" size={24} color="white" />}
+            />
+            <Input
+              placeholder="Username*"
+              placeholderTextColor="#808080"
+              style={styles.txtInput}
+              onChangeText={(val) => this.setState({ username: val })}
               leftIcon={<Icon2 name="user" size={24} color="white" />}
             />
             <Input
