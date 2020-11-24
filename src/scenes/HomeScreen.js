@@ -1,5 +1,5 @@
 // Imports
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Text,
   StyleSheet,
@@ -14,8 +14,12 @@ import FriendList from './FriendList';
 import fire from "../firebase";
 import { ScrollView } from "react-native-gesture-handler";
 import Constants from 'expo-constants';
+import { firestore } from "firebase";
+
+const userName = '';
 // Homescreen component creation
 const HomeScreen = ({ navigation }) => {
+  const [userName, setUserName] = useState(0);
   // useEffect(() => {
   //   console.log("USEEFFECT");
   //   fire
@@ -26,11 +30,19 @@ const HomeScreen = ({ navigation }) => {
   //       try: "DO",
   //     });
   // }, []);
+  firestore()
+  .collection('user')
+  .doc(fire.auth().currentUser.uid.toString())
+  .get()
+  .then(u => {
+    console.log(u.data().firstName);
+    setUserName(u.data().firstName);
+  })
 
   return (
     <ScrollView style={styles.container}>
       <View>
-        <Text style={styles.heading}>Hi, there. Welcome Back !</Text>
+        <Text style={styles.heading}>Hi { userName }, Welcome Back !</Text>
           <View style={styles.buttonStyle}>
             <DefaultButton
               text='Friend List'
