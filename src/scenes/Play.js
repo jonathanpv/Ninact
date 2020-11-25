@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, Button, Alert } from 'react-native';
 import DefaultBackground from '../assets/components/atoms/DefaultBackground.js';
-import DefaultButton from '../assets/components/atoms/DefaultButton.js'
-import BackButton from '../assets/components/atoms/BackButton.js'
+import DefaultButton from '../assets/components/atoms/DefaultButton.js';
+import BackButton from '../assets/components/atoms/BackButton.js';
+import GuestGameView from '../assets/components/molecules/GuestGameView.js';
+import UserGameView from '../assets/components/molecules/UserGameView.js';
+import ResultView from '../assets/components/molecules/ResultView.js';
+import SummaryView from '../assets/components/molecules/SummaryView.js';
 import firebase from '../firebase';
 import { firestore } from 'firebase';
 
@@ -10,7 +14,7 @@ class PlayRounds extends Component {
   constructor() {
     super();
     this.state = {
-      rounds: 10,
+      rounds: 6,
       player_score: 0,
       enemy_score: 0,
       player_choice: 0,
@@ -89,7 +93,7 @@ class PlayRounds extends Component {
     let finalScore = this.state.player_score + oScore;
     console.log("Current Score :" + this.state.player_score);
     console.log("Added FinalScore: " + finalScore)
-    
+
     // Now update the leaderboard collection DB with the new scores
     firestore()
     .collection('leaderboard')
@@ -101,43 +105,23 @@ class PlayRounds extends Component {
   }
 
   Leave() {
-    this.storeScoretoDB();
-    this.setState({turn: 0, rounds: 10, player_choice: 0, enemy_choice: 0, player_score: 0, enemy_score: 0});
+    //this.storeScoretoDB();
+    this.setState({turn: 0, rounds: 6, player_choice: 0, enemy_choice: 0, player_score: 0, enemy_score: 0});
     this.props.navigation.navigate('HomeScreen');
   }
 
   //User turn Screen
   DisplayUser() {
-    let emoji;
     let button;
+    var incVal;
     if (this.state.player_choice == 2 ) {
-      emoji = <Image
-        source={cheatEmoji[Math.floor(Math.random() * 8)]}
-        style={{
-          width: 128,
-          height: 128,
-          backgroundColor: 'transparent'
-        }}
-        imageStyle={{
-          resizeMode: 'cover'
-        }}
-      />
+      incVal = 0;
       button = <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-evenly'}}>
           <DefaultButton text='Next' onPress={()=>{this.setState({ screen: 1 })} }/>
       </View>
     }
     else if (this.state.player_choice == 1 ) {
-      emoji = <Image
-        source={collabEmoji[Math.floor(Math.random() * 8)]}
-        style={{
-          width: 128,
-          height: 128,
-          backgroundColor: 'transparent'
-        }}
-        imageStyle={{
-          resizeMode: 'cover'
-        }}
-      />
+      incVal = -1;
       button = <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-evenly'}}>
           <DefaultButton text='Next' onPress={()=>{this.setState({screen: 1})} }/>
       </View>
@@ -154,35 +138,14 @@ class PlayRounds extends Component {
             <DefaultBackground/>
             <BackButton onPress={() => this.Leave()}/>
 
-            <View style={styles.container}>
-
-                <View style={{flex: 4, flexDirection: 'row', alignContent: 'center'}}>
-                    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-                        <Image
-                            source={require('../assets/art/character/Base_1024.png')}
-                            style={{
-                              width: 256,
-                              height: 256,
-                              backgroundColor: 'transparent'
-                            }}
-                            imageStyle={{
-                              resizeMode: 'cover'
-                            }}
-                        />
-                    </View>
-
-                    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-                        <View style={{flex: 1, alignItems: 'center', justifyContent: 'flex-end', margin: 10}}>
-                          {emoji}
-                        </View>
-                        <View style={{flex: 1, alignItems: 'center', justifyContent: 'flex-start', margin: 10}}>
-                          {<Text style={styles.text}> {this.state.player_score} </Text>}
-                        </View>
-                    </View>
-                </View>
-
-                {button}
+            <View style={{flex: 4, flexDirection: 'col', justifyContent: 'space-evenly'}}>
+                <UserGameView
+                    choice={this.state.player_choice}
+                    val={this.state.player_score}
+                    inc={incVal}
+                />
             </View>
+            {button}
         </View>
       );
   }
@@ -190,68 +153,27 @@ class PlayRounds extends Component {
   //Enemy turn Screen
   DisplayEnemy() {
     this.PlayEnemy();
-    let emoji;
-    if (this.state.enemy_choice == 2 ) {
-        emoji = <Image
-          source={cheatEmoji[Math.floor(Math.random() * 8)]}
-          style={{
-            width: 128,
-            height: 128,
-            backgroundColor: 'transparent'
-          }}
-          imageStyle={{
-            resizeMode: 'cover'
-          }}
-        />
+
+    var incVal = 0;
+    if (this.state.enemy_choice == 1) {
+        incVal = -1;
     }
-    else if (this.state.enemy_choice == 1) {
-        emoji = <Image
-          source={collabEmoji[Math.floor(Math.random() * 8)]}
-          style={{
-            width: 128,
-            height: 128,
-            backgroundColor: 'transparent'
-          }}
-          imageStyle={{
-            resizeMode: 'cover'
-          }}
-        />
-    }
+
     return (
       <View style={styles.container}>
           <DefaultBackground/>
           <BackButton onPress={() => this.Leave()}/>
 
-          <View style={styles.container}>
+          <View style={{flex: 4}}>
+              <GuestGameView
+                  choice={this.state.enemy_choice}
+                  val={this.state.enemy_score}
+                  inc={incVal}
+              />
+          </View>
 
-              <View style={{flex: 4, flexDirection: 'row'}}>
-                  <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-                      <View style={{flex: 1, alignItems: 'center', justifyContent: 'flex-end', margin: 10}}>
-                        {emoji}
-                      </View>
-                      <View style={{flex: 1, alignItems: 'center', justifyContent: 'flex-start', margin: 10}}>
-                        {<Text style={styles.text}> {this.state.enemy_score} </Text>}
-                      </View>
-                  </View>
-                  <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-                      <Image
-                          source={require('../assets/art/character/Base_1024.png')}
-                          style={{
-                            width: 256,
-                            height: 256,
-                            backgroundColor: 'transparent'
-                          }}
-                          imageStyle={{
-                            resizeMode: 'cover'
-                          }}
-                      />
-                  </View>
-
-              </View>
-
-              <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-evenly'}}>
-                  <DefaultButton onPress={() => this.setState({screen : 2}) } text="Next"/>
-              </View>
+          <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-evenly'}}>
+              <DefaultButton onPress={() => this.setState({screen : 2}) } text="Next"/>
           </View>
       </View>
     );
@@ -260,22 +182,6 @@ class PlayRounds extends Component {
   //User results Screen
   DisplayResults() {
     this.CalculateScore();
-    let player;
-    let enemy;
-
-    if (this.state.player_choice == 1 && this.state.enemy_choice == 1) {
-      player = 2;
-      enemy = 2;
-    } else if (this.state.player_choice == 1 && this.state.enemy_choice == 2) {
-      player = 0;
-      enemy = 3;
-    } else if (this.state.player_choice == 2 && this.state.enemy_choice == 1) {
-      player = 3;
-      enemy = 0;
-    } else {
-      player = 0;
-      enemy = 0;
-    }
 
     let button;
     if (this.state.rounds < 0) {
@@ -293,48 +199,15 @@ class PlayRounds extends Component {
         <DefaultBackground/>
         <BackButton onPress={() => this.Leave()}/>
 
-        <View style={styles.container}>
-            <View style={{flex: 4, flexDirection: 'row'}}>
-                <View style={{flex: 1}}>
-                    <View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
-                      <Text style={styles.text}> +{player} </Text>
-                    </View>
-                    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-                        <Image
-                            source={require('../assets/art/character/Base_1024.png')}
-                            style={{
-                              width: 256,
-                              height: 256,
-                              backgroundColor: 'transparent'
-                            }}
-                            imageStyle={{
-                              resizeMode: 'cover'
-                            }}
-                        />
-                    </View>
-                </View>
-                <View style={{flex: 1}}>
-                    <View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
-                      <Text style={styles.text}> +{enemy} </Text>
-                    </View>
-                    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-                        <Image
-                            source={require('../assets/art/character/Base_1024.png')}
-                            style={{
-                              width: 256,
-                              height: 256,
-                              backgroundColor: 'transparent'
-                            }}
-                            imageStyle={{
-                              resizeMode: 'cover'
-                            }}
-                        />
-                    </View>
-                </View>
-
-            </View>
-            {button}
+        <View style={{flex:4}} >
+            <ResultView
+              user={0}
+              guest={0}
+              uScore={this.state.player_score}
+              gScore={this.state.enemy_score}
+            />
         </View>
+        {button}
       </View>
     );
   }
@@ -343,52 +216,16 @@ class PlayRounds extends Component {
     return (
       <View style={styles.container}>
         <DefaultBackground/>
-        <BackButton onPress={() => this.Leave() }
-        />
+        <BackButton onPress={() => this.Leave() } />
 
-        <View style={styles.container}>
-            <View style={{flex: 4, flexDirection: 'row'}}>
-                <View style={{flex: 1}}>
-                    <View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
-                      <Text style={styles.text}> {this.state.player_score} </Text>
-                    </View>
-                    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-                        <Image
-                            source={require('../assets/art/character/Base_1024.png')}
-                            style={{
-                              width: 256,
-                              height: 256,
-                              backgroundColor: 'transparent'
-                            }}
-                            imageStyle={{
-                              resizeMode: 'cover'
-                            }}
-                        />
-                    </View>
-                </View>
-                <View style={{flex: 1}}>
-                    <View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
-                      <Text style={styles.text}> {this.state.enemy_score} </Text>
-                    </View>
-                    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-                        <Image
-                            source={require('../assets/art/character/Base_1024.png')}
-                            style={{
-                              width: 256,
-                              height: 256,
-                              backgroundColor: 'transparent'
-                            }}
-                            imageStyle={{
-                              resizeMode: 'cover'
-                            }}
-                        />
-                    </View>
-                </View>
-
-            </View>
-            <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-evenly'}}>
-                  <DefaultButton onPress={() => this.Leave() } text='Finish'/>
-              </View>
+        <View style={{flex:4}}>
+            <SummaryView
+              avatar={0}
+              val={10}
+            />
+        </View>
+        <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-evenly'}}>
+            <DefaultButton onPress={() => this.Leave() } text='Finish'/>
         </View>
       </View>
     );

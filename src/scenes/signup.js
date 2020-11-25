@@ -56,7 +56,8 @@ export default class signup extends Component {
       .then(() => {
         fire.database().ref(`/users/${uid}/`).set({
             username: this.state.username,
-            points: 0
+            points: 0,
+            avatar: 0
           });
         console.log("USER CREATED");
       });
