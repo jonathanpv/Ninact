@@ -75,27 +75,31 @@ class Play extends Component {
             key = game.key;
             var data = game.val();
 
-            if (key == 'count' || data.guestID != '') { return; }
-
             if (data.hostID == this.state.uid) {
               game.ref.remove();
 
               var newCount = 0;
-              countRef.transaction((count) => {
-                newCount = count - 1;
-                return newCount;
-              });
+              if (data.guestID == '') {
+                countRef.transaction((count) => {
+                  newCount = count - 1;
+                  return newCount;
+                });
 
-              if (newCount <= 0) {
-                roomRef.off('value');
-                this.GetGameKey();
+                if (newCount <= 0) {
+                  roomRef.off('value');
+
+                  this.GetGameKey();
+                }
               }
 
               return;
             }
 
+            if (key == 'count' || data.guestID != '') { return; }
+
             firebase.database().ref(`/${this.state.gameMode}/${key}/guestID`)
               .transaction( () => { return this.state.uid; });
+            countRef.transaction((count) => { return count - 1; });
             roomRef.off('value');
             this.setState({gameKey: key, isHost: false});
           });

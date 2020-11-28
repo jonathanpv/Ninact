@@ -27,18 +27,9 @@ export default class BasicPlay extends Component {
     if (this.state.isHost) {
       var guestRef = firebase.database().ref(`/0/${this.state.gameKey}/guestID`);
       var gameRef = firebase.database().ref(`/0/${this.state.gameKey}`);
-      var countRef = firebase.database().ref(`/0/count`);
 
       guestRef.on('value', (snapshot) => {
         if (snapshot.val() != '') {
-          countRef.transaction((count) => {
-            var newCount = count - 1;
-            if (newCount < 0)
-            {
-              newCount = 0;
-            }
-            return newCount;
-          })
           gameRef.once('value').then( (snapshot) => {
             if (snapshot.exists()) {
               gameRef.update({state: states.USER});
@@ -48,6 +39,10 @@ export default class BasicPlay extends Component {
           guestRef.off('value');
         }
       });
+    }
+    else
+    {
+      this.setState({isReady: true});
     }
 
     return (
@@ -68,65 +63,52 @@ export default class BasicPlay extends Component {
     var points = 0;
     var choice = choices.NONE;
     var choiceRef;
+    var scoreRef;
     if (this.state.isHost) {
-      var hostChoiceRef = firebase.database().ref(`/0/${this.state.gameKey}/hostChoice`);
-      choiceRef = hostChoiceRef;
-      hostChoiceRef.on('value', (snapshot) => { choice = snapshot.val(); });
-
-      var hostScoreRef = firebase.database().ref(`/0/${this.state.gameKey}/hostScore`);
-      hostScoreRef.once('value').then( (snapshot) => { points = snapshot.val(); });
+      choiceRef = `/0/${this.state.gameKey}/hostChoice`;
+      scoreRef = `/0/${this.state.gameKey}/hostScore`
     }
     else {
-      var guestChoiceRef = firebase.database().ref(`/0/${this.state.gameKey}/guestChoice`);
-      choiceRef = guestChoiceRef;
-      guestChoiceRef.on('value', (snapshot) => { choice = snapshot.val(); });
-
-      var guestScoreRef = firebase.database().ref(`/0/${this.state.gameKey}/guestScore`);
-      guestScoreRef.once('value').then( (snapshot) => { points = snapshot.val(); });
+      choiceRef = `/0/${this.state.gameKey}/guestChoice`;
+      scoreRef = `/0/${this.state.gameKey}/guestScore`;
     }
+    firebase.database().ref(choiceRef).on('value', (snapshot) => { choice = snapshot.val(); });
+    firebase.database().ref(scoreRef).on('value', (snapshot) => { points = snapshot.val(); });
 
     var button;
     var incVal = 0;
-    var stateRef = firebase.database().ref(`/0/${this.state.gameKey}/state`);
+    var gameRef = firebase.database().ref(`/0/${this.state.gameKey}/`);
+    if (this.state.isHost) {
+      button = <NextButton onPress={ () => {
+        gameRef.update({state: states.GUEST});
+        this.setState({isReady: true});
+      }}/>;
+    } else {
+      button = <NextButton onPress={ () => {
+        gameRef.update({state: states.RESULT});
+        this.setState({isReady: true});
+      }}/>;
+    }
+
     if (choice == choices.CHEAT) {
       incVal = 0;
-      if (this.state.isHost) {
-        button = <NextButton onPress={ () => {
-          stateRef.update(states.GUEST);
-          this.setState({isReady: true});
-        }}/>;
-      } else {
-        button = <NextButton onPress={ () => {
-          stateRef.update(states.RESULT);
-          this.setState({isReady: true});
-        }}/>;
-      }
       choiceRef.off('value');
+      scoreRef.off('value');
     }
     else if (choice == choices.COLLAB) {
       incVal = -1;
-      if (this.state.isHost) {
-        button = <NextButton onPress={ () => {
-          stateRef.update(states.GUEST);
-          this.setState({isReady: true});
-        }}/>;
-      } else {
-        button = <NextButton onPress={ () => {
-          stateRef.update(states.RESULT);
-          this.setState({isReady: true});
-        }}/>;
-      }
-      choiceRef.off('value');
+      firebase.database().ref(choiceRef).off('value');
+      firebase.database().ref(scoreRef).off('value');
     }
     else {
       button = (
         <CheatCollabButtons
           onCheat={ () => {
-            choiceRef.update(choices.CHEAT);
+            firebase.database().ref(choiceRef).set(choices.CHEAT);
             this.setState({state: states.USER});
           }}
           onCollab={ () => {
-            choiceRef.update(choices.COLLAB);
+            firebase.database().ref(choiceRef).set(choices.COLLAB);
             this.setState({state: states.USER});
           }}
         />
@@ -149,10 +131,6 @@ export default class BasicPlay extends Component {
   }
 
   DisplayGuest() {
-    var avatar;
-    firebase.database().ref(`/users/${firebase.auth().currentUser.uid}/avatar`)
-    .once('value').then( (snapshot) => { avatar = snapshot.val(); });
-
     var guest = '';
     var points = 0;
     var choice = choices.NONE;
@@ -334,6 +312,7 @@ export default class BasicPlay extends Component {
       case states.WAITING:
         screen = this.DisplayWaiting();
       break;
+
       case states.USER:
         if (this.state.isHost) {
           screen = this.DisplayUser();
@@ -341,6 +320,7 @@ export default class BasicPlay extends Component {
           screen = this.DisplayGuest();
         }
       break;
+
       case states.GUEST:
         if (this.state.isHost) {
           screen = this.DisplayGuest();
@@ -348,12 +328,15 @@ export default class BasicPlay extends Component {
           screen = this.DisplayUser();
         }
       break;
+
       case states.RESULT:
         screen = this.DisplayResult();
       break;
+
       case states.SUMMARY:
         screen = this.DisplaySummary();
       break;
+
       default:
         screen = <Text>ERROR</Text>;
     }
