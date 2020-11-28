@@ -38,7 +38,7 @@ Action.defaultProps = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "col",
+    flexDirection: 'col',
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'transparent',

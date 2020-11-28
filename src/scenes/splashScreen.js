@@ -112,7 +112,7 @@ export default class splashScreen extends Component {
     let set;
     if (this.state.progress >= 100)
     {
-      temp = <DefaultButton text='Touch to Start' onPress={()=>this.start()} />;
+      temp = <DefaultButton text='Start' onPress={()=>this.start()} />;
       set = StyleSheet.create({default: {alignItems: 'center', width: '75%', height: 75}})
     }
     else

@@ -7,7 +7,7 @@ import { Image } from 'react-native';
 import FriendList from './FriendList';
 import HomeScreen from './HomeScreen';
 import LeaderBoard from './LeaderBoard';
-import PlayRounds from './Play';
+import Play from './Play';
 import Profile from './Profile';
 import SettingsScreen from './SettingsScreen';
 
@@ -51,11 +51,12 @@ const MainTabScreen = () => (
           })}
         />
         <Tab.Screen
-          name="PlayRounds"
-          component={PlayRounds}
+          name="Play"
+          component={Play}
           options={{
             tabBarVisible: false,
             title: '',
+            unmountOnBlur: true,
             tabBarIcon: ({ }) => {
               return (
                 <Image
@@ -63,7 +64,9 @@ const MainTabScreen = () => (
                   source={require('../assets/navbar/Play.png')} />
               );
             },
-          }} />
+          }}
+          listener
+          />
         <Tab.Screen name="Profile"
           component={Profile}
           options={{
