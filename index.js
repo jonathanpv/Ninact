@@ -1,6 +1,6 @@
 import { registerRootComponent } from 'expo';
 import { activateKeepAwake } from 'expo-keep-awake';
-import App from './src/App';
+import App from './src/App.js';
 
 // registerRootComponent calls AppRegistry.registerComponent('main', () => App);
 // It also ensures that whether you load the app in the Expo client or in a native build,
@@ -8,5 +8,5 @@ import App from './src/App';
 if (__DEV__) {
     activateKeepAwake();
   }
-  
+
 registerRootComponent(App);

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import firebase from '../firebase';
-import fire from '../firebase';
 import DefaultBackground from '../assets/components/atoms/DefaultBackground.js';
 import BackButton from '../assets/components/atoms/BackButton.js';
 import LoadingLogo from '../assets/components/atoms/LoadingLogo.js';
@@ -12,23 +11,32 @@ const PointLimit = 6;
 class Play extends Component {
   constructor() {
     super();
-    var id = fire.auth().currentUser.uid;
+    var id = firebase.auth().currentUser.uid;
     this.state = {
       gameKey: '',
       gameMode: games.BASIC,
-      uid: id
+      uid: id,
+      isHost: false
     };
   }
 
   componentWillUnmount() {
     if ( this.state.gameKey != '') {
-      firebase.database().ref(`/${this.state.gameMode}/count`).transaction((count) => {return count - 1;})
+      firebase.database().ref(`/${this.state.gameMode}/count`)
+      .transaction((count) => {
+        var newCount = count - 1;
+        if (newCount < 0)
+        {
+          newCount = 0;
+        }
+        return newCount;
+      })
       firebase.database().ref(`/${this.state.gameMode}/${this.state.gameKey}/`).remove();
     }
   }
 
   GetGameMode() {
-    fire.database().ref(`/users/${this.state.uid}/points`).once('value').then( (snapshot) => {
+    firebase.database().ref(`/users/${this.state.uid}/points`).once('value').then( (snapshot) => {
       if (snapshot.val() < PointLimit)
       {
         this.state.gameMode = games.BASIC; //To be changed later
@@ -49,8 +57,8 @@ class Play extends Component {
       var key;
       if ( count < 1 ) {
         key = roomRef.push({
-          started: false,
-          rounds: 0,
+          round: 0,
+          state: 0,
           hostID: this.state.uid,
           guestID: '',
           hostChoice: 0,
@@ -58,7 +66,7 @@ class Play extends Component {
           hostScore: 0,
           guestScore: 0
         }).key;
-        this.setState({gameKey: key});
+        this.setState({gameKey: key, isHost: true});
         countRef.transaction((count) => { return count + 1; });
       }
       else {
@@ -117,6 +125,7 @@ class Play extends Component {
         game = <BasicPlay
           navigation={this.props.navigation}
           gameKey={this.state.gameKey}
+          isHost={this.state.isHost}
         />
         break;
       case games.FLOWER:
