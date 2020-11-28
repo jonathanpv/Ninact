@@ -97,7 +97,7 @@ class Play extends Component {
             firebase.database().ref(`/${this.state.gameMode}/${key}/guestID`)
               .transaction( () => { return this.state.uid; });
             roomRef.off('value');
-            this.setState({gameKey: key});
+            this.setState({gameKey: key, isHost: false});
           });
         });
       }
