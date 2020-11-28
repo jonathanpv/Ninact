@@ -20,6 +20,11 @@ class Play extends Component {
     };
   }
 
+  componentDidMount() {
+    this.GetGameMode();
+    this.GetGameKey();
+  }
+
   componentWillUnmount() {
     if ( this.state.gameKey != '') {
       firebase.database().ref(`/${this.state.gameMode}/count`)
@@ -146,9 +151,6 @@ class Play extends Component {
     var screen = this.DisplayLoading();
     if (this.state.gameKey != '') {
       screen = this.DisplayGame();
-    } else {
-      this.GetGameMode();
-      this.GetGameKey();
     }
     return (screen);
   }

@@ -23,6 +23,15 @@ export default class BasicPlay extends Component {
     };
   }
 
+  componentDidMount() {
+    var stateRef = firebase.database().ref(`/0/${this.state.gameKey}/state`);
+    stateRef.on('value', (snapshot) => {
+      if (this.state.state != snapshot.val() && this.state.isReady) {
+        this.setState({state: snapshot.val(), isReady: false});
+      }
+    });
+  }
+
   DisplayWaiting() {
     if (this.state.isHost) {
       var guestRef = firebase.database().ref(`/0/${this.state.gameKey}/guestID`);
@@ -42,7 +51,7 @@ export default class BasicPlay extends Component {
     }
     else
     {
-      this.setState({isReady: true});
+      this.setState({state: states.USER, isReady: true});
     }
 
     return (
@@ -92,8 +101,8 @@ export default class BasicPlay extends Component {
 
     if (choice == choices.CHEAT) {
       incVal = 0;
-      choiceRef.off('value');
-      scoreRef.off('value');
+      firebase.database().ref(choiceRef).off('value');
+      firebase.database().ref(scoreRef).off('value');
     }
     else if (choice == choices.COLLAB) {
       incVal = -1;
@@ -300,12 +309,6 @@ export default class BasicPlay extends Component {
   }
 
   render() {
-    var stateRef = firebase.database().ref(`/0/${this.state.gameKey}/state`);
-    stateRef.on('value', (snapshot) => {
-      if (this.state.state != snapshot.val() && this.state.isReady) {
-        this.setState({state: snapshot.val(), isReady: false});
-      }
-    });
 
     var screen;
     switch(this.state.state) {
