@@ -15,21 +15,31 @@ const RoundLimit = 6;
 export default class BasicPlay extends Component {
   constructor(props) {
     super(props);
+
+
     this.state = {
-      gameKey: props.gameKey,
-      isHost: props.isHost,
-      state: 0,
-      isReady: false
+      waitingGameResolve: true,
+      waitingOpponent: true
     };
   }
 
   componentDidMount() {
-    var stateRef = firebase.database().ref(`/0/${this.state.gameKey}/state`);
-    stateRef.on('value', (snapshot) => {
-      if (this.state.state != snapshot.val() && this.state.isReady) {
-        this.setState({state: snapshot.val(), isReady: false});
+    var userRef = '';
+    var guestRef = '';
+    var gameRef = db.ref(`/0/${props.gameKey}/`);
+    var uid = fire.auth().currentUser.uid;
+
+    if (props.isHost) {
+      gameRef.child('guest')
+    }
+
+    gameRef.once('value')
+    .then( (game) => {
+      if (game.val().host.uid == uid) {
+        userRef = db.
       }
-    });
+    })
+    this.setState({waitingGameResolve: false});
   }
 
   DisplayWaiting() {
@@ -309,7 +319,6 @@ export default class BasicPlay extends Component {
   }
 
   render() {
-
     var screen;
     switch(this.state.state) {
       case states.WAITING:
@@ -372,9 +381,9 @@ function CheatCollabButtons(props) {
 }
 
 const choices = {
-  NONE: '0',
-  CHEAT: '1',
-  COLLAB: '2'
+  NONE: 0,
+  CHEAT: 1,
+  COLLAB: 2
 }
 
 const states = {

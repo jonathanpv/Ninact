@@ -38,13 +38,17 @@ export default class PointInc extends Component {
         <Text style={{fontSize: 40, color: '#bf0000', textAlign: 'center'}}>
           {this.state.inc}
         </Text>
-      )
-    } else {
+      );
+    }
+    else if (this.state.inc > 0) {
       incText = (
         <Text style={{fontSize: 40, color: '#00bf00', textAlign: 'center'}}>
           +{this.state.inc}
         </Text>
-      )
+      );
+    }
+    else {
+      incText = <Text></Text>;
     }
 
     return (

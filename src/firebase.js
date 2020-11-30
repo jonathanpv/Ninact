@@ -8,7 +8,8 @@ var firebaseConfig = {
   storageBucket: "ninac-47063.appspot.com",
   messagingSenderId: "910059756940",
   appId: "1:910059756940:web:4c6cd249c42df266440aa9",
-  
+
 };
 const fire = firebase.initializeApp(firebaseConfig);
+export const db = firebase.database();
 export default fire;

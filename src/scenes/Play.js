@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import firebase from '../firebase';
+import fire, { db } from '../firebase';
 import DefaultBackground from '../assets/components/atoms/DefaultBackground.js';
 import BackButton from '../assets/components/atoms/BackButton.js';
 import LoadingLogo from '../assets/components/atoms/LoadingLogo.js';
@@ -8,108 +8,96 @@ import BasicPlay from '../assets/components/organisms/BasicPlay.js';
 
 const PointLimit = 6;
 
-class Play extends Component {
+export default class Play extends Component {
   constructor() {
     super();
-    var id = firebase.auth().currentUser.uid;
     this.state = {
       gameKey: '',
       gameMode: games.BASIC,
-      uid: id,
-      isHost: false
+      isHost: false,
+      waitingGameResolve: true
     };
   }
 
+  //Runs only once to check for data fetching
   componentDidMount() {
-    this.GetGameMode();
-    this.GetGameKey();
+    this.JoinGame();
+    this.setState({waitingGameResolve: false});
   }
 
   componentWillUnmount() {
-    if ( this.state.gameKey != '') {
-      firebase.database().ref(`/${this.state.gameMode}/count`)
-      .transaction((count) => {
-        var newCount = count - 1;
-        if (newCount < 0)
-        {
-          newCount = 0;
-        }
-        return newCount;
-      })
-      firebase.database().ref(`/${this.state.gameMode}/${this.state.gameKey}/`).remove();
-    }
-  }
+    var gameRef = db.ref(`/${this.state.gameMode}/${this.state.gameKey}/`);
 
-  GetGameMode() {
-    firebase.database().ref(`/users/${this.state.uid}/points`).once('value').then( (snapshot) => {
-      if (snapshot.val() < PointLimit)
-      {
-        this.state.gameMode = games.BASIC; //To be changed later
-      } else {
-        Math.random();
-        //this.state.gameMode = games[Math.floor(Math.random()*games.length)];
-        this.state.gameMode = games.BASIC;
+    gameRef.once('value').then( (game) => {
+      if (game.exists()) {
+        game.ref.remove();
       }
     });
   }
 
-  GetGameKey() {
-    var countRef = firebase.database().ref(`/${this.state.gameMode}/count`);
-    var roomRef = firebase.database().ref( `/${this.state.gameMode}/`);
+  JoinGame() {
+    var lobbyRef = db.ref(`/${this.state.gameMode}/`);
+    var uid = fire.auth().currentUser.uid;
 
-    countRef.once('value').then( (snapshot) => {
-      const count = snapshot.val();
-      var key;
-      if ( count < 1 ) {
-        key = roomRef.push({
-          round: 0,
-          state: 0,
-          hostID: this.state.uid,
-          guestID: '',
-          hostChoice: 0,
-          guestChoice: 0,
-          hostScore: 0,
-          guestScore: 0
-        }).key;
-        this.setState({gameKey: key, isHost: true});
-        countRef.transaction((count) => { return count + 1; });
-      }
-      else {
-        roomRef.on('value', (gamelist) => {
-          gamelist.forEach( (game) => {
-            key = game.key;
-            var data = game.val();
+    lobbyRef.once('value')
+    .then( (gameList) => {
+      //Clean up old games
+      gameList.forEach( (game) => {
+        if (game.val().guest.uid == uid)
+          game.ref.remove();
 
-            if (data.hostID == this.state.uid) {
-              game.ref.remove();
+        if (game.val().host.uid == uid)
+          game.ref.remove();
+      });
+    })
+    .then( () => {
+      //Choose gamemode
+      var points;
+      db.ref(`/users/${uid}/points`)
+        .once('value')
+        .then( (snapshot) => {
+          if ( !snapshot.exists()) {
+            console.log('WARNING: User data is missing!');
+            this.props.navigation.navigate('HomeScreen');
+          }
+          if ( snapshot.val() < 0 )
+            console.log('WARNING: User points should not be negative');
 
-              var newCount = 0;
-              if (data.guestID == '') {
-                countRef.transaction((count) => {
-                  newCount = count - 1;
-                  return newCount;
-                });
-
-                if (newCount <= 0) {
-                  roomRef.off('value');
-
-                  this.GetGameKey();
-                }
-              }
-
-              return;
-            }
-
-            if (key == 'count' || data.guestID != '') { return; }
-
-            firebase.database().ref(`/${this.state.gameMode}/${key}/guestID`)
-              .transaction( () => { return this.state.uid; });
-            countRef.transaction((count) => { return count - 1; });
-            roomRef.off('value');
-            this.setState({gameKey: key, isHost: false});
-          });
+          points = snapshot.val();
         });
-      }
+
+      //Math.random();
+      //var randomGame = games[Math.floor(Math.random()*games.length)];
+      this.state.gameMode = games.BASIC;
+    })
+    .then( () => {
+      //Get game key
+      var key = '';
+      lobbyRef.once('value').then( (gameList) => {
+        gameList.forEach( (game) => {
+          if (key != '')
+            return;
+
+          if (game.val().guest.uid == '')
+            key = game.key;
+        });
+
+        if (key == '') {
+          var newGame = basicGameData;
+          newGame.host.uid = uid;
+          key = lobbyRef.push(newGame).key;
+          this.state.gameKey = key;
+          this.state.isHost = true;
+        }
+        else {
+          lobbyRef.child(key).child('guest').update({uid: uid}).then( ()=> {
+            this.state.gameKey = key;
+          });
+        }
+      });
+    })
+    .catch( (error) => {
+      this.JoinGame();
     });
   }
 
@@ -149,16 +137,30 @@ class Play extends Component {
 
   render() {
     var screen = this.DisplayLoading();
-    if (this.state.gameKey != '') {
+    if (this.state.waitingGameResolve == false) {
       screen = this.DisplayGame();
     }
     return (screen);
   }
 }
 
+const basicGameData = {
+  round: 0,
+  host: {
+    uid: '',
+    choice: 0,
+    score: 0
+  },
+  guest: {
+    uid: '',
+    choice: 0,
+    score: 0
+  }
+};
+
 const games = {
-  BASIC: 0,
-  FLOWER: 1
+  BASIC: 0
+  //Flower: 1
 }
 
 const styles = StyleSheet.create({
@@ -174,6 +176,3 @@ const styles = StyleSheet.create({
         fontSize: 40
     }
 });
-
-
-export default Play;

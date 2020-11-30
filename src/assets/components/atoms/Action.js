@@ -5,9 +5,9 @@ export default function Action(props) {
   var image = require('../../art/wrong.png');
   var opac = 1;
   if (props.id == 1) {
-    image = img[1];
-  } else if (props.id == 2) {
     image = img[0];
+  } else if (props.id == 2) {
+    image = img[1];
   } else {
     opac = 0;
   }

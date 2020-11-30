@@ -8,59 +8,24 @@ import {
     Dimensions
 } from 'react-native';
 
-export default class DefaultBackground extends React.Component
-{
-  constructor() {
-    super();
-    this.state = {
-      circles: [],
-      numCircles: 3,
-      triangles: [],
-      numTriangles: 3
-    }
-  }
-
-  CreateCircles() {
-    for ( let i = 0; i < this.state.numCircles; i++)
-    {
-      this.state.circles.push(
+export default class DefaultBackground extends React.Component {
+  render() {
+    var circles = [];
+    for ( let i = 0; i < 3; i++) {
+      circles.push(
         <View key = {i}>
           <Circle/>
         </View>
       )
     }
-  }
-
-  CreateTriangles() {
-    for ( let i = 0; i < this.state.numTriangles; i++)
-    {
-      this.state.triangles.push(
+    var triangles = [];
+    for ( let i = 0; i < 3; i++) {
+      triangles.push(
         <View key = {i}>
           <Triangle/>
         </View>
       )
     }
-  }
-
-  RenderCircles() {
-    return this.state.circles.map((data) => {
-      return (data.render())
-    })
-  }
-
-  RenderTriangles(){
-    return this.state.triangles.map((data) => {
-      return (data.render())
-    })
-  }
-
-  render()
-  {
-    if (this.state.circles.length == 0)
-      this.CreateCircles();
-
-    if (this.state.triangles.length == 0)
-      this.CreateTriangles();
 
     return (
       <ImageBackground
@@ -79,8 +44,8 @@ export default class DefaultBackground extends React.Component
           alignSelf: 'flex-end'
         }}
       >
-        {this.state.circles}
-        {this.state.triangles}
+      {circles}
+      {triangles}
       </ImageBackground>
     );
   }
