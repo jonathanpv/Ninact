@@ -13,7 +13,7 @@ export default class Play extends Component {
     super();
     this.state = {
       gameKey: '',
-      gameMode: games.BASIC,
+      gameMode: games[0],
       isHost: false,
       waitingGameResolve: true
     };
@@ -22,7 +22,6 @@ export default class Play extends Component {
   //Runs only once to check for data fetching
   componentDidMount() {
     this.JoinGame();
-    this.setState({waitingGameResolve: false});
   }
 
   componentWillUnmount() {
@@ -36,13 +35,31 @@ export default class Play extends Component {
   }
 
   JoinGame() {
-    var lobbyRef = db.ref(`/${this.state.gameMode}/`);
+    var lobbyRef;
     var uid = fire.auth().currentUser.uid;
 
-    lobbyRef.once('value')
-    .then( (gameList) => {
+    var points;
+    db.ref(`/users/${uid}/points`).once('value')
+    .then( (snapshot) => {
+        if ( !snapshot.exists()) {
+          console.log('WARNING: User data is missing!');
+          this.props.navigation.navigate('HomeScreen');
+        }
+        if ( snapshot.val() < 0 )
+          console.log('WARNING: User points should not be negative');
+
+        points = snapshot.val();
+        //Math.random();
+        //var randomGame = games[Math.floor(Math.random()*games.length)];
+        this.state.gameMode = games[0];
+        lobbyRef = db.ref(`/${this.state.gameMode}/`);
+    })
+    .then( () => {
+      return lobbyRef.once('value')
+    })
+    .then( (lobby) => {
       //Clean up old games
-      gameList.forEach( (game) => {
+      lobby.forEach( (game) => {
         if (game.val().guest.uid == uid)
           game.ref.remove();
 
@@ -51,50 +68,33 @@ export default class Play extends Component {
       });
     })
     .then( () => {
-      //Choose gamemode
-      var points;
-      db.ref(`/users/${uid}/points`)
-        .once('value')
-        .then( (snapshot) => {
-          if ( !snapshot.exists()) {
-            console.log('WARNING: User data is missing!');
-            this.props.navigation.navigate('HomeScreen');
-          }
-          if ( snapshot.val() < 0 )
-            console.log('WARNING: User points should not be negative');
-
-          points = snapshot.val();
-        });
-
-      //Math.random();
-      //var randomGame = games[Math.floor(Math.random()*games.length)];
-      this.state.gameMode = games.BASIC;
-    })
-    .then( () => {
       //Get game key
+      return lobbyRef.once('value')
+    })
+    .then( (lobby) => {
       var key = '';
-      lobbyRef.once('value').then( (gameList) => {
-        gameList.forEach( (game) => {
-          if (key != '')
-            return;
+      lobby.forEach( (game) => {
+        if (key != '')
+          return;
 
-          if (game.val().guest.uid == '')
-            key = game.key;
-        });
-
-        if (key == '') {
-          var newGame = basicGameData;
-          newGame.host.uid = uid;
-          key = lobbyRef.push(newGame).key;
-          this.state.gameKey = key;
-          this.state.isHost = true;
-        }
-        else {
-          lobbyRef.child(key).child('guest').update({uid: uid}).then( ()=> {
-            this.state.gameKey = key;
-          });
-        }
+        if (game.val().guest.uid == '')
+          key = game.key;
       });
+
+      if (key == '') {
+        var newGame = basicGameData;
+        newGame.host.uid = uid;
+        key = lobbyRef.push(newGame).key;
+        this.state.gameKey = key;
+        this.state.isHost = true;
+      }
+      else {
+        this.state.gameKey = key;
+        return lobbyRef.child(key).child('guest').update({uid: uid});
+      }
+    })
+    .then( ()=> {
+      this.setState({waitingGameResolve: false});
     })
     .catch( (error) => {
       this.JoinGame();
@@ -118,18 +118,15 @@ export default class Play extends Component {
   DisplayGame() {
     var game;
     switch (this.state.gameMode) {
-      case games.BASIC:
+      case games[0]:
         game = <BasicPlay
           navigation={this.props.navigation}
           gameKey={this.state.gameKey}
           isHost={this.state.isHost}
         />
         break;
-      case games.FLOWER:
-        //game =
-        break;
       default:
-        game = <BasicPlay />
+        game = <Text>DISPLAY GAME ERROR</Text>
     }
 
     return game;
@@ -158,10 +155,10 @@ const basicGameData = {
   }
 };
 
-const games = {
-  BASIC: 0
+const games = [
+  'basic',
   //Flower: 1
-}
+];
 
 const styles = StyleSheet.create({
     container: {
