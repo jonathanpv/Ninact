@@ -71,6 +71,7 @@ const MainTabScreen = () => (
           component={Profile}
           options={{
             title: '',
+            unmountOnBlur: true,
             tabBarIcon: ({ }) => {
               return (
                 <Image
