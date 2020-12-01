@@ -123,7 +123,7 @@ export default class BasicPlay extends Component {
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}} >
         <Text style={styles.text}>You have gained {userPoints}</Text>
         <Avatar />
-        <DefaultButton onPress={this.props.navigation.navigate("HomeScreen")}/>
+        <DefaultButton text={'Finish'} onPress={()=> {this.props.navigation.navigate("HomeScreen")}}/>
       </View>
     );
   }
