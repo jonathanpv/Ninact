@@ -83,7 +83,7 @@ const Profile = ({ navigation }) => {
     getImage();
     getPoints();
     DATA[3] = {title: "Points", username: points, id: "3"};
-  }, []);
+  });
 
   return (
     <View style={styles.container}>
