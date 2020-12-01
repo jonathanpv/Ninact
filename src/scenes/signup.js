@@ -136,7 +136,7 @@ export default class signup extends Component {
             <Input
               placeholder="First Name*"
               style={styles.txtInput}
-              onChangeText={(val) => this.setState({ lastName: val })}
+              onChangeText={(val) => this.setState({ firstName: val })}
               placeholderTextColor="#808080"
               leftIcon={<Icon2 name="user" size={24} color="white" />}
             />
@@ -144,7 +144,7 @@ export default class signup extends Component {
               placeholder="Last Name*"
               placeholderTextColor="#808080"
               style={styles.txtInput}
-              onChangeText={(val) => this.setState({ firstName: val })}
+              onChangeText={(val) => this.setState({ lastName: val })}
               leftIcon={<Icon2 name="user" size={24} color="white" />}
             />
             <Input
