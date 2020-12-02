@@ -30,7 +30,7 @@ fire
 
 // Comparator to sort the DATA array of list based on the score. (Higher to Lower)
 const sortData = () => {
-    DATA.sort((a, b) => { return b.score - a.score; })
+    DATA.sort((a, b) => { return b.points - a.points; })
 }
 
 // Leaderboard component creation
@@ -39,7 +39,7 @@ const LeaderBoard = () => {
         <View style={styles.container2}>
             <Text style={styles.title}>
                 <Image source={require('../assets/avatar.png')} style={{width: 30, height: 30}} />
-                <Text style={styles.nameStyle}>Name: {item.username} <br/></Text> 
+                <Text style={styles.nameStyle}>Username: {item.username} <br/></Text> 
                 <Text style={styles.scoreStyle}>Score: {item.points} </Text>
             </Text>
             <View

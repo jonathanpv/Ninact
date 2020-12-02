@@ -20,16 +20,7 @@ const userName = '';
 // Homescreen component creation
 const HomeScreen = ({ navigation }) => {
   const [userName, setUserName] = useState(0);
-  // useEffect(() => {
-  //   console.log("USEEFFECT");
-  //   fire
-  //     .firestore()
-  //     .collection("user")
-  //     .doc(fire.auth().currentUser.uid.toString())
-  //     .set({
-  //       try: "DO",
-  //     });
-  // }, []);
+
   firestore()
   .collection('user')
   .doc(fire.auth().currentUser.uid.toString())

@@ -118,7 +118,7 @@ export default class signup extends Component {
             </View>
 
             <View
-              style={{ flexDirection: "column", flex: 3, alignItems: "center" }}
+              style={{ flexDirection: "column", alignItems: "center", marginBottom: "5%" }}
             >
                  <Image style={styles.image}
                    source={{
@@ -127,7 +127,7 @@ export default class signup extends Component {
               : "https://fpcnh.org/wp-content/uploads/2019/03/person-head-icon-10.png",
           }}
         />
-              <Text style={{ color: "blue" }} onPress={this.profilepicture}>
+              <Text style={{ color: "blue"}} onPress={this.profilepicture}>
                 Upload
               </Text>
             </View>
@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 8,
     paddingHorizontal: "10%",
-    justifyContent:"center"
+    justifyContent:"center",
   },
   txtInput: {
     borderRadius: 15,
