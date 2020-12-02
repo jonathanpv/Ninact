@@ -22,41 +22,11 @@ fire
         })
         sortData();
 
-        DATA = DATA.slice(0, 3)
+        DATA = DATA.slice(0, 5)
 
         console.log(DATA)
 
     })
-
-// firestore()
-//   .collection('leaderboard')
-//   .get()
-//   .then(querySnapshot => {
-//     console.log('Total users: ', querySnapshot.size);
-//     querySnapshot.forEach(documentSnapshot => {
-        
-//         console.log('User ID: ', documentSnapshot.id, documentSnapshot.data());
-//     //   firebase.firestore()
-//     //     .collection("user")
-//     //     .doc(firebase.auth().currentUser.uid.toString())
-//     //     .get()
-//     //     .then(doc1 => {
-//     //         console.log(doc1.data());
-//     //         dbImage = doc1.data().imageuri;
-//     //   });
-
-//     // Pull the leaderboard info from DB and create/store into obj to push it into DATA array
-//     // obj = {id: ..., username: ...., score: ....}
-//     const obj = {id: documentSnapshot.id, username: documentSnapshot.data().name, score: documentSnapshot.data().score, image: require('../assets/avatar.png')};
-//     console.log(obj);
-//     // Push the object into the DATA array
-//     DATA.push(obj);
-//     // Sort the DATA array using a comparator
-//     sortData();
-//     // Sorted DATA array limited to only 5 records (slice)
-//     DATA = DATA.slice(0, 5);
-//     });
-// });
 
 // Comparator to sort the DATA array of list based on the score. (Higher to Lower)
 const sortData = () => {
