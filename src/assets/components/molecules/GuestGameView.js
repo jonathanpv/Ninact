@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
   },
   subcontainer: {
     flex: 1,
-    flexDirection: 'col',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'transparent',

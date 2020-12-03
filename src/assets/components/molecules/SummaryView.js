@@ -25,14 +25,14 @@ SummaryView.defaultProps = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "col",
+    flexDirection: "column",
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'transparent',
   },
   subcontainer: {
     flex: 1,
-    flexDirection: 'col',
+    flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: 'transparent',
@@ -41,6 +41,5 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 40,
     color: '#000000',
-    alignText: 'center'
   }
 });

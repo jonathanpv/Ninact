@@ -260,7 +260,7 @@ const states = {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: 'col',
+        flexDirection: 'column',
     },
     game: {
       flex: 4,
@@ -273,6 +273,5 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: 40,
-        alignText: 'center'
     }
 });

@@ -70,7 +70,7 @@ PointInc.defaultProps = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "col",
+    flexDirection: "column",
     justifyContent: 'flex-end',
     alignItems: 'center',
     backgroundColor: 'transparent',
